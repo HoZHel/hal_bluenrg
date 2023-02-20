@@ -1,0 +1,96 @@
+# Copyright (c) 2023 Killian Leray <killian.leray@st.com>
+# Copyright (c) 2020 STMicroelectronics
+#
+# SPDX-License-Identifier: Apache-2.0
+
+zephyr_library_sources(soc/src/system_BlueNRG_LP.c)
+zephyr_library_sources(soc/src/startup_BlueNRG_LP.c)
+zephyr_sources(soc/src/context_switch.s)
+
+zephyr_include_directories(soc)
+zephyr_include_directories(soc/include)
+zephyr_include_directories(soc/src)
+zephyr_include_directories(drivers)
+zephyr_include_directories(drivers/include)
+zephyr_include_directories(drivers/src)
+
+
+zephyr_library_sources(soc/src/clock.c)
+zephyr_library_sources(soc/src/fifo.c)
+zephyr_library_sources(soc/src/gp_timer.c)
+zephyr_library_sources(soc/src/hal_miscutil.c)
+zephyr_library_sources(soc/src/miscutil.c)
+zephyr_library_sources(soc/src/osal.c)
+zephyr_library_sources(soc/src/radio_ota.c)
+
+
+zephyr_library_sources(drivers/src/rf_driver_hal.c)
+zephyr_library_sources(drivers/src/rf_driver_hal_rcc.c)
+zephyr_library_sources(drivers/src/rf_driver_hal_rcc_ex.c)
+zephyr_library_sources(drivers/src/rf_driver_ll_gpio.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_ADC drivers/src/rf_driver_hal_adc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_ADC_EX drivers/src/rf_driver_hal_adc_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_CORTEX drivers/src/rf_driver_hal_cortex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_CRC drivers/src/rf_driver_hal_crc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_CRC_EX drivers/src/rf_driver_hal_crc_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_DMA drivers/src/rf_driver_hal_dma.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_EXTI drivers/src/rf_driver_hal_exti.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_FLASH drivers/src/rf_driver_hal_flash.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_FLASH_EX drivers/src/rf_driver_hal_flash_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_GPIO drivers/src/rf_driver_hal_gpio.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_I2C drivers/src/rf_driver_hal_i2c.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_I2C_EX drivers/src/rf_driver_hal_i2c_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_I2S drivers/src/rf_driver_hal_i2s.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_IRDA drivers/src/rf_driver_hal_irda.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_IWDG drivers/src/rf_driver_hal_iwdg.c)
+
+
+
+
+
+
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_PWR drivers/src/rf_driver_hal_pwr.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_PWR_EX drivers/src/rf_driver_hal_pwr_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_RADIO_2G4_EX drivers/src/rf_driver_hal_radio_2g4.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_RNG drivers/src/rf_driver_hal_rng.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_RNG_V168 drivers/src/rf_driver_hal_rng_v168.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_RTC drivers/src/rf_driver_hal_rtc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_RTC_EX drivers/src/rf_driver_hal_rtc_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_SMARTCARD drivers/src/rf_driver_hal_smartcard.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_SMARTCARD_EX drivers/src/rf_driver_hal_smartcard_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_SMBUS drivers/src/rf_driver_hal_smbus.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_SPI drivers/src/rf_driver_hal_spi.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_SPI_EX drivers/src/rf_driver_hal_spi_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_TIM drivers/src/rf_driver_hal_tim.c)
+
+
+
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_TIM_EX drivers/src/rf_driver_hal_tim_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_UART drivers/src/rf_driver_hal_uart.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_UART_EX drivers/src/rf_driver_hal_uart_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_USART drivers/src/rf_driver_hal_usart.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_USART_EX drivers/src/rf_driver_hal_usart_ex.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_HAL_VTIMER drivers/src/rf_driver_hal_vtimer.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_ADC drivers/src/rf_driver_ll_adc.c)
+zephyr_library_sources(drivers/src/rf_driver_ll_assert.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_CRC drivers/src/rf_driver_ll_crc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_DMA drivers/src/rf_driver_ll_dma.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_EXTI drivers/src/rf_driver_ll_exti.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_FLASH drivers/src/rf_driver_ll_flash.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_GPIO drivers/src/rf_driver_ll_gpio.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_I2C drivers/src/rf_driver_ll_i2c.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_LPUART drivers/src/rf_driver_ll_lpuart.c)
+
+
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_PWR drivers/src/rf_driver_ll_pwr.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RADIO_2G4 drivers/src/rf_driver_ll_radio_2g4.c)
+zephyr_library_sources(drivers/src/rf_driver_ll_rcc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RNG drivers/src/rf_driver_ll_rng.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RNG_V168 drivers/src/rf_driver_ll_rng_v168.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RTC drivers/src/rf_driver_ll_rtc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_SPI drivers/src/rf_driver_ll_spi.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_TIM drivers/src/rf_driver_ll_tim.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_TIMER drivers/src/rf_driver_ll_timer.c)
+zephyr_library_sources(drivers/src/rf_driver_ll_usart.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_UTILS drivers/src/rf_driver_ll_utils.c)
+
