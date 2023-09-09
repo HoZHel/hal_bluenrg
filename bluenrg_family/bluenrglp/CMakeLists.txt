@@ -3,9 +3,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-zephyr_library_sources(soc/src/system_BlueNRG_LP.c)
-zephyr_library_sources(soc/src/startup_BlueNRG_LP.c)
-zephyr_sources(soc/src/context_switch.s)
+#zephyr_library_sources(soc/src/system_BlueNRG_LP.c)
+#zephyr_library_sources(soc/src/startup_BlueNRG_LP.c)
+#zephyr_sources(soc/src/context_switch.s)
 
 zephyr_include_directories(soc)
 zephyr_include_directories(soc/include)

@@ -39,7 +39,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include <zephyr/types.h>
-#define CONFIG_DEVICE_BLUENRG_LP
 #if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
 #include "system_BlueNRG_LP.h"

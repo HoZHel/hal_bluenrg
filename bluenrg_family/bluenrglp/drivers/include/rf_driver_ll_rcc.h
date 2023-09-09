@@ -28,7 +28,6 @@ extern "C" {
 
 
 /* Includes ------------------------------------------------------------------*/
-#define CONFIG_DEVICE_BLUENRG_LP
 #define USE_FULL_LL_DRIVER
 #if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"

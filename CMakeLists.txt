@@ -1,1 +1,1 @@
-add_subdirectory(bluenrg_family)
+add_subdirectory_ifdef(CONFIG_SOC_SERIES_BLUENRG_3 bluenrg_family)

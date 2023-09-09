@@ -28,7 +28,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "rf_driver_ll_system.h"
-#define CONFIG_DEVICE_BLUENRG_LP
 #if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "system_BlueNRG_LP.h"
 #endif

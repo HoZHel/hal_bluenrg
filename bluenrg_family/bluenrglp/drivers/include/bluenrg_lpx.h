@@ -32,7 +32,6 @@
   *
   ******************************************************************************
   */
-#define CONFIG_DEVICE_BLUENRG_LP 
 #ifdef CONFIG_DEVICE_BLUENRG_LP
 
 #include "BlueNRG_LP.h" /* Header file supporting BlueNRG-LP */
