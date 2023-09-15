@@ -1,1 +1,1 @@
-add_subdirectory(bluenrglp)
+add_subdirectory(bluenrg_3)

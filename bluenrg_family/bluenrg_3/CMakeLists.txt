@@ -1,0 +1,32 @@
+# Copyright (c) 2023 Killian Leray <killian.leray@st.com>
+# Copyright (c) 2020 STMicroelectronics
+#
+# SPDX-License-Identifier: Apache-2.0
+
+zephyr_include_directories(CMSIS/Device/ST/BlueNRG_LP/Include)
+zephyr_include_directories(Peripherals_Drivers/Inc)
+
+zephyr_library_sources(Peripherals_Drivers/Src/rf_driver_ll_assert.c)
+zephyr_library_sources(Peripherals_Drivers/Src/rf_driver_ll_rcc.c)
+zephyr_library_sources_ifdef(CONFIG_UART_BLUENRG Peripherals_Drivers/Src/rf_driver_ll_usart.c)
+zephyr_library_sources_ifdef(CONFIG_GPIO_BLUENRG Peripherals_Drivers/Src/rf_driver_ll_gpio.c)
+
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_CRC Peripherals_Drivers/Src/rf_driver_ll_crc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_DMA Peripherals_Drivers/Src/rf_driver_ll_dma.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_EXTI Peripherals_Drivers/Src/rf_driver_ll_exti.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_FLASH Peripherals_Drivers/Src/rf_driver_ll_flash.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_GPIO Peripherals_Drivers/Src/rf_driver_ll_gpio.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_I2C Peripherals_Drivers/Src/rf_driver_ll_i2c.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_LPUART Peripherals_Drivers/Src/rf_driver_ll_lpuart.c)
+
+
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_PWR Peripherals_Drivers/Src/rf_driver_ll_pwr.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RADIO_2G4 Peripherals_Drivers/Src/rf_driver_ll_radio_2g4.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RNG Peripherals_Drivers/Src/rf_driver_ll_rng.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RNG_V168 Peripherals_Drivers/Src/rf_driver_ll_rng_v168.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_RTC Peripherals_Drivers/Src/rf_driver_ll_rtc.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_SPI Peripherals_Drivers/Src/rf_driver_ll_spi.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_TIM Peripherals_Drivers/Src/rf_driver_ll_tim.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_TIMER Peripherals_Drivers/Src/rf_driver_ll_timer.c)
+zephyr_library_sources_ifdef(CONFIG_USE_STM_LP_LL_UTILS Peripherals_Drivers/Src/rf_driver_ll_utils.c)
+
