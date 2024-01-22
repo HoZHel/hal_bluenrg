@@ -148,6 +148,9 @@
 #define GLOBAL_WORD5_INTNOACTIVELERROR_Pos                                 (23UL)
 #define GLOBAL_WORD5_INTNOACTIVELERROR_Msk                                 (0x800000UL)
 #define GLOBAL_WORD5_INTNOACTIVELERROR                                     GLOBAL_WORD5_INTNOACTIVELERROR_Msk
+#define GLOBAL_WORD5_INTTXRXSKIP_Pos                                       (29UL)
+#define GLOBAL_WORD5_INTTXRXSKIP_Msk                                       (0x20000000UL)
+#define GLOBAL_WORD5_INTTXRXSKIP                                           GLOBAL_WORD5_INTTXRXSKIP_Msk
 #define GLOBAL_WORD5_INTACTIVE2ERR_Pos                                     (30UL)
 #define GLOBAL_WORD5_INTACTIVE2ERR_Msk                                     (0x40000000UL)
 #define GLOBAL_WORD5_INTACTIVE2ERR                                         GLOBAL_WORD5_INTACTIVE2ERR_Msk
@@ -1355,6 +1358,39 @@ __STATIC_INLINE void LL_RADIO_NoActiveLErrorInterrupt_Disable()
 __STATIC_INLINE uint32_t LL_RADIO_NoActiveLErrorInterrupt_IsEnabled()
 {
   return ((READ_BIT(blueglobWord->WORD5, GLOBAL_WORD5_INTNOACTIVELERROR) == (GLOBAL_WORD5_INTNOACTIVELERROR)) ? 1U : 0U);
+}
+
+/**
+  * @brief  RADIO Enable
+  * @rmtoll WORD5          INTTXRXSKIP            LL_RADIO_TxRxSkipInterrupt_Enable
+  * @param  
+  * @retval None
+  */
+__STATIC_INLINE void LL_RADIO_TxRxSkipInterrupt_Enable()
+{
+  SET_BIT(blueglobWord->WORD5, GLOBAL_WORD5_INTTXRXSKIP);
+}
+
+/**
+  * @brief  RADIO Disable
+  * @rmtoll WORD5          INTTXRXSKIP            LL_RADIO_TxRxSkipInterrupt_Disable
+  * @param  
+  * @retval None
+  */
+__STATIC_INLINE void LL_RADIO_TxRxSkipInterrupt_Disable()
+{
+  CLEAR_BIT(blueglobWord->WORD5, GLOBAL_WORD5_INTTXRXSKIP);
+}
+
+/**
+  * @brief  Indicate if INTTXRXSKIP is enabled
+  * @rmtoll WORD5          INTTXRXSKIP            LL_RADIO_TxRxSkipInterrupt_IsEnabled  
+  * @param  
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_RADIO_TxRxSkipInterrupt_IsEnabled()
+{
+  return ((READ_BIT(blueglobWord->WORD5, GLOBAL_WORD5_INTTXRXSKIP) == (GLOBAL_WORD5_INTTXRXSKIP)) ? 1U : 0U);
 }
 
 /**

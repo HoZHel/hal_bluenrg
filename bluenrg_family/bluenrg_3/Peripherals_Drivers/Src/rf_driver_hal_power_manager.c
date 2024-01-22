@@ -569,13 +569,6 @@ static uint8_t PowerSave_Setup(PowerSaveLevels ps_level, WakeupSourceConfig_Type
     ptr++;
   } while (i < CSTACK_PREAMBLE_NUMBER); 
   
-  /* If a wakeup source is already active, no need to enable the power save */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
-  if (LL_PWR_GetWakeupSource() & (wsConfig.IO_Mask_High_polarity|wsConfig.IO_Mask_Low_polarity)) {
-    return ret_val;
-  }
-#endif
-  
 #if defined(PWR_CR2_GPIORET)
   /* Enable the GPIO retention in DEEPSTOP configuration */
   LL_PWR_EnableGPIORET();

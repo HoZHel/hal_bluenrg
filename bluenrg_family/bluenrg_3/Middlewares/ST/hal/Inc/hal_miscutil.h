@@ -1,0 +1,137 @@
+/**
+  ******************************************************************************
+  * @file    hal_miscutil.h
+  * @author  AMS - RF Application team
+  * @version V1.0.0
+  * @date    3-April-2019
+  * @brief   Header file for HW miscellaneous utilities.
+  ******************************************************************************
+  * @attention
+  *
+  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  *
+  * <h2><center>&copy; COPYRIGHT 2017 STMicroelectronics</center></h2>
+  ******************************************************************************
+  */
+#ifndef __HAL_MISCUTIL_H__
+#define __HAL_MISCUTIL_H__
+
+#include <stdint.h>
+#include "crash_handler.h"
+#include "system_util.h"
+
+#define DIE_SW_ID_BLUENRG_LP  ((uint8_t)3)
+#define DIE_SW_ID_BLUENRG_LPS ((uint8_t)5)
+#define DIE_SW_ID_BLUENRG_LPF ((uint8_t)6)
+#define JTAG_ID_CODE_LP       ((uint32_t)0x0201E041)
+#define JTAG_ID_CODE_LPS      ((uint32_t)0x02028041)
+#define JTAG_ID_CODE_LPF      ((uint32_t)0x02032041)
+#define DIE_SW_ID_UNKOWN      ((uint8_t)0xFF)
+
+#define RSSI_INVALID          127
+
+#define DEFAULT_TX_PA_LEVEL    31
+
+/**
+ * @brief A structure that represents part information details
+ *
+ */
+typedef struct PartInfoS {
+  /** DIE ID number */
+  uint8_t  die_id;
+  /** Die major number */
+  uint8_t  die_major;
+  /** Die cut number */
+  uint8_t  die_cut;
+  /** JTAG ID */
+  uint32_t jtag_id_code;
+  /** Flash size in bytes */
+  uint32_t flash_size;
+  /** Flash size in bytes */
+  uint32_t ram_size;
+} PartInfoType;
+
+/** 
+ * @brief This function return a structure with information about the device
+ * 
+ * @param[out] partInfo Pointer to a PartInfoType structure
+ *
+ * @retval None
+ */
+void HAL_GetPartInfo(PartInfoType *partInfo);
+/**
+ * @brief Get Crash Information utility
+ * 
+ * This function return the crash information that are stored in RAM, by hard
+ * handler, nmi handler and assert handler.
+ * This function reset the crash information stored in RAM before it returns.
+ * So it avoid to report the same crash information after a normal reboot.
+ * 
+ * @param[out] crashInfo Pointer to a crash_info_t structure
+ *
+ * @retval None
+ */
+void HAL_GetCrashInfo(crash_info_t *crashInfo);
+/**
+ * @brief Set Crash Information utility
+ * 
+ * This function stores crash information in RAM and reset the device
+ * Crash information can be retrieved by using API HAL_GetCrashInfo
+ * 
+ * @param[in] msp Stack pointer containg crash info
+ * @param[out] signature CRash reason signature
+ *
+ * @retval None
+ */
+void HAL_CrashHandler(uint32_t msp, uint32_t signature);
+
+/**
+  * @brief  Configure the radio to be able to reach 8dbm output power
+  * @note   This function should not be called by the the application if the
+  *         BLE stack is used. Instead, user must call
+  *         aci_hal_set_tx_power_level() to change output power mode.
+  *         This function enables BLE_RXTX_SEQ_IRQ interrupt: HAL_RXTX_SEQ_IRQHandler()
+  *         must be called by BLE_RXTX_SEQ_IRQHandler().
+  * @param  state Enable or disable the ability to reach 8 dBm. This parameter
+  *               can be set either to ENABLE or DISABLE.
+  * @retval None
+  */
+void HAL_SetHighPower(FunctionalState state);
+
+/**
+  * @brief  Function to be called by BLE_RXTX_SEQ_IRQHandler to control high 
+   *        power mode.
+  * @retval None
+  */
+void HAL_RXTX_SEQ_IRQHandler(void);
+
+uint8_t HAL_DBmToPALevel(int8_t TX_dBm);
+
+uint8_t HAL_DBmToPALevelGe(int8_t TX_dBm);
+
+int8_t HAL_PALevelToDBm(uint8_t PA_Level);
+
+void HAL_ReadTransmitPower(int8_t *Min_Tx_Power, int8_t *Max_Tx_Power);
+
+uint8_t HAL_GetMaxPALevel(void);
+
+uint8_t HAL_GetDefaultPALevel(void);
+
+void HAL_SetHighPower(FunctionalState state);
+
+int8_t HAL_CalculateRSSI(void);
+
+int8_t HAL_UpdateAvgRSSI(int8_t avg_rssi, int8_t rssi, uint8_t rssi_filter_coeff);
+
+void HAL_AntIdxRemap(uint8_t AntPattLen, uint8_t *pAntRamTable, const uint8_t* pAntPatt);
+
+void HAL_ToneStart(uint8_t RF_Channel, uint8_t Offset, uint8_t PA_Level);
+
+void HAL_ToneStop(void);
+
+#endif /* __HAL_MISCUTIL_H__ */
