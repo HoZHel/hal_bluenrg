@@ -779,7 +779,21 @@ __STATIC_INLINE uint32_t HAL_TIM_GetPeriphClock(TIM_TypeDef *TIMx)
 #define TIM_CHANNEL_ALL                    (TIM_CHANNEL_1|TIM_CHANNEL_2|TIM_CHANNEL_3|TIM_CHANNEL_4)           /*!< Global Capture/compare channel identifier  */
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
 
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define TIM_CHANNEL_1                      0x00000000U                          /*!< Capture/compare channel 1 identifier      */
+#define TIM_CHANNEL_2                      0x00000004U                          /*!< Capture/compare channel 2 identifier      */
+#define TIM_CHANNEL_3                      0x00000008U                          /*!< Capture/compare channel 3 identifier      */
+#define TIM_CHANNEL_4                      0x0000000CU                          /*!< Capture/compare channel 4 identifier      */
+#define TIM_CHANNEL_ALL                    (TIM_CHANNEL_1|TIM_CHANNEL_2|TIM_CHANNEL_3|TIM_CHANNEL_4)           /*!< Global Capture/compare channel identifier  */
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
 
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define TIM_CHANNEL_1                      0x00000000U                          /*!< Capture/compare channel 1 identifier      */
+#define TIM_CHANNEL_2                      0x00000004U                          /*!< Capture/compare channel 2 identifier      */
+#define TIM_CHANNEL_3                      0x00000008U                          /*!< Capture/compare channel 3 identifier      */
+#define TIM_CHANNEL_4                      0x0000000CU                          /*!< Capture/compare channel 4 identifier      */
+#define TIM_CHANNEL_ALL                    (TIM_CHANNEL_1|TIM_CHANNEL_2|TIM_CHANNEL_3|TIM_CHANNEL_4)           /*!< Global Capture/compare channel identifier  */
+#endif /* CONFIG_DEVICE_SPIRIT3 */
 
 /**
   * @}
@@ -1029,6 +1043,12 @@ __STATIC_INLINE uint32_t HAL_TIM_GetPeriphClock(TIM_TypeDef *TIMx)
 /** @defgroup TIM_Trigger_Selection TIM Trigger Selection
   * @{
   */
+#ifdef CONFIG_DEVICE_SPIRIT3 
+#define TIM_TS_ITR0          0x00000000U                                                       /*!< Internal Trigger 0 (ITR0)              */
+#define TIM_TS_ITR1          TIM_SMCR_TS_0                                                     /*!< Internal Trigger 1 (ITR1)              */
+#define TIM_TS_ITR2          TIM_SMCR_TS_1                                                     /*!< Internal Trigger 2 (ITR2)              */
+#define TIM_TS_ITR3          (TIM_SMCR_TS_0 | TIM_SMCR_TS_1)
+#endif
 #define TIM_TS_TI1F_ED       TIM_SMCR_TS_2                                                     /*!< TI1 Edge Detector (TI1F_ED)            */
 #define TIM_TS_TI1FP1        (TIM_SMCR_TS_0 | TIM_SMCR_TS_2)                                   /*!< Filtered Timer Input 1 (TI1FP1)        */
 #define TIM_TS_TI2FP2        (TIM_SMCR_TS_1 | TIM_SMCR_TS_2)                                   /*!< Filtered Timer Input 2 (TI2FP2)        */
@@ -1513,7 +1533,21 @@ mode.
  ((__HANDLE__)->Instance->CCR4 = (__COMPARE__)))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
 
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define __HAL_TIM_SET_COMPARE(__HANDLE__, __CHANNEL__, __COMPARE__) \
+(((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCR1 = (__COMPARE__)) :\
+ ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCR2 = (__COMPARE__)) :\
+ ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCR3 = (__COMPARE__)) :\
+ ((__HANDLE__)->Instance->CCR4 = (__COMPARE__)))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
 
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define __HAL_TIM_SET_COMPARE(__HANDLE__, __CHANNEL__, __COMPARE__) \
+(((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCR1 = (__COMPARE__)) :\
+ ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCR2 = (__COMPARE__)) :\
+ ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCR3 = (__COMPARE__)) :\
+ ((__HANDLE__)->Instance->CCR4 = (__COMPARE__)))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
 
 /**
   * @brief  Get the TIM Capture Compare Register value on runtime.
@@ -1546,7 +1580,21 @@ mode.
  ((__HANDLE__)->Instance->CCR4))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
 
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define __HAL_TIM_GET_COMPARE(__HANDLE__, __CHANNEL__) \
+(((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCR1) :\
+ ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCR2) :\
+ ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCR3) :\
+ ((__HANDLE__)->Instance->CCR4))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
 
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define __HAL_TIM_GET_COMPARE(__HANDLE__, __CHANNEL__) \
+(((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCR1) :\
+ ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCR2) :\
+ ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCR3) :\
+ ((__HANDLE__)->Instance->CCR4))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
 
 /**
   * @brief  Set the TIM Output compare preload.
@@ -1579,7 +1627,21 @@ mode.
          ((__HANDLE__)->Instance->CCMR3 |= TIM_CCMR3_OC4PE))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
           
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define __HAL_TIM_ENABLE_OCxPRELOAD(__HANDLE__, __CHANNEL__)    \
+        (((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCMR1 |= TIM_CCMR1_OC1PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCMR1 |= TIM_CCMR1_OC2PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCMR2 |= TIM_CCMR2_OC3PE) :\
+         ((__HANDLE__)->Instance->CCMR3 |= TIM_CCMR3_OC4PE))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
           
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define __HAL_TIM_ENABLE_OCxPRELOAD(__HANDLE__, __CHANNEL__)    \
+        (((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCMR1 |= TIM_CCMR1_OC1PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCMR1 |= TIM_CCMR1_OC2PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCMR2 |= TIM_CCMR2_OC3PE) :\
+         ((__HANDLE__)->Instance->CCMR3 |= TIM_CCMR3_OC4PE))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
 
 /**
   * @brief  Reset the TIM Output compare preload.
@@ -1612,7 +1674,21 @@ mode.
          ((__HANDLE__)->Instance->CCMR2 &= (uint16_t)~TIM_CCMR2_OC4PE))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
           
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define __HAL_TIM_DISABLE_OCxPRELOAD(__HANDLE__, __CHANNEL__)    \
+        (((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCMR1 &= (uint16_t)~TIM_CCMR1_OC1PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCMR1 &= (uint16_t)~TIM_CCMR1_OC2PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCMR2 &= (uint16_t)~TIM_CCMR2_OC3PE) :\
+         ((__HANDLE__)->Instance->CCMR2 &= (uint16_t)~TIM_CCMR2_OC4PE))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
           
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define __HAL_TIM_DISABLE_OCxPRELOAD(__HANDLE__, __CHANNEL__)    \
+        (((__CHANNEL__) == TIM_CHANNEL_1) ? ((__HANDLE__)->Instance->CCMR1 &= (uint16_t)~TIM_CCMR1_OC1PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_2) ? ((__HANDLE__)->Instance->CCMR1 &= (uint16_t)~TIM_CCMR1_OC2PE) :\
+         ((__CHANNEL__) == TIM_CHANNEL_3) ? ((__HANDLE__)->Instance->CCMR2 &= (uint16_t)~TIM_CCMR2_OC3PE) :\
+         ((__HANDLE__)->Instance->CCMR2 &= (uint16_t)~TIM_CCMR2_OC4PE))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
      
 
 /**
@@ -1727,7 +1803,15 @@ mode.
 #define TIM_CCER_CCxNE_MASK ((uint32_t)(TIM_CCER_CC1NE))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
 
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define TIM_CCER_CCxE_MASK  ((uint32_t)(TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E))
+#define TIM_CCER_CCxNE_MASK ((uint32_t)(TIM_CCER_CC1NE))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
 
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define TIM_CCER_CCxE_MASK  ((uint32_t)(TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E))
+#define TIM_CCER_CCxNE_MASK ((uint32_t)(TIM_CCER_CC1NE))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
           
 /**
   * @}
@@ -1809,7 +1893,21 @@ mode.
                                             ((__CHANNEL__) == TIM_CHANNEL_ALL))
 #endif /* CONFIG_DEVICE_BLUENRG_LPS */
 
+#ifdef CONFIG_DEVICE_BLUENRG_LPF
+#define IS_TIM_CHANNELS(__CHANNEL__)       (((__CHANNEL__) == TIM_CHANNEL_1) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_2) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_3) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_4) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_ALL))
+#endif /* CONFIG_DEVICE_BLUENRG_LPF */
 
+#ifdef CONFIG_DEVICE_SPIRIT3
+#define IS_TIM_CHANNELS(__CHANNEL__)       (((__CHANNEL__) == TIM_CHANNEL_1) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_2) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_3) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_4) || \
+                                            ((__CHANNEL__) == TIM_CHANNEL_ALL))
+#endif /* CONFIG_DEVICE_SPIRIT3 */
 
 #define IS_TIM_OPM_CHANNELS(__CHANNEL__)   (((__CHANNEL__) == TIM_CHANNEL_1) || \
                                             ((__CHANNEL__) == TIM_CHANNEL_2))

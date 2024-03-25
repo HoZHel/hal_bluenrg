@@ -41,6 +41,10 @@
 
 #include "BlueNRG_LPS.h" /* Header file supporting BlueNRG-LPS */
 
+#elif defined CONFIG_DEVICE_BLUENRG_LPF
+
+#include "BlueNRG_LPF.h" /* Header file supporting BlueNRG-LPF */
+
 #else
 
     #error "Define device type!"

@@ -72,22 +72,48 @@
 
 #define DTM_NUM_GATT_ATTRIBUTES_CONF                (60)
 #define NUM_EATT_CHANNELS                           (0U)
+#if (BLESTACK_CONTROLLER_ONLY == 0)
 #define NUM_AUX_SCAN_SLOTS_CONF                     (1U)
+#else
+#define NUM_AUX_SCAN_SLOTS_CONF                     (3U)
+#endif
 #define NUM_SYNC_SLOTS_CONF                         (2U)
 #define WHITE_LIST_SIZE_LOG2_CONF                   (3U) 
 #define L2CAP_MPS_CONF                              (160U) 
 #define NUM_L2CAP_COCS_CONF                         (0U)
 #define MAX_ATT_MTU_CONF                            (160U)
-#define OPT_MBLOCKS_CONF                            (10)
 #if (BLESTACK_CONTROLLER_ONLY == 0)
+#define OPT_MBLOCKS_CONF                            (10)
 #define ACI_ATT_QUEUED_WRITE_SIZE_CONF              (300)
 #define ACI_GATT_ADV_NWK_BUFFER_SIZE_CONF           (1000 + 256 + ACI_ATT_QUEUED_WRITE_SIZE_CONF)
 #else
+#define OPT_MBLOCKS_CONF                            (30)
 #define ACI_ATT_QUEUED_WRITE_SIZE_CONF              (0)
 #define ACI_GATT_ADV_NWK_BUFFER_SIZE_CONF           (512)
 #endif
 #define NUM_OF_CONCURRENT_GATT_CLIENT_PROC_CONF     (DTM_NUM_LINK_CONF) 
+#define MAX_NUM_CTE_ANTENNA_IDS                     (8U)
+#define MAX_NUM_CTE_IQ_SAMPLES                      (82U)
 
+#elif CONFIG_DEVICE_BLUENRG_LPF /* BlueNRG-LPF  */
+
+#define DTM_NUM_GATT_ATTRIBUTES_CONF                (100)
+#define NUM_EATT_CHANNELS                           (5U)
+#define NUM_AUX_SCAN_SLOTS_CONF                     (4U)
+#define NUM_SYNC_SLOTS_CONF                         (2U)
+#define WHITE_LIST_SIZE_LOG2_CONF                   (4U)
+#define L2CAP_MPS_CONF                              (247U)
+#define NUM_L2CAP_COCS_CONF                         (2U + NUM_EATT_CHANNELS)
+#define MAX_ATT_MTU_CONF                            (247)
+#define OPT_MBLOCKS_CONF                            (30)
+#if (BLESTACK_CONTROLLER_ONLY == 0)
+#define ACI_ATT_QUEUED_WRITE_SIZE_CONF              (512)
+#define ACI_GATT_ADV_NWK_BUFFER_SIZE_CONF           (3072 + 1660 + ACI_ATT_QUEUED_WRITE_SIZE_CONF)
+#else
+#define ACI_ATT_QUEUED_WRITE_SIZE_CONF              (0)
+#define ACI_GATT_ADV_NWK_BUFFER_SIZE_CONF           (1660)
+#endif
+#define NUM_OF_CONCURRENT_GATT_CLIENT_PROC_CONF     (DTM_NUM_LINK_CONF)
 #define MAX_NUM_CTE_ANTENNA_IDS                     (8U)
 #define MAX_NUM_CTE_IQ_SAMPLES                      (82U)
 

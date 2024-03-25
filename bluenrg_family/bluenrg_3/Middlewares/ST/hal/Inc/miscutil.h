@@ -19,9 +19,6 @@
 #ifndef __MISCUTIL_H_
 #define __MISCUTIL_H_
 
-#include <stdint.h>
-#include "ble_status.h"
-
 struct antenna_conf_s {
   uint8_t Antenna_IDs;
   uint8_t Antenna_ID_Shift;

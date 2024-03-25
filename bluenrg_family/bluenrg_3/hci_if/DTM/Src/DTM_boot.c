@@ -228,7 +228,7 @@ static uint8_t DTM_SmpsTrimConfig(uint8_t smps_config)
     hsi_calib         = 0x1E;
     eng_lsi_bw_flag   = FALSE;
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     main_regulator    = 0x0A;
     hsi_calib         = 0x1F;
     lsi_bw            = 8;

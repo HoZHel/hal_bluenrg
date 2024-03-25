@@ -36,12 +36,18 @@
 /* Private define ------------------------------------------------------------*/
 #define MAX_EVENT_SIZE  (536)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP)
+#if defined(CONFIG_DEVICE_BLUENRG_LP)||defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define COMMAND_BUFFER_SIZE  (536 + 4)
 #define EVENT_BUFFER_SIZE    2300
 #elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+
+#if (BLESTACK_CONTROLLER_ONLY == 0)
+#define COMMAND_BUFFER_SIZE  (536 + 4)
+#else
 #define COMMAND_BUFFER_SIZE  265        /* Decrease buffer size for reducing RAM footprint */
-#define EVENT_BUFFER_SIZE    1024
+#endif
+
+#define EVENT_BUFFER_SIZE    1800
 #endif 
 
 #define FIFO_ALIGNMENT       4

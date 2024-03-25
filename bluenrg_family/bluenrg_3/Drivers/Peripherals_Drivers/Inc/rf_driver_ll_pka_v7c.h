@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
 #endif
 
@@ -139,7 +139,7 @@ typedef struct
   * @brief    List of opearation mode.
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) ||  defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_PKA_MODE_MONTGOMERY_PARAM_MOD_EXP ((uint32_t)0x00000000U) /*!< Compute Montgomery parameter and modular exponentiation */
 #define LL_PKA_MODE_MONTGOMERY_PARAM         ((uint32_t)0x00000001U) /*!< Compute Montgomery parameter only */
 #define LL_PKA_MODE_MODULAR_EXP              ((uint32_t)0x00000002U) /*!< Compute modular exponentiation only (Montgomery parameter should be loaded) */
@@ -160,6 +160,10 @@ typedef struct
 #define LL_PKA_MODE_MONTGOMERY_MUL           ((uint32_t)0x00000010U) /*!< Montgomery multiplication */
 #endif
 
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define LL_PKA_MODE_ECC_COMPLETE_ADDITION    ((uint32_t)0x00000023U) /*!< Compute the ECC complete addition */
+#define LL_PKA_MODE_ECC_DOUBLE_BASE_LADDER   ((uint32_t)0x00000027U) /*!< Compute the ECC double base ladder */
+#endif
 
 /**
   * @}
@@ -216,7 +220,7 @@ typedef struct
   * @brief  Set PKA operating mode.
   * @rmtoll CR           MODE          LL_PKA_Config
   * @param  PKAx PKA Instance.
-  * @param  Mode This parameter can be one of the following values for BlueNRG-LPS where applicable:
+  * @param  Mode This parameter can be one of the following values for BlueNRG-LPS and BlueNRG-LPF where applicable:
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM_MOD_EXP
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM
   * @arg LL_PKA_MODE_MODULAR_EXP
@@ -280,7 +284,7 @@ __STATIC_INLINE uint32_t LL_PKA_IsEnabled(PKA_TypeDef *PKAx)
   * @brief  Set PKA operating mode.
   * @rmtoll CR           MODE          LL_PKA_SetMode
   * @param  PKAx PKA Instance.
-  * @param  Mode This parameter can be one of the following values for BlueNRG-LPS where applicable:
+  * @param  Mode This parameter can be one of the following values for BlueNRG-LPS and BlueNRG-LPF where applicable:
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM_MOD_EXP
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM
   * @arg LL_PKA_MODE_MODULAR_EXP
@@ -312,7 +316,7 @@ __STATIC_INLINE void LL_PKA_SetMode(PKA_TypeDef *PKAx, uint32_t Mode)
   * @brief  Get PKA operating mode.
   * @rmtoll CR           MODE          LL_PKA_GetMode
   * @param  PKAx PKA Instance.
-  * @retval Returned value can be one of the following values for BlueNRG-LPS where applicable:
+  * @retval Returned value can be one of the following values for BlueNRG-LPS and BlueNRG-LPF where applicable:
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM_MOD_EXP
   * @arg LL_PKA_MODE_MONTGOMERY_PARAM
   * @arg LL_PKA_MODE_MODULAR_EXP
@@ -691,13 +695,17 @@ __STATIC_INLINE void LL_PKA_ClearFlag_PROCEND(PKA_TypeDef *PKAx)
 ErrorStatus LL_PKA_DeInit(PKA_TypeDef *PKAx);
 ErrorStatus LL_PKA_Init(PKA_TypeDef *PKAx, LL_PKA_InitTypeDef *PKA_InitStruct);
 void LL_PKA_StructInit(LL_PKA_InitTypeDef *PKA_InitStruct);
-#if defined CONFIG_DEVICE_BLUENRG_LPS
+#if defined CONFIG_DEVICE_BLUENRG_LPF
+void LL_PKA_WriteSingleInput( uint32_t index, int size, const uint32_t* word );
+#elif defined CONFIG_DEVICE_BLUENRG_LPS
 void LL_PKA_WriteSingleInput( uint32_t index, uint32_t word );
 #endif
 void LL_PKA_WriteOperand( uint32_t index, int size, const uint32_t* in );
 void LL_PKA_WriteOperandByAddress( uint32_t address, int size, const uint32_t* in );
 void LL_PKA_ReadResult( uint32_t index, int size, uint32_t* out );
-#if defined CONFIG_DEVICE_BLUENRG_LPS
+#if defined CONFIG_DEVICE_BLUENRG_LPF
+void LL_PKA_ReadSingleOutput( uint32_t index, uint32_t* out);
+#elif defined CONFIG_DEVICE_BLUENRG_LPS
 uint32_t LL_PKA_ReadSingleOutput( uint32_t index );
 #endif
 

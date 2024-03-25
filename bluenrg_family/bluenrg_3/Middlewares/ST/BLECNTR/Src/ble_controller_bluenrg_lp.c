@@ -180,7 +180,7 @@ void BLECNTR_InitGlobal(void)
       udra_flag = 1;
     }
 #endif /* CONFIG_DEVICE_BLUENRG_LP */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     udra_flag = 1;
 #endif
     
@@ -224,7 +224,7 @@ void BLECNTR_InitGlobal(void)
       hot_table_radio_config[index++] = 0x01;
       hot_table_radio_config[index++] = RRM_VIT_CONF_DIG_ENG;
       hot_table_radio_config[index++] = RRM->VIT_CONF_DIG_ENG;
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
       hot_table_radio_config[index++] = 0x01;
       hot_table_radio_config[index++] = RRM_ANTSW_DIG0_USR;
       hot_table_radio_config[index++] = RRM->ANTSW_DIG0_USR;
@@ -382,7 +382,7 @@ BOOL BLECNTR_GetEncryptDoneStatus()
 
 uint8_t BLECNTR_GetIqsamplesMissingError(void)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return (uint8_t)LL_BLUE_GetIQSamplesMissingError(); 
 #elif defined(CONFIG_DEVICE_BLUENRG_LP)
   return (uint8_t)0;
@@ -391,7 +391,7 @@ uint8_t BLECNTR_GetIqsamplesMissingError(void)
 
 uint8_t BLECNTR_GetIqsamplesNumber(void)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return (uint8_t)LL_BLUE_GetIQSamplesNumber();
 #elif defined(CONFIG_DEVICE_BLUENRG_LP)
   return (uint8_t)0;
@@ -400,7 +400,7 @@ uint8_t BLECNTR_GetIqsamplesNumber(void)
 
 uint8_t BLECNTR_getIqsamplesReady(void)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     return (uint8_t)LL_BLUE_GetIQSamplesReady();
 #elif defined(CONFIG_DEVICE_BLUENRG_LP)
   return (uint8_t)0;
@@ -669,7 +669,7 @@ void BLECNTR_PacketClrCrcinitSel(BLECNTR_TXRXPACK_TypeDef* packetP)
 
 void BLECNTR_PacketClrCteSamplingEn(BLECNTR_TXRXPACK_TypeDef* packetP)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTEAndSamplingEnable((TXRXPACK_TypeDef*)packetP, 0x0);
 #else 
   /* nothing to do */
@@ -693,7 +693,7 @@ void BLECNTR_PacketDisableWhitening(BLECNTR_TXRXPACK_TypeDef* packetP)
 
 uint8_t BLECNTR_PacketGetCteSamplingEn(BLECNTR_TXRXPACK_TypeDef* packetP)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return (uint8_t)LL_RADIO_GetCTEAndSamplingEnable((TXRXPACK_TypeDef *)packetP);
 #else
   return (uint8_t)0;
@@ -724,7 +724,7 @@ void BLECNTR_PacketSetCrcinitSel(BLECNTR_TXRXPACK_TypeDef* packetP)
 
 void BLECNTR_PacketSetCteSamplingEn(BLECNTR_TXRXPACK_TypeDef* packetP)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTEAndSamplingEnable((TXRXPACK_TypeDef*)packetP, 0x01);
 #else
   /* nothing to do */
@@ -858,7 +858,7 @@ void BLECNTR_SetRcvLen(BLECNTR_TXRXPACK_TypeDef* packetP, uint32_t rcvLen)
 
 void BLECNTR_SmCteOff(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTEDisable(smNo, 0x01);
 #else
   /* nothing to do */
@@ -867,7 +867,7 @@ void BLECNTR_SmCteOff(uint8_t smNo)
 
 void BLECNTR_SmCteOn(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTEDisable(smNo, 0x00);
 #else
   /* nothing to do */
@@ -910,7 +910,7 @@ void BLECNTR_SmGetChannelMap(uint8_t smNo, uint8_t* chanMap)
 
 uint8_t BLECNTR_SmGetCteAntennaPatternLen(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     return (uint8_t)LL_RADIO_GetAntennaPatternLength(smNo);
 #else
   return (uint8_t)0;
@@ -919,7 +919,7 @@ uint8_t BLECNTR_SmGetCteAntennaPatternLen(uint8_t smNo)
 
 uint8_t BLECNTR_SmGetCteAodNaoa(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     return (uint8_t)LL_RADIO_GetAodNaoa(smNo);
 #else
   return (uint8_t)0;
@@ -928,7 +928,7 @@ uint8_t BLECNTR_SmGetCteAodNaoa(uint8_t smNo)
 
 uint8_t BLECNTR_SmGetCteSlotWidth(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return (uint8_t)LL_RADIO_GetCTESlotWidth(smNo);
 #else
   return (uint8_t)0;
@@ -937,7 +937,7 @@ uint8_t BLECNTR_SmGetCteSlotWidth(uint8_t smNo)
 
 uint8_t BLECNTR_SmGetCteStatus(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     return (uint8_t)LL_RADIO_GetCTEDisable(smNo);
 #else
   return (uint8_t)0;
@@ -946,7 +946,7 @@ uint8_t BLECNTR_SmGetCteStatus(uint8_t smNo)
 
 uint8_t BLECNTR_SmGetCteTime(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return (uint8_t)LL_RADIO_GetCTETime(smNo);
 #else
   return (uint8_t)0;
@@ -1030,6 +1030,12 @@ uint8_t BLECNTR_SmGetTxPwr(uint8_t smNo)
 {
     uint8_t pa_level = LL_RADIO_GetPAPower(smNo);
     
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+    if (LL_RADIO_TxHp_IsEnabled(smNo) && (pa_level == MAX_PA_LEVEL))
+    {
+        pa_level = HP_PA_LEVEL;
+    }
+#endif
     return pa_level;
 }
 
@@ -1065,7 +1071,7 @@ void BLECNTR_SmSetCrcInit(uint8_t smNo, uint32_t x)
 
 void BLECNTR_SmSetCteAntennaPatternLen(uint8_t smNo, uint8_t antPattLen)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetAntennaPatternLength(smNo, (uint32_t) antPattLen);
 #else
   /* nothing to do */
@@ -1074,7 +1080,7 @@ void BLECNTR_SmSetCteAntennaPatternLen(uint8_t smNo, uint8_t antPattLen)
 
 uint32_t BLECNTR_SmGetCteAntennaPatternPtr(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   return LL_RADIO_GetAntennaPatternPtr(smNo);
 #else
   return 0x00UL;
@@ -1083,7 +1089,7 @@ uint32_t BLECNTR_SmGetCteAntennaPatternPtr(uint8_t smNo)
 
 void BLECNTR_SmSetCteAntennaPatternPtr(uint8_t smNo, uint8_t* antPattP)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetAntennaPatternPtr(smNo, (uint32_t)(uintptr_t)antPattP);
 #else
   /* nothing to do */
@@ -1092,7 +1098,7 @@ void BLECNTR_SmSetCteAntennaPatternPtr(uint8_t smNo, uint8_t* antPattP)
 
 void BLECNTR_SmSetCteAoa(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetAodNaoa(smNo, 0x0);
 #else
   /* nothing to do */
@@ -1101,7 +1107,7 @@ void BLECNTR_SmSetCteAoa(uint8_t smNo)
 
 void BLECNTR_SmSetCteAod(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetAodNaoa(smNo, 0x01);
 #else
   /* nothing to do */
@@ -1110,7 +1116,7 @@ void BLECNTR_SmSetCteAod(uint8_t smNo)
 
 void BLECNTR_SmSetCteIqsamplesPtr(uint8_t smNo, uint32_t* iqSamplesP)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetIQSamplesPtr(smNo, (uint32_t)(uintptr_t)iqSamplesP);
 #else
   /* nothing to do */
@@ -1119,7 +1125,7 @@ void BLECNTR_SmSetCteIqsamplesPtr(uint8_t smNo, uint32_t* iqSamplesP)
 
 void BLECNTR_SmSetCteMaxIqsamplesNumb(uint8_t smNo, uint8_t iqsamplesNumb)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetMaximumIQSamplesNumber(smNo, (uint32_t) iqsamplesNumb);
 #else
   /* nothing to do */
@@ -1128,7 +1134,7 @@ void BLECNTR_SmSetCteMaxIqsamplesNumb(uint8_t smNo, uint8_t iqsamplesNumb)
 
 void BLECNTR_SmSetCteSlotWidth(uint8_t smNo, uint32_t cteSlot)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTESlotWidth(smNo, cteSlot);
 #else
   /* nothing to do */
@@ -1137,7 +1143,7 @@ void BLECNTR_SmSetCteSlotWidth(uint8_t smNo, uint32_t cteSlot)
 
 void BLECNTR_SmSetCteTime(uint8_t smNo, uint8_t cteTime)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   LL_RADIO_SetCTETime(smNo, (uint32_t) cteTime);
 #else
   /* nothing to do */
@@ -1221,11 +1227,32 @@ void BLECNTR_SmSetTxPhy(uint8_t smNo, uint8_t txPhy)
     
 void BLECNTR_SmEnTxHp(uint8_t smNo, BOOL enable)
 {
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+  if(enable)
+  {
+    LL_RADIO_TxHp_Enable(smNo);
+  }
+  else
+  {
+    LL_RADIO_TxHp_Disable(smNo);
+  }
+#endif
 }
 
 /* Consider PA Level 32 the one used to enable high power. */
 void BLECNTR_SmSetTxPwr(uint8_t smNo, uint8_t paLevel)
 {
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+  if(paLevel == HP_PA_LEVEL)
+  {
+    LL_RADIO_TxHp_Enable(smNo);
+    paLevel = MAX_PA_LEVEL;
+  }
+  else
+  {
+    LL_RADIO_TxHp_Disable(smNo);
+  }
+#endif
   
   LL_RADIO_SetPAPower(smNo, (uint32_t) paLevel);    
 }

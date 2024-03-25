@@ -189,7 +189,29 @@ void GPIO_Configuration(void)
   GPIO_InitStruct.Alternate = BSP_UART_RX_GPIO_AF_N;
   
   LL_GPIO_Init(BSP_UART_RX_GPIO_PORT, &GPIO_InitStruct);
-  
+
+#ifdef UART_FLOW_CONTROL_HW
+
+  GPIO_InitStruct.Pin = BSP_UART_RTS_PIN;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Alternate = BSP_UART_RTS_GPIO_AF_N;
+
+  LL_GPIO_Init(BSP_UART_RTS_GPIO_PORT, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = BSP_UART_CTS_PIN;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+  GPIO_InitStruct.Alternate = BSP_UART_CTS_GPIO_AF_N;
+
+  LL_GPIO_Init(BSP_UART_CTS_GPIO_PORT, &GPIO_InitStruct);
+
+#endif /* UART_FLOW_CONTROL_HW */
+
 #endif
   
 #ifdef SPI_INTERFACE
@@ -277,7 +299,11 @@ void UART_Configuration(void)
   USART_InitStruct.StopBits            = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity              = LL_USART_PARITY_NONE;
   USART_InitStruct.TransferDirection   = LL_USART_DIRECTION_TX_RX;
+#ifdef UART_FLOW_CONTROL_HW
+  USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_RTS_CTS;
+#else
   USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+#endif
   USART_InitStruct.OverSampling        = LL_USART_OVERSAMPLING_16;
   LL_USART_Init(BSP_UART, &USART_InitStruct);
     

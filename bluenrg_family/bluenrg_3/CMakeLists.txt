@@ -16,6 +16,12 @@ zephyr_compile_definitions(
   )
 endif()
 
+if(CONFIG_SOC_BLUENRG_LPF)
+zephyr_compile_definitions(
+  -DCONFIG_DEVICE_BLUENRG_LPF
+  )
+endif()
+
 zephyr_compile_definitions(
   -DUSE_FULL_LL_DRIVER
   )
@@ -72,15 +78,21 @@ zephyr_library_sources(Middlewares/ST/PKAMGR/Src/pka_manager.c)
 if(CONFIG_SOC_BLUENRG_LP)
 zephyr_library_sources(Middlewares/ST/PKAMGR/Src/pka_manager_bluenrg_lp.c)
 zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_pka_v7b.c)
+zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager_bluenrg_lp.c)
 endif()
 if(CONFIG_SOC_BLUENRG_LPS)
 zephyr_library_sources(Middlewares/ST/PKAMGR/Src/pka_manager_bluenrg_lps.c)
 zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_pka_v7c.c)
+zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager_bluenrg_lp.c)
+endif()
+if(CONFIG_SOC_BLUENRG_LPF)
+zephyr_library_sources(Middlewares/ST/PKAMGR/Src/pka_manager_bluenrg_lpf.c)
+zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_pka_v7c.c)
+zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager_bluenrg_lpf.c)
 endif()
 zephyr_library_sources(Middlewares/ST/AESMGR/Src/aes_manager_bluenrg_lp.c)
 zephyr_library_sources(Middlewares/ST/Bluetooth_LE/src/stack_user_cfg.c)
 zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager.c)
-zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager_bluenrg_lp.c)
 zephyr_library_sources(hci_if/DTM/Src/DTM_cmd_db.c)
 zephyr_library_sources(hci_if/DTM/Src/aci_adv_nwk.c)
 zephyr_library_sources(hci_if/DTM/Src/adv_buff_alloc_tiny.c)

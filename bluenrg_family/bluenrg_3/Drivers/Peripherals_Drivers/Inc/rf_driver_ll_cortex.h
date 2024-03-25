@@ -40,8 +40,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver

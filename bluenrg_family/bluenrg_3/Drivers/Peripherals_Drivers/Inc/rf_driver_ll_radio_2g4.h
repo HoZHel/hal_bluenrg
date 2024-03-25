@@ -64,7 +64,7 @@
 
     
 /* Hot table size */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define HOT_TABLE_SIZE 37
 #else
 #define HOT_TABLE_SIZE 31
@@ -154,7 +154,7 @@
 #define GLOBAL_WORD5_INTACTIVE2ERR_Pos                                     (30UL)
 #define GLOBAL_WORD5_INTACTIVE2ERR_Msk                                     (0x40000000UL)
 #define GLOBAL_WORD5_INTACTIVE2ERR                                         GLOBAL_WORD5_INTACTIVE2ERR_Msk
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define GLOBAL_WORD6_DEFAULTANTENNAID_Pos                                  (0UL)
 #define GLOBAL_WORD6_DEFAULTANTENNAID_Msk                                  (0x7fUL)
 #define GLOBAL_WORD6_DEFAULTANTENNAID                                      GLOBAL_WORD6_DEFAULTANTENNAID_Msk
@@ -185,7 +185,7 @@
 #define GLOBAL_BYTE23_INTACTIVE2ERR_Msk                                    (0x40)
 #define GLOBAL_BYTE23_INTCONFIGERROR_Msk                                   (0x80)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define GLOBAL_BYTE24_DEFAULTANTENNAID_Msk                                 (0x7F)
 #endif
 
@@ -215,13 +215,18 @@
 #define STATEMACH_WORD0_NESN_Pos                                           (15UL)
 #define STATEMACH_WORD0_NESN_Msk                                           (0x8000UL)
 #define STATEMACH_WORD0_NESN                                               STATEMACH_WORD0_NESN_Msk
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define STATEMACH_WORD0_PHYSCHANPDUTYPE_Pos                                (16UL)
+#define STATEMACH_WORD0_PHYSCHANPDUTYPE_Msk                                (0x30000UL)
+#define STATEMACH_WORD0_PHYSCHANPDUTYPE                                    STATEMACH_WORD0_PHYSCHANPDUTYPE_Msk
+#endif
 #define STATEMACH_WORD0_ENCRYPTON_Pos                                      (21UL)
 #define STATEMACH_WORD0_ENCRYPTON_Msk                                      (0x200000UL)
 #define STATEMACH_WORD0_ENCRYPTON                                          STATEMACH_WORD0_ENCRYPTON_Msk
 #define STATEMACH_WORD0_TXPHY_Pos                                          (24UL)
 #define STATEMACH_WORD0_TXPHY_Msk                                          (0x7000000UL)
 #define STATEMACH_WORD0_TXPHY                                              STATEMACH_WORD0_TXPHY_Msk
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define STATEMACH_WORD0_CTEDISABLE_Pos                                     (27UL)
 #define STATEMACH_WORD0_CTEDISABLE_Msk                                     (0x8000000UL)
 #define STATEMACH_WORD0_CTEDISABLE                                         STATEMACH_WORD0_CTEDISABLE_Msk
@@ -268,6 +273,11 @@
 #define STATEMACH_WORDB_PAPOWER_Pos                                        (0UL)
 #define STATEMACH_WORDB_PAPOWER_Msk                                        (0x1fUL)
 #define STATEMACH_WORDB_PAPOWER                                            STATEMACH_WORDB_PAPOWER_Msk
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define STATEMACH_WORDB_TXHP_Pos                                           (7UL)
+#define STATEMACH_WORDB_TXHP_Msk                                           (0x80UL)
+#define STATEMACH_WORDB_TXHP                                               STATEMACH_WORDB_TXHP_Msk
+#endif
 #define STATEMACH_WORDB_HOPINCR_Pos                                        (8UL)
 #define STATEMACH_WORDB_HOPINCR_Msk                                        (0x3f00UL)
 #define STATEMACH_WORDB_HOPINCR                                            STATEMACH_WORDB_HOPINCR_Msk
@@ -280,7 +290,7 @@
 #define STATEMACH_WORDE_ENCRYPTIV_0_31_Pos                                 (0UL)
 #define STATEMACH_WORDE_ENCRYPTIV_0_31_Msk                                 (0xffffffffUL)
 #define STATEMACH_WORDE_ENCRYPTIV_0_31                                     STATEMACH_WORDE_ENCRYPTIV_0_31_Msk
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define STATEMACH_WORD14_AOD_NAOA_Pos                                      (0UL)
 #define STATEMACH_WORD14_AOD_NAOA_Msk                                      (0x1UL)
 #define STATEMACH_WORD14_AOD_NAOA                                          STATEMACH_WORD14_AOD_NAOA_Msk
@@ -322,7 +332,7 @@
 
 #define STATEMACH_BYTE3_TXPHY_Msk                                          (0x07)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define STATEMACH_BYTE3_CTEDISABLE_Msk                                     (0x08)
 #endif
 
@@ -339,7 +349,7 @@
 #define STATEMACH_BYTE35_INTRXOVERFLOWERROR_Msk                            (0x40)
 #define STATEMACH_BYTE35_RXDEBUGCRC_Msk                                    (0x80)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define STATEMACH_BYTE80_AOD_NAOA_Msk                                      (0x01)
 #define STATEMACH_BYTE80_CTESLOTWIDTH_Msk                                  (0x02)
 #define STATEMACH_BYTE80_AOD_CTETIME_Msk                                   (0x7C)
@@ -367,7 +377,7 @@
 #define TXRXPACK_WORD1_SUPPENA_Msk                                        (0x8UL)
 #define TXRXPACK_WORD1_SUPPENA                                            TXRXPACK_WORD1_SUPPENA_Msk
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define TXRXPACK_WORD1_CTEANDSAMPLINGENABLE_Pos                           (3UL)
 #define TXRXPACK_WORD1_CTEANDSAMPLINGENABLE_Msk                           (0x8UL)
 #define TXRXPACK_WORD1_CTEANDSAMPLINGENABLE                               TXRXPACK_WORD1_CTEANDSAMPLINGENABLE_Msk
@@ -433,7 +443,7 @@
 #define TXRXPACK_BYTE4_CALREQ_Msk                                          (0x01)
 #define TXRXPACK_BYTE4_CHANALGO2SEL_Msk                                    (0x02)
 #define TXRXPACK_BYTE4_KEEPSEMAREQ_Msk                                     (0x04)
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define TXRXPACK_BYTE4_CTEANDSAMPLINGENABLE_Msk                            (0x08)
 #else
 #define TXRXPACK_BYTE4_SUPPENA_Msk                                         (0x08)
@@ -450,7 +460,7 @@
 #define TXRXPACK_BYTE5_DISABLEWHITENING_Msk                                (0x10)
 #define TXRXPACK_BYTE5_TESTPACKET_Msk                                      (0x20)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define TXRXPACK_BYTE5_RTTPACKET_Msk                                       (0x40)
 #define TXRXPACK_BYTE5_SQTEPACKET_Msk                                      (0x80)
 #endif
@@ -584,7 +594,7 @@ typedef struct {
 /**
   * @brief Radio Link State Machine Word oriented description
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 typedef struct {
     volatile uint32_t  WORD0;
     volatile uint32_t  WORD1;
@@ -641,7 +651,7 @@ typedef struct {
 /**
   * @brief Radio TxRxPack Word oriented description
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 typedef struct {
     volatile uint32_t WORD0;
     volatile uint32_t WORD1;
@@ -660,7 +670,7 @@ typedef struct {
 #endif
    
    
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) 
   
 /**
   * @brief Radio Global State Machine description

@@ -37,8 +37,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -145,9 +148,12 @@ extern "C" {
 /** @defgroup SYSTEM_LL_DEVICE_INFORMATION Device Version Information
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_BLUENRG_LP_CUT_10               0x10
 #define LL_BLUENRG_LP_CUT_20               0x20
+#endif
+#if defined (MR_SUBG)
+#define LL_SPIRIT3_CUT_10                  0x10
 #endif
 /**
   * @}
@@ -166,9 +172,13 @@ extern "C" {
 /** @defgroup SYSCFG_LL_RXTX_DET_TYPE Tx/Rx sequence information detection type
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_SYSCFG_BLERXTX_DET_TYPE_EDGE           ((uint8_t)0x00U) /*!<  Tx/Rx detection type EDGE  */
 #define LL_SYSCFG_BLERXTX_DET_TYPE_LEVEL          ((uint8_t)0x01U) /*!<  Tx/Rx detection type LEVEL */
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_SYSCFG_MR_SUBG_DET_TYPE_EDGE           ((uint8_t)0x00U) /*!<  Tx/Rx, COMP_OUT and RF_IP_BUSY_STATUS detection type EDGE  */
+#define LL_SYSCFG_MR_SUBG_DET_TYPE_LEVEL          ((uint8_t)0x01U) /*!<  Tx/Rx, COMP_OUT and RF_IP_BUSY_STATUS detection type LEVEL */
 #endif
 /**
   * @}
@@ -177,12 +187,19 @@ extern "C" {
 /** @defgroup SYSCFG_LL_RXTX_EDGE_TRIGGER Tx/Rx detection trigger
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_SYSCFG_BLERXTX_TRIGGER_RISING_EDGE     ((uint8_t)0x00U) /*!< Trigger on Rising Edge  */
 #define LL_SYSCFG_BLERXTX_TRIGGER_FALLING_EDGE    ((uint8_t)0x01U) /*!< Trigger on Falling Edge */
 #define LL_SYSCFG_BLERXTX_TRIGGER_BOTH_EDGE       ((uint8_t)0x02U) /*!< Trigger on Both Edge    */
 #define LL_SYSCFG_BLERXTX_TRIGGER_LOW_LEVEL       ((uint8_t)0x03U) /*!< Trigger on Low Level    */
 #define LL_SYSCFG_BLERXTX_TRIGGER_HIGH_LEVEL      ((uint8_t)0x04U) /*!< Trigger on High Level   */
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3) 
+#define LL_SYSCFG_MR_SUBG_TRIGGER_RISING_EDGE     ((uint8_t)0x00U) /*!< Trigger on Rising Edge  */
+#define LL_SYSCFG_MR_SUBG_TRIGGER_FALLING_EDGE    ((uint8_t)0x01U) /*!< Trigger on Falling Edge */
+#define LL_SYSCFG_MR_SUBG_TRIGGER_BOTH_EDGE       ((uint8_t)0x02U) /*!< Trigger on Both Edge    */
+#define LL_SYSCFG_MR_SUBG_TRIGGER_LOW_LEVEL       ((uint8_t)0x03U) /*!< Trigger on Low Level    */
+#define LL_SYSCFG_MR_SUBG_TRIGGER_HIGH_LEVEL      ((uint8_t)0x04U) /*!< Trigger on High Level   */
 #endif
 
 /**
@@ -192,7 +209,7 @@ extern "C" {
 /** @defgroup SYSCFG_LL_TX_RX_EVENT_ENABLE Tx/Rx event 
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_SYSCFG_BLE_TX_EVENT    SYSCFG_BLERXTX_IER_TX_IE /*!< Tx Event Enable */
 #define LL_SYSCFG_BLE_RX_EVENT    SYSCFG_BLERXTX_IER_RX_IE /*!< Rx Event Enable */
 #if defined(SYSCFG_BLERXTX_ISCR_RX_ISEDGE)
@@ -203,6 +220,20 @@ extern "C" {
 #define LL_SYSCFG_BLE_TX_FALLING_EDGE_EVENT    (0x00000000U)                     /*!< Falling edge on TX sequence detected */
 #define LL_SYSCFG_BLE_TX_RISING_EDGE_EVENT     (SYSCFG_BLERXTX_ISCR_TX_ISEDGE)   /*!< Rising edge on TX sequence detected  */
 #endif
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3) 
+#define LL_SYSCFG_MR_SUBG_TX_EVENT               SYSCFG_INTAI_IER_TX_IE                /*!< Tx Event Enable               */
+#define LL_SYSCFG_MR_SUBG_RX_EVENT               SYSCFG_INTAI_IER_RX_IE                /*!< Rx Event Enable               */
+#define LL_SYSCFG_MR_SUBG_COMPOUT_EVENT          SYSCFG_INTAI_IER_COMP_IE              /*!< COMP_OUT Event Enable         */
+#define LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT        SYSCFG_INTAI_IER_RFIP_BUSY_STATUS_IE  /*!< RFIP_BUSY_STATUS Event Enable */
+#define LL_SYSCFG_LCSC_LC_ACTIVITY_ISC           SYSCFG_INTAI_ISCR_LC_ACTIVITY_ISC     /*!< Edge status on LC_ACTIVITY signal Event Enable */
+#define LL_SYSCFG_LCSC_LC_ACTIVITY_ISEDGE        SYSCFG_INTAI_ISCR_LC_ACTIVITY_ISEDGE  /*!< Status on LC_ACTIVITY Event Enable */
+#define LL_SYSCFG_LCSC_LC_ACTIVITY_FALLING_EDGE  (0U)                                  /*!< Falling Edge LC_ACTIVITY Event */
+#define LL_SYSCFG_LCSC_LC_ACTIVITY_RISING_EDGE   (1U)                                  /*!< Rising Edge LC_ACTIVITY Event */
+#define LL_SYSCFG_LCSC_IBER_SINGLE               (0U)                                  /*!< Detection on single edge */
+#define LL_SYSCFG_LCSC_IBER_BOTH                 (SYSCFG_INTAI_IBER_LC_ACTIVITY_IBE)   /*!< Detection on both edges */
+#define LL_SYSCFG_LCSC_IEVR_FALLING              (0U)                                  /*!< Detection on falling edge / low level */
+#define LL_SYSCFG_LCSC_IEVR_RISING               (SYSCFG_INTAI_IEVR_LC_ACTIVITY_IEV)   /*!< Detection on rising edge / high level */
 #endif
 /**
   * @}
@@ -318,6 +349,7 @@ __STATIC_INLINE uint32_t LL_SYSCFG_GetRemapMemory(void)
   * @retval None
   * @note   LL_SYSCFG_I2C_FASTMODEPLUS_PB10, LL_SYSCFG_I2C_FASTMODEPLUS_PB11, LL_SYSCFG_I2C_FASTMODEPLUS_PA6,
   *         LL_SYSCFG_I2C_FASTMODEPLUS_PA7, LL_SYSCFG_I2C_FASTMODEPLUS_PA13 and LL_SYSCFG_I2C_FASTMODEPLUS_PA14
+  *         are valid only for SPIRIT3
   */
 __STATIC_INLINE void LL_SYSCFG_EnableFastModePlus(uint32_t ConfigFastModePlus)
 {
@@ -341,6 +373,7 @@ __STATIC_INLINE void LL_SYSCFG_EnableFastModePlus(uint32_t ConfigFastModePlus)
   * @retval None
   * @note   LL_SYSCFG_I2C_FASTMODEPLUS_PB10, LL_SYSCFG_I2C_FASTMODEPLUS_PB11, LL_SYSCFG_I2C_FASTMODEPLUS_PA6,
   *         LL_SYSCFG_I2C_FASTMODEPLUS_PA7, LL_SYSCFG_I2C_FASTMODEPLUS_PA13 and LL_SYSCFG_I2C_FASTMODEPLUS_PA14
+  *         are valid only for SPIRIT3
   */
 __STATIC_INLINE void LL_SYSCFG_DisableFastModePlus(uint32_t ConfigFastModePlus)
 {
@@ -567,7 +600,7 @@ __STATIC_INLINE uint32_t LL_IO_GetAnalogSwitchControl_PB14(void)
 /** @defgroup SYSCFG_LL_RADIO_RXTX_IT_Management RX TX IT_Management
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief  Enable Tx Rx Interrupt
   * @rmtoll BLERXTX_IER        LL_SYSCFG_BLERXTX_EnableIT
@@ -607,6 +640,52 @@ __STATIC_INLINE uint32_t LL_SYSCFG_BLERXTX_IsEnabledIT(uint32_t Signal)
   return ((READ_BIT(SYSCFG->BLERXTX_IER, Signal) == (Signal)) ? 1UL : 0UL);
 }
 #endif
+#if defined(CONFIG_DEVICE_SPIRIT3) 
+/**
+  * @brief  Enable Internal asynchronous Interrupt
+  * @rmtoll INTAI_IER        LL_SYSCFG_MR_SUBG_INTAI_EnableIT
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_MR_SUBG_INTAI_EnableIT(uint32_t Signal)
+{
+  SET_BIT(SYSCFG->INTAI_IER, Signal);
+}
+
+/**
+  * @brief  Disable Internal asynchronous Interrupt
+  * @rmtoll INTAI_IER        LL_SYSCFG_MR_SUBG_INTAI_DisableIT
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_MR_SUBG_INTAI_DisableIT(uint32_t Signal)
+{
+  CLEAR_BIT(SYSCFG->INTAI_IER, Signal);
+}
+
+/**
+  * @brief  Indicate if Internal asynchronous Interrupt is enabled
+  * @rmtoll INTAI_IER        LL_SYSCFG_MR_SUBG_INTAI_IsEnabledIT
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_SYSCFG_MR_SUBG_INTAI_IsEnabledIT(uint32_t Signal)
+{
+  return ((READ_BIT(SYSCFG->INTAI_IER, Signal) == (Signal)) ? 1UL : 0UL);
+}
+#endif
 
 /**
   * @}
@@ -615,7 +694,7 @@ __STATIC_INLINE uint32_t LL_SYSCFG_BLERXTX_IsEnabledIT(uint32_t Signal)
 /** @defgroup SYSCFG_LL_RADIO_EVENT_TYPE_Management Level/Edge Management
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief  Set Tx/Rx Interrupt Detection Type
   * @rmtoll BLERXTX_DTR        LL_SYSCFG_BLERXTX_SetType
@@ -654,15 +733,58 @@ __STATIC_INLINE uint32_t LL_SYSCFG_BLERXTX_GetType(uint32_t Signal)
   return LL_SYSCFG_BLERXTX_DET_TYPE_EDGE;
 }
 #endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief  Set Internal asynchronous Interrupt Detection Type
+  * @rmtoll INTAI_DTR        LL_SYSCFG_MR_SUBG_INTAI_SetType
+  * @param  Type This parameter can be one of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_DET_TYPE_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_DET_TYPE_LEVEL
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_MR_SUBG_INTAI_SetType(uint8_t Type, uint32_t Signal)
+{
+  if (Type == LL_SYSCFG_MR_SUBG_DET_TYPE_EDGE) {
+    CLEAR_BIT(SYSCFG->INTAI_DTR, Signal);
+  } else {
+    SET_BIT(SYSCFG->INTAI_DTR, Signal);
+  }
+}
+
+/**
+  * @brief  Get Internal asynchronous Interrupt Detection Type
+  * @rmtoll INTAI_DTR        LL_SYSCFG_MR_SUBG_INTAI_GetType
+  * @param  Signal This parameter one of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval One of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_DET_TYPE_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_DET_TYPE_LEVEL
+  */
+__STATIC_INLINE uint32_t LL_SYSCFG_MR_SUBG_INTAI_GetType(uint32_t Signal)
+{
+  if (READ_BIT(SYSCFG->INTAI_DTR, Signal))
+    return LL_SYSCFG_MR_SUBG_DET_TYPE_LEVEL;
+
+  return LL_SYSCFG_MR_SUBG_DET_TYPE_EDGE;
+}
+#endif
 
 /**
   * @} 
   */
 
-/** @defgroup LL_SYSCFG_BLERXTX_SetTrigger Trigger_Management
+/** @defgroup SYSCFG_LL_MR_SUBG_Trigger_Management Trigger_Management
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief  Set Tx Rx Interrupt Trigger 
   * @rmtoll BLERXTX_IBER/BLERXTX__IEVR/BLERXTX__DTR        LL_SYSCFG_BLERXTX_SetTrigger
@@ -743,6 +865,91 @@ __STATIC_INLINE uint8_t LL_SYSCFG_BLERXTX_GetTrigger(uint32_t Signal)
   return LL_SYSCFG_BLERXTX_TRIGGER_FALLING_EDGE;
 }
 #endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief  Set Internal asynchronous Interrupt Trigger 
+  * @rmtoll INTAI_IBER/INTAI_IEVR/INTAI_DTR        LL_SYSCFG_MR_SUBG_INTAI_SetTrigger
+  * @param  Trigger This parameter can be one of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_RISING_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_FALLING_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_BOTH_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_LOW_LEVEL
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_HIGH_LEVEL
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_MR_SUBG_INTAI_SetTrigger(uint8_t Trigger, uint32_t Signal)
+{  
+  if (Trigger == LL_SYSCFG_MR_SUBG_TRIGGER_BOTH_EDGE) {
+    SET_BIT(SYSCFG->INTAI_IBER, Signal);
+    CLEAR_BIT(SYSCFG->INTAI_IEVR, Signal);
+    return;
+  }
+  if (Trigger == LL_SYSCFG_MR_SUBG_TRIGGER_RISING_EDGE) {
+    CLEAR_BIT(SYSCFG->INTAI_IBER, Signal);
+    SET_BIT(SYSCFG->INTAI_IEVR, Signal);
+    return;
+  }
+  if (Trigger == LL_SYSCFG_MR_SUBG_TRIGGER_FALLING_EDGE) {
+    CLEAR_BIT(SYSCFG->INTAI_IBER, Signal);
+    CLEAR_BIT(SYSCFG->INTAI_IEVR, Signal);
+    return;
+  }
+  if (Trigger == LL_SYSCFG_MR_SUBG_TRIGGER_LOW_LEVEL) {
+    CLEAR_BIT(SYSCFG->INTAI_IBER, Signal);
+    CLEAR_BIT(SYSCFG->INTAI_IEVR, Signal);
+    return;
+  }
+  if (Trigger == LL_SYSCFG_MR_SUBG_TRIGGER_HIGH_LEVEL) {
+    CLEAR_BIT(SYSCFG->INTAI_IBER, Signal);
+    SET_BIT(SYSCFG->INTAI_IEVR, Signal);
+  }  
+}
+
+/**
+  * @brief  Get Internal asynchronous Interrupt Trigger
+  * @rmtoll INTAI_IBER/INTAI_IEVR/INTAI_DTR        LL_SYSCFG_MR_SUBG_INTAI_GetTrigger
+  * @param  Signal This parameter can be one of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval The return value can be one of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_RISING_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_FALLING_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_BOTH_EDGE
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_LOW_LEVEL
+  * @arg LL_SYSCFG_MR_SUBG_TRIGGER_HIGH_LEVEL
+  */
+__STATIC_INLINE uint8_t LL_SYSCFG_MR_SUBG_INTAI_GetTrigger(uint32_t Signal)
+{
+  uint32_t level_setup, level_edge, both_edge;
+
+  level_setup = READ_BIT(SYSCFG->INTAI_DTR, Signal);
+  level_edge = READ_BIT(SYSCFG->INTAI_IEVR, Signal);
+  both_edge = READ_BIT(SYSCFG->INTAI_IBER, Signal);
+    
+  if (level_setup) {
+    if (level_edge) {
+      return LL_SYSCFG_MR_SUBG_TRIGGER_HIGH_LEVEL;
+    } else {
+      return LL_SYSCFG_MR_SUBG_TRIGGER_LOW_LEVEL;
+    }
+  } else {
+    if (both_edge) {
+      return LL_SYSCFG_MR_SUBG_TRIGGER_BOTH_EDGE;
+    }
+    if (level_edge) {
+      return LL_SYSCFG_MR_SUBG_TRIGGER_RISING_EDGE;
+    }
+  }
+  return LL_SYSCFG_MR_SUBG_TRIGGER_FALLING_EDGE;
+}
+#endif
 
 /**
   * @}
@@ -751,7 +958,7 @@ __STATIC_INLINE uint8_t LL_SYSCFG_BLERXTX_GetTrigger(uint32_t Signal)
 /** @defgroup SYSCFG_LL_EVENT_Flag_Management Flag_Management
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief Check if the Tx Rx Interrupt is set or not
   * @note  This bit is cleared by writing a 1 to the bit.
@@ -812,7 +1019,99 @@ __STATIC_INLINE uint32_t LL_SYSCFG_BLERX_EdgeSequence(void)
 
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief Check if the Internal asynchronous Interrupt is set or not
+  * @note  This bit is cleared by writing a 1 to the bit.
+  * @rmtoll INTAI_ISCR                   LL_SYSCFG_MR_SUBG_INTAI_IsInterruptPending
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_SYSCFG_MR_SUBG_INTAI_IsInterruptPending(uint32_t Signal)
+{
+  return ((READ_BIT(SYSCFG->INTAI_ISCR, Signal) == (Signal)) ? 1UL : 0UL);
+}
 
+
+/**
+  * @brief  Clear the Internal asynchronous Interrupt 
+  * @rmtoll INTAI_ISCR                   LL_SYSCFG_MR_SUBG_INTAI_ClearInterrupt
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_MR_SUBG_TX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_RX_EVENT
+  * @arg LL_SYSCFG_MR_SUBG_COMPOUT_EVENT 
+  * @arg LL_SYSCFG_MR_SUBG_RFIP_BUSY_EVENT
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_MR_SUBG_INTAI_ClearInterrupt(uint32_t Signal)
+{
+  WRITE_REG(SYSCFG->INTAI_ISCR, Signal);
+}
+#endif
+
+#if defined(CONFIG_DEVICE_SPIRIT3)
+
+
+/**
+  * @brief   Set interrupt edge register on LC_ACTIVITY signal detection on single or both edges.
+  * @rmtoll INTAI_IBER                   LL_SYSCFG_LCSC_INTAI_IBER_Edge_Detection
+  * @param  Value This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_LCSC_IBER_SINGLE
+  * @arg LL_SYSCFG_LCSC_IBER_BOTH
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_LCSC_INTAI_IBER_Edge_Detection(uint32_t Value)
+{
+  MODIFY_REG(SYSCFG->INTAI_IBER, SYSCFG_INTAI_IBER_LC_ACTIVITY_IBE, Value);
+}
+
+/**
+  * @brief  Set the interrupt polarity event on LC_ACTIVITY signal detection on falling edge / low level or on rising edge / high level
+  * @rmtoll INTAI_IEVR                   LL_SYSCFG_LCSC_INTAI_IEVR_Polarity
+  * @param  Value This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_LCSC_IEVR_FALLING
+  * @arg LL_SYSCFG_LCSC_IEVR_RISING
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_LCSC_INTAI_IEVR_Polarity(uint32_t Value)
+{
+  MODIFY_REG(SYSCFG->INTAI_IEVR, SYSCFG_INTAI_IEVR_LC_ACTIVITY_IEV, Value);
+}
+
+
+
+/**
+  * @brief  Check if the Internal asynchronous Interrupt is set or not
+  * @note   This bit is cleared by writing a 1 to the bit.
+  * @rmtoll INTAI_ISCR                   LL_SYSCFG_LCSC_INTAI_IsInterruptPending
+  * @param  Value This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_LCSC_LC_ACTIVITY_ISC
+  * @arg LL_SYSCFG_LCSC_LC_ACTIVITY_ISEDGE
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_SYSCFG_LCSC_INTAI_IsInterruptPending(uint32_t Value)
+{
+  return ((READ_BIT(SYSCFG->INTAI_ISCR, Value) == (Value)) ? 1UL : 0UL);
+}
+
+
+/**
+  * @brief  Clear the Internal asynchronous Interrupt 
+  * @rmtoll INTAI_ISCR                   LL_SYSCFG_LCSC_INTAI_ClearInterrupt
+  * @param  Signal This parameter can be a combination of the following values:
+  * @arg LL_SYSCFG_LCSC_LC_ACTIVITY_ISC
+  * @arg LL_SYSCFG_LCSC_LC_ACTIVITY_ISEDGE
+  * @retval None
+  */
+__STATIC_INLINE void LL_SYSCFG_LCSC_INTAI_ClearInterrupt(uint32_t Signal)
+{
+  WRITE_REG(SYSCFG->INTAI_ISCR, Signal);
+}
+#endif
 
 /**
   * @}

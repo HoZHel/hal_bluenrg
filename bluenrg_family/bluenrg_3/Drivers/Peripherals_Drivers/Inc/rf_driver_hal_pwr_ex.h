@@ -91,7 +91,7 @@
   */
 /* Note: SMPS voltage is trimmed during device production to control
          the actual voltage level variation from device to device. */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define PWR_SMPS_OUTPUT_VOLTAGE_1V20  LL_PWR_SMPS_OUTLVL_1V2     /*!< SMPS step down converter supply output voltage 1.20V */
 #define PWR_SMPS_OUTPUT_VOLTAGE_1V25  LL_PWR_SMPS_OUTLVL_1V25    /*!< SMPS step down converter supply output voltage 1.25V */
 #define PWR_SMPS_OUTPUT_VOLTAGE_1V30  LL_PWR_SMPS_OUTLVL_1V3     /*!< SMPS step down converter supply output voltage 1.30V */
@@ -110,6 +110,23 @@
 #define PWR_SMPS_OUTPUT_VOLTAGE_1V95  LL_PWR_SMPS_OUTLVL_1V95    /*!< SMPS step down converter supply output voltage 1.95V */
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V20  LL_PWR_SMPS_OUTLVL_1V20    /*!< 0000: 1.20V (min VBAT = 1.95V)           */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V30  LL_PWR_SMPS_OUTLVL_1V30    /*!< 0011: 1.30V (min VBAT = 1.95V)           */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V40  LL_PWR_SMPS_OUTLVL_1V40    /*!< 0100: 1.40V (min VBAT = 1.95V) (default) */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V50  LL_PWR_SMPS_OUTLVL_1V50    /*!< 0101: 1.50V (min VBAT = 1.95V)           */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V60  LL_PWR_SMPS_OUTLVL_1V60    /*!< 0110: 1.60V (min VBAT = 1.95V)           */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V70  LL_PWR_SMPS_OUTLVL_1V70    /*!< 0111: 1.70V (min VBAT = 2V)              */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V80  LL_PWR_SMPS_OUTLVL_1V80    /*!< 1000: 1.80V (min VBAT = 2.1V)            */
+#define PWR_SMPS_OUTPUT_VOLTAGE_1V90  LL_PWR_SMPS_OUTLVL_1V90    /*!< 1001: 1.90V (min VBAT = 2.2V)            */
+#define PWR_SMPS_OUTPUT_VOLTAGE_2V00  LL_PWR_SMPS_OUTLVL_2V00    /*!< 1010: 2V (min VBAT = 2.3V)               */
+#define PWR_SMPS_OUTPUT_VOLTAGE_2V10  LL_PWR_SMPS_OUTLVL_2V10    /*!< 1011: 2.1V (min VBAT = 2.4V)             */
+#define PWR_SMPS_OUTPUT_VOLTAGE_2V20  LL_PWR_SMPS_OUTLVL_2V20    /*!< 1100: 2.2V (min VBAT = 2.5V)             */
+#define PWR_SMPS_OUTPUT_VOLTAGE_2V30  LL_PWR_SMPS_OUTLVL_2V30    /*!< 1101: 2.3V (min VBAT = 2.6V)             */
+#define PWR_SMPS_OUTPUT_VOLTAGE_2V40  LL_PWR_SMPS_OUTLVL_2V40    /*!< 1111: 2.4V (min VBAT = 2.7V)             */
+#endif/**
+  * @}
+  */
 
 /**
   * @}

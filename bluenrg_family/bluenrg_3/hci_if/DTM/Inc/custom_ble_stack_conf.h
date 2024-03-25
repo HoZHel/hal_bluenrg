@@ -86,6 +86,24 @@
 
 #elif defined(CONFIG_DEVICE_BLUENRG_LPS)
 
+#if (BLESTACK_CONTROLLER_ONLY == 1)
+#define CONTROLLER_MASTER_ENABLED                 (1U) 
+#define CONTROLLER_PRIVACY_ENABLED                (1U) 
+#define SECURE_CONNECTIONS_ENABLED                (0U) 
+#define CONTROLLER_DATA_LENGTH_EXTENSION_ENABLED  (1U) 
+#define CONTROLLER_2M_CODED_PHY_ENABLED           (1U)
+#define CONTROLLER_EXT_ADV_SCAN_ENABLED           (1U) 
+#define L2CAP_COS_ENABLED                         (0U) 
+#define CONTROLLER_PERIODIC_ADV_ENABLED           (1U) 
+#define CONTROLLER_CTE_ENABLED                    (1U)
+#define CONTROLLER_POWER_CONTROL_ENABLED          (1U) 
+#define CONNECTION_ENABLED                        (1U)
+#define CONTROLLER_CHAN_CLASS_ENABLED             (1U)
+#define CONTROLLER_BIS_ENABLED                    (0U)
+#define EATT_ENABLED                              (0U)
+#define CONNECTION_SUBRATING_ENABLED              (1U)
+#define CONTROLLER_CIS_ENABLED                    (0U)
+#else
 #define CONTROLLER_MASTER_ENABLED                 (1U) 
 #define CONTROLLER_PRIVACY_ENABLED                (1U) 
 #define SECURE_CONNECTIONS_ENABLED                (1U) 
@@ -102,6 +120,7 @@
 #define EATT_ENABLED                              (0U)
 #define CONNECTION_SUBRATING_ENABLED              (0U)
 #define CONTROLLER_CIS_ENABLED                    (0U)
+#endif 
 
 #endif
 

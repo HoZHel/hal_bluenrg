@@ -170,7 +170,18 @@ void LL_PKA_StructInit(LL_PKA_InitTypeDef *PKA_InitStruct)
 }
 
 
-#if defined CONFIG_DEVICE_BLUENRG_LPS
+#if defined CONFIG_DEVICE_BLUENRG_LPF
+
+void LL_PKA_WriteSingleInput( uint32_t index,  int size, const uint32_t* word )
+{
+  /* Write the single word into PKA RAM */
+  for(int i=0; i<size; i++)
+  {
+    PKA_RAM->RAM[index++] = *word++;
+  }
+}
+
+#elif defined CONFIG_DEVICE_BLUENRG_LPS
 
 void LL_PKA_WriteSingleInput( uint32_t index, uint32_t word )
 {
@@ -180,7 +191,22 @@ void LL_PKA_WriteSingleInput( uint32_t index, uint32_t word )
 
 #endif
 
-#if defined CONFIG_DEVICE_BLUENRG_LPS
+#if defined CONFIG_DEVICE_BLUENRG_LPF
+
+void LL_PKA_WriteOperand( uint32_t index, int size, const uint32_t* in )
+{
+  uint32_t* pka_ram = (uint32_t*)&PKA_RAM->RAM[index];
+  /* Write the input data into PKA RAM */
+  for ( ; size > 0; size-- )
+  {
+    *pka_ram++ = *in++;
+  }
+  /* Write extra zeros into PKA RAM */
+  *pka_ram++ = 0;
+  *pka_ram = 0;
+}
+
+#elif defined CONFIG_DEVICE_BLUENRG_LPS
 
 void LL_PKA_WriteOperand( uint32_t index, int size, const uint32_t* in )
 {
@@ -207,7 +233,20 @@ void LL_PKA_ReadResult( uint32_t index, int size, uint32_t* out )
 }
 
 
-#if defined CONFIG_DEVICE_BLUENRG_LPS
+#if defined CONFIG_DEVICE_BLUENRG_LPF
+
+/** 
+  * @brief  
+  * @param  index PKA RAM index at 32 bit
+  * @param  out   must be 64bit
+  * 
+  */
+void LL_PKA_ReadSingleOutput( uint32_t index, uint32_t* out)
+{
+  LL_PKA_ReadResult(index, 2, out);
+}
+
+#elif defined CONFIG_DEVICE_BLUENRG_LPS
 
 /** 
   * @brief  

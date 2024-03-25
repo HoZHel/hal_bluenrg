@@ -36,6 +36,7 @@
  *     RTC, 
  *     IWDG, 
  *     LPUART (BlueNRG-LPS),
+ *     LPUART, LCD, COMP (SPIRIT3), 
  *     radio IP and the Hal Virtual Timers.
  * - POWER_SAVE_LEVEL_STOP_NOTIMER
  *     The device is in deep sleep. All the peripherals and clock sources are turned off.
@@ -48,7 +49,7 @@ typedef enum {
   POWER_SAVE_LEVEL_STOP_NOTIMER     = 3
 } PowerSaveLevels; 
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /** @brief Wakeup source RTC Mask */
 #define WAKEUP_RTC LL_PWR_EWS_INT
 
@@ -176,6 +177,124 @@ typedef enum {
 #define WAKEUP_PB0  LL_PWR_EWS_EW0
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/** @brief Wakeup source LPUART Mask */
+#define WAKEUP_LPU LL_PWR_EWS_LPUART
+
+/** @brief Wakeup source RTC Mask */
+#define WAKEUP_RTC LL_PWR_EWS_RTC
+
+/** @brief Wakeup source LCD Mask */
+#define WAKEUP_LCD LL_PWR_EWS_LCD
+
+/** @brief Wakeup source COMP Mask */
+#define WAKEUP_COMP LL_PWR_EWS_COMP
+
+/** @brief Wakeup source MR_SUBG Host Timer Mask */
+#define WAKEUP_MRSUBG_HOST_TIMER LL_PWR_EWS_SUBGHOST
+
+/** @brief Wakeup source MR_SUBG Mask */
+#define WAKEUP_MRSUBG LL_PWR_EWS_SUBG
+
+/** @brief Wakeup source LPAWUR Mask */
+#define WAKEUP_LPAWUR LL_PWR_EWS_LPAWUR
+
+/** @brief Wakeup source PA15 Mask */
+#define WAKEUP_PA15 LL_PWR_EWS_IO15
+
+/** @brief Wakeup source PA14 Mask */
+#define WAKEUP_PA14 LL_PWR_EWS_IO14
+
+/** @brief Wakeup source PA13 Mask */
+#define WAKEUP_PA13 LL_PWR_EWS_IO13
+
+/** @brief Wakeup source PA12 Mask */
+#define WAKEUP_PA12 LL_PWR_EWS_IO12
+
+/** @brief Wakeup source PA11 Mask */
+#define WAKEUP_PA11 LL_PWR_EWS_IO11
+
+/** @brief Wakeup source PA10 Mask */
+#define WAKEUP_PA10 LL_PWR_EWS_IO10
+
+/** @brief Wakeup source PA9 Mask */
+#define WAKEUP_PA9  LL_PWR_EWS_IO9
+
+/** @brief Wakeup source PA8 Mask */
+#define WAKEUP_PA8  LL_PWR_EWS_IO8
+
+/** @brief Wakeup source PA7 Mask */
+#define WAKEUP_PA7 LL_PWR_EWS_IO7
+
+/** @brief Wakeup source PA6 Mask */
+#define WAKEUP_PA6 LL_PWR_EWS_IO6
+
+/** @brief Wakeup source PA5 Mask */
+#define WAKEUP_PA5 LL_PWR_EWS_IO5
+
+/** @brief Wakeup source PA4 Mask */
+#define WAKEUP_PA4 LL_PWR_EWS_IO4
+
+/** @brief Wakeup source PA3 Mask */
+#define WAKEUP_PA3 LL_PWR_EWS_IO3
+
+/** @brief Wakeup source PA2 Mask */
+#define WAKEUP_PA2 LL_PWR_EWS_IO2
+
+/** @brief Wakeup source PA1 Mask */
+#define WAKEUP_PA1 LL_PWR_EWS_IO1
+
+/** @brief Wakeup source PA0 Mask */
+#define WAKEUP_PA0 LL_PWR_EWS_IO0
+
+/** @brief Wakeup source PB15 Mask */
+#define WAKEUP_PB15 (LL_PWR_EWS_IO15 << 16)
+
+/** @brief Wakeup source PB14 Mask */
+#define WAKEUP_PB14 (LL_PWR_EWS_IO14 << 16)
+
+/** @brief Wakeup source PB13 Mask */
+#define WAKEUP_PB13 (LL_PWR_EWS_IO13 << 16)
+
+/** @brief Wakeup source PB12 Mask */
+#define WAKEUP_PB12 (LL_PWR_EWS_IO12 << 16)
+
+/** @brief Wakeup source PB11 Mask */
+#define WAKEUP_PB11 (LL_PWR_EWS_IO11 << 16)
+
+/** @brief Wakeup source PB10 Mask */
+#define WAKEUP_PB10 (LL_PWR_EWS_IO10 << 16)
+
+/** @brief Wakeup source PB9 Mask */
+#define WAKEUP_PB9 (LL_PWR_EWS_IO9 << 16)
+
+/** @brief Wakeup source PB8 Mask */
+#define WAKEUP_PB8 (LL_PWR_EWS_IO8 << 16)
+
+/** @brief Wakeup source PB7 Mask */
+#define WAKEUP_PB7  (LL_PWR_EWS_IO7 << 16)
+
+/** @brief Wakeup source PB6 Mask */
+#define WAKEUP_PB6  (LL_PWR_EWS_IO6 << 16)
+
+/** @brief Wakeup source PB5 Mask */
+#define WAKEUP_PB5  (LL_PWR_EWS_IO5 << 16)
+
+/** @brief Wakeup source PB4 Mask */
+#define WAKEUP_PB4  (LL_PWR_EWS_IO4 << 16)
+
+/** @brief Wakeup source PB3 Mask */
+#define WAKEUP_PB3  (LL_PWR_EWS_IO3 << 16)
+
+/** @brief Wakeup source PB2 Mask */
+#define WAKEUP_PB2  (LL_PWR_EWS_IO2 << 16)
+
+/** @brief Wakeup source PB1 Mask */
+#define WAKEUP_PB1  (LL_PWR_EWS_IO1 << 16)
+
+/** @brief Wakeup source PB0 Mask */
+#define WAKEUP_PB0  (LL_PWR_EWS_IO0 << 16)
+#endif
 
 /** @brief No Wakeup source Mask */
 #define NO_WAKEUP_SOURCE  0x00000000
@@ -189,6 +308,14 @@ typedef enum {
 typedef struct {
   uint8_t  RTC_enable;            /*!< Specifies if the RTC wakeup source is enabled or not */
   uint8_t  LPU_enable;            /*!< Specifies if the LPUART wakeup source is enabled or not */
+#if defined(CONFIG_DEVICE_SPIRIT3)
+  uint8_t  LPAWUR_enable;         /*!< Specifies if the LPAWUR wakeup source is enabled or not */
+  uint8_t  LCD_enable;            /*!< Specifies if the LCD wakeup source is enabled or not */
+  uint8_t  LCSC_enable;           /*!< Specifies if the LCSC wakeup source is enabled or not */
+  uint8_t  COMP_enable;           /*!< Specifies if the COMP wakeup source is enabled or not */
+  uint32_t COMP_polarity;         /*!< Speicifes wakeup polarity for internal wakeup line 3 event (COMP)
+                                       possible values are: LL_PWR_WUP_RISIEDG, LL_PWR_WUP_FALLEDG */
+#endif
   uint32_t IO_Mask_Low_polarity;  /*!< This bitmask specifies which IO are configured to wakeup and getout from STOP level 
                                        with low polarity, that is detection of wakeup event on falling edge. 
                                        NOTE: If not used SHALL be init to zero */
@@ -242,12 +369,35 @@ uint8_t HAL_PWR_MNGR_Request(PowerSaveLevels level, WakeupSourceConfig_TypeDef w
  * @retval ERROR if for some reason the device not allow the Shutdown mode.
  *
  * Note: The application never read SUCCESS like return value because a POR happens at wakeup. 
+ * The IO_wakeup_enabled and IO_wakeup_polarity parameters are valid only for SPIRIT3 and BlueNRG-LPF devices.
  */
 uint8_t HAL_PWR_MNGR_ShutdownRequest(uint8_t BOR_enabled
+#if defined(CONFIG_DEVICE_SPIRIT3) || defined(CONFIG_DEVICE_BLUENRG_LPF)
+                                     , uint8_t IO_wakeup_enabled, uint8_t IO_wakeup_polarity
+#endif
                                      );
 
+#if defined(CONFIG_DEVICE_SPIRIT3) || defined(CONFIG_DEVICE_BLUENRG_LPF)
+/** 
+ * @brief This function returns if the shutdown reset happens from PB0 wakeup.
+ *
+ * @param None
+ *
+ * @retval True if the shutdown wakeup happen from PB0, False otherwise.
+ */
+uint32_t HAL_PWR_MNGR_ShutdownWakeupSource(void);
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+/** 
+ * @brief This function clears the shutdown wakeup reset flag.
+ *
+ * @param None
+ *
+ * @retval None
+ */
+void HAL_PWR_MNGR_ClearShutdownWakeupSource(void);
+#endif
+
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
  * @brief Return the wakeup source from power save.
  * @retval The return value can be a combination of the following values:
@@ -336,6 +486,106 @@ uint32_t HAL_PWR_MNGR_WakeupSource(void);
  * @note   Refer the wakeup source declaration to see if are supported from the device
  */ 
 void HAL_PWR_MNGR_ClearWakeupSource(uint32_t source);
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+ * @brief Return the wakeup source from power save.
+ * @param IO The return value can be a combination of the following values:
+ *         - WAKEUP_PA15
+ *         - WAKEUP_PA14
+ *         - WAKEUP_PA13
+ *         - WAKEUP_PA12
+ *         - WAKEUP_PA11
+ *         - WAKEUP_PA10
+ *         - WAKEUP_PA9
+ *         - WAKEUP_PA8
+ *         - WAKEUP_PA7
+ *         - WAKEUP_PA6
+ *         - WAKEUP_PA5
+ *         - WAKEUP_PA4
+ *         - WAKEUP_PA3
+ *         - WAKEUP_PA2
+ *         - WAKEUP_PA1
+ *         - WAKEUP_PA0
+ *         - WAKEUP_PB15
+ *         - WAKEUP_PB14
+ *         - WAKEUP_PB13
+ *         - WAKEUP_PB12
+ *         - WAKEUP_PB11
+ *         - WAKEUP_PB10
+ *         - WAKEUP_PB9
+ *         - WAKEUP_PB8
+ *         - WAKEUP_PB7
+ *         - WAKEUP_PB6
+ *         - WAKEUP_PB5
+ *         - WAKEUP_PB4
+ *         - WAKEUP_PB3
+ *         - WAKEUP_PB2
+ *         - WAKEUP_PB1
+ *         - WAKEUP_PB0
+ *         - NO_WAKEUP_SOURCE (for any reason the device has not activated the DEEPSTOP level)
+ * @param Internal The return value can be a combination of the following values:
+ *         - WAKEUP_RTC
+ *         - WAKEUP_LPU
+ *         - WAKEUP_LCD
+ *         - WAKEUP_COMP
+ *         - WAKEUP_MRSUBG_HOST_TIMER
+ *         - WAKEUP_MRSUBG
+ *         - WAKEUP_LPAWUR
+ *         - NO_WAKEUP_SOURCE (for any reason the device has not activated the DEEPSTOP level)
+ * @note   Refer the wakeup source declaration to see if are supported from the device
+ */ 
+void HAL_PWR_MNGR_WakeupSource(uint32_t *IO, uint32_t *Internal);
+
+/**
+ * @brief Clear the wakeup source information.
+ * @param IO Wakeup source to clear, the parameter can be a combination of the following values:
+ *        - WAKEUP_PA15
+ *        - WAKEUP_PA14
+ *        - WAKEUP_PA13
+ *        - WAKEUP_PA12
+ *        - WAKEUP_PA11
+ *        - WAKEUP_PA10
+ *        - WAKEUP_PA9
+ *        - WAKEUP_PA8
+ *        - WAKEUP_PA7
+ *        - WAKEUP_PA6
+ *        - WAKEUP_PA5
+ *        - WAKEUP_PA4
+ *        - WAKEUP_PA3
+ *        - WAKEUP_PA2
+ *        - WAKEUP_PA1
+ *        - WAKEUP_PA0
+ *        - WAKEUP_PB15
+ *        - WAKEUP_PB14
+ *        - WAKEUP_PB13
+ *        - WAKEUP_PB12
+ *        - WAKEUP_PB11
+ *        - WAKEUP_PB10
+ *        - WAKEUP_PB9
+ *        - WAKEUP_PB8
+ *        - WAKEUP_PB7
+ *        - WAKEUP_PB6
+ *        - WAKEUP_PB5
+ *        - WAKEUP_PB4
+ *        - WAKEUP_PB3
+ *        - WAKEUP_PB2
+ *        - WAKEUP_PB1
+ *        - WAKEUP_PB0
+ *        - ALL_WAKEUP_SOURCE
+ * @param Internal Wakeup source to clear, the parameter can be a combination of the following values:
+ *        - WAKEUP_RTC
+ *        - WAKEUP_LPU
+ *        - WAKEUP_LCD
+ *        - WAKEUP_COMP
+ *        - WAKEUP_MRSUBG_HOST_TIMER
+ *        - WAKEUP_MRSUBG
+ *        - WAKEUP_LPAWUR
+ *        - ALL_WAKEUP_SOURCE
+ * @retval None
+ * @note   Refer the wakeup source declaration to see if are supported from the device
+ */ 
+void HAL_PWR_MNGR_ClearWakeupSource(uint32_t IO, uint32_t Internal);
 #endif
 
 /**

@@ -26,8 +26,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -103,7 +106,7 @@ extern "C" {
 /** @defgroup PWR_LL_EW_SOURCE Enable Wakeup Source
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_PWR_EWS_ALL            0xFFFFFFFF                /* Enable all the wakeup source                   */
 #define LL_PWR_EWS_INT            PWR_CR3_EIWL              /* Enable wakeup on Internal event (RTC)          */
 #if defined(PWR_CR3_EIWL2)
@@ -157,6 +160,34 @@ extern "C" {
 #define LL_PWR_EWS_EW12           (PWR_CR6_EWU12 << 16)     /* Enable wakeup on PA0 I/O event                 */
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_PWR_EWS_ALL           0x0000FFFF              /*!< Enable all the wakeup source                    */
+#define LL_PWR_EWS_IO0          (uint32_t)(1U << 0U)     /*!< Enable the wakeup source IO0                    */
+#define LL_PWR_EWS_IO1          (uint32_t)(1U << 1U)     /*!< Enable the wakeup source IO1                    */
+#define LL_PWR_EWS_IO2          (uint32_t)(1U << 2U)     /*!< Enable the wakeup source IO2                    */
+#define LL_PWR_EWS_IO3          (uint32_t)(1U << 3U)     /*!< Enable the wakeup source IO3                    */
+#define LL_PWR_EWS_IO4          (uint32_t)(1U << 4U)     /*!< Enable the wakeup source IO4                    */
+#define LL_PWR_EWS_IO5          (uint32_t)(1U << 5U)     /*!< Enable the wakeup source IO5                    */
+#define LL_PWR_EWS_IO6          (uint32_t)(1U << 6U)     /*!< Enable the wakeup source IO6                    */
+#define LL_PWR_EWS_IO7          (uint32_t)(1U << 7U)     /*!< Enable the wakeup source IO7                    */
+#define LL_PWR_EWS_IO8          (uint32_t)(1U << 8U)     /*!< Enable the wakeup source IO8                    */
+#define LL_PWR_EWS_IO9          (uint32_t)(1U << 9U)     /*!< Enable the wakeup source IO9                    */
+#define LL_PWR_EWS_IO10         (uint32_t)(1U << 10U)    /*!< Enable the wakeup source IO10                   */
+#define LL_PWR_EWS_IO11         (uint32_t)(1U << 11U)    /*!< Enable the wakeup source IO11                   */
+#define LL_PWR_EWS_IO12         (uint32_t)(1U << 12U)    /*!< Enable the wakeup source IO12                   */
+#define LL_PWR_EWS_IO13         (uint32_t)(1U << 13U)    /*!< Enable the wakeup source IO13                   */
+#define LL_PWR_EWS_IO14         (uint32_t)(1U << 14U)    /*!< Enable the wakeup source IO14                   */
+#define LL_PWR_EWS_IO15         (uint32_t)(1U << 15U)    /*!< Enable the wakeup source IO15                   */
+
+#define LL_PWR_EWS_LPAWUR       PWR_IEWU_EWLPAWUR        /* Enable wakeup on LPAWUR RFIP event                */
+#define LL_PWR_EWS_SUBG         PWR_IEWU_EWMRSUBG        /* Enable wakeup on MRSUBG RFIP event                */
+#define LL_PWR_EWS_SUBGHOST     PWR_IEWU_EWMRSUBGHCPU    /* Enable wakeup on MRSUBG Host CPU event            */
+#define LL_PWR_EWS_LCSC         PWR_IEWU_EIWL4           /* Enable wakeup on internal event (LCSC)            */
+#define LL_PWR_EWS_COMP         PWR_IEWU_EIWL3           /* Enable wakeup on internal event (COMP)            */
+#define LL_PWR_EWS_LCD          PWR_IEWU_EIWL2           /* Enable wakeup on internal event (LCD)             */
+#define LL_PWR_EWS_RTC          PWR_IEWU_EIWL1           /* Enable wakeup on internal event (RTC)             */
+#define LL_PWR_EWS_LPUART       PWR_IEWU_EIWL0           /* Enable wakeup on internal event (LPUART)          */
+#endif
 /**
   * @}
   */
@@ -277,7 +308,7 @@ extern "C" {
 /** @defgroup PWR_LL_EC_SMPS_OUTLVL SMPS Output Level
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_PWR_SMPS_OUTLVL_1V2               (0x000000000U)
 #define LL_PWR_SMPS_OUTLVL_1V25              (PWR_CR5_SMPSLVL_0)
 #define LL_PWR_SMPS_OUTLVL_1V3               (PWR_CR5_SMPSLVL_1)
@@ -296,6 +327,21 @@ extern "C" {
 #define LL_PWR_SMPS_OUTLVL_1V95              (PWR_CR5_SMPSLVL)
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_PWR_SMPS_OUTLVL_1V20              (                                                                   0x00000000U )     /*!< 0000: 1.20V (min VBAT = 1.95V)           */
+#define LL_PWR_SMPS_OUTLVL_1V30              (                                         PWR_CR5_SMPSLVL_1 | PWR_CR5_SMPSLVL_0 )     /*!< 0011: 1.30V (min VBAT = 1.95V)           */
+#define LL_PWR_SMPS_OUTLVL_1V40              (                     PWR_CR5_SMPSLVL_2                                         )     /*!< 0100: 1.40V (min VBAT = 1.95V) (default) */
+#define LL_PWR_SMPS_OUTLVL_1V50              (                     PWR_CR5_SMPSLVL_2 |                     PWR_CR5_SMPSLVL_0 )     /*!< 0101: 1.50V (min VBAT = 1.95V)           */
+#define LL_PWR_SMPS_OUTLVL_1V60              (                     PWR_CR5_SMPSLVL_2 | PWR_CR5_SMPSLVL_1                     )     /*!< 0110: 1.60V (min VBAT = 1.95V)           */
+#define LL_PWR_SMPS_OUTLVL_1V70              (                     PWR_CR5_SMPSLVL_2 | PWR_CR5_SMPSLVL_1 | PWR_CR5_SMPSLVL_0 )     /*!< 0111: 1.70V (min VBAT = 2V)              */
+#define LL_PWR_SMPS_OUTLVL_1V80              ( PWR_CR5_SMPSLVL_3                                                             )     /*!< 1000: 1.80V (min VBAT = 2.1V)            */
+#define LL_PWR_SMPS_OUTLVL_1V90              ( PWR_CR5_SMPSLVL_3 |                                         PWR_CR5_SMPSLVL_0 )     /*!< 1001: 1.90V (min VBAT = 2.2V)            */
+#define LL_PWR_SMPS_OUTLVL_2V00              ( PWR_CR5_SMPSLVL_3 |                     PWR_CR5_SMPSLVL_1                     )     /*!< 1010: 2V (min VBAT = 2.3V)               */
+#define LL_PWR_SMPS_OUTLVL_2V10              ( PWR_CR5_SMPSLVL_3 |                     PWR_CR5_SMPSLVL_1 | PWR_CR5_SMPSLVL_0 )     /*!< 1011: 2.1V (min VBAT = 2.4V)             */
+#define LL_PWR_SMPS_OUTLVL_2V20              ( PWR_CR5_SMPSLVL_3 | PWR_CR5_SMPSLVL_2                                         )     /*!< 1100: 2.2V (min VBAT = 2.5V)             */
+#define LL_PWR_SMPS_OUTLVL_2V30              ( PWR_CR5_SMPSLVL_3 | PWR_CR5_SMPSLVL_2 |                     PWR_CR5_SMPSLVL_0 )     /*!< 1101: 2.3V (min VBAT = 2.6V)             */
+#define LL_PWR_SMPS_OUTLVL_2V40              ( PWR_CR5_SMPSLVL_3 | PWR_CR5_SMPSLVL_2 | PWR_CR5_SMPSLVL_1 | PWR_CR5_SMPSLVL_0 )     /*!< 1111: 2.4V (min VBAT = 2.7V)             */
+#endif
 /**
   * @}
   */
@@ -544,7 +590,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledTempSens(void)
   * @arg LL_PWR_RAMRET_2
   * @arg LL_PWR_RAMRET_3
   * @retval None
-  * @note   For BlueNRG-LPS  devices only LL_PWR_RAMRET_1 is valid
+  * @note   For BlueNRG-LPS and SPIRIT3 devices only LL_PWR_RAMRET_1 is valid
   */
 __STATIC_INLINE void LL_PWR_EnableRAMBankRet(uint32_t banks)
 {
@@ -558,7 +604,7 @@ __STATIC_INLINE void LL_PWR_EnableRAMBankRet(uint32_t banks)
   * @arg LL_PWR_RAMRET_1
   * @arg LL_PWR_RAMRET_2
   * @arg LL_PWR_RAMRET_3
-  * @note   For BlueNRG-LPS  devices only LL_PWR_RAMRET_1 is valid 
+  * @note   For BlueNRG-LPS and SPIRIT3 devices only LL_PWR_RAMRET_1 is valid 
   */
 __STATIC_INLINE uint32_t LL_PWR_GetRAMBankRet(void)
 {
@@ -582,6 +628,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetRAMBankRet(void)
   * @arg LL_PWR_RAMRET_2
   * @arg LL_PWR_RAMRET_3
   * @retval None
+  * @note   For BlueNRG-LPS ans SPIRIT3 devices only LL_PWR_RAMRET_1 is valid 
   */
 __STATIC_INLINE void LL_PWR_DisableRAMBankRet(uint32_t banks)
 {
@@ -655,7 +702,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetPVDLevel(void)
   return (uint32_t)(READ_BIT(PWR->CR2, PWR_CR2_PVDLS));
 }
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief  Enable Wakeup Source to get out of DEEPSTOP mode.
   * @rmtoll CR3/CR6               LL_PWR_EnableWakeupSource
@@ -695,7 +742,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetPVDLevel(void)
   * @retval None
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
   *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for
-  *         BlueNRG-LPS.
+  *         BlueNRG-LPS and BlueNRG-LPF.
   *         LL_PWR_EWS_INT2 is not valid for BlueNRG-LP device.
   */
 __STATIC_INLINE void LL_PWR_EnableWakeupSource(uint32_t wakeup_sources)
@@ -742,7 +789,7 @@ __STATIC_INLINE void LL_PWR_EnableWakeupSource(uint32_t wakeup_sources)
   * @retval None
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
   *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for
-  *         BlueNRG-LPS.
+  *         BlueNRG-LPS and BlueNRG-LPF.
   *         LL_PWR_EWS_INT2 is not valid for BlueNRG-LP device.
   */
 __STATIC_INLINE void LL_PWR_DisableWakeupSource(uint32_t wakeup_sources)
@@ -790,7 +837,7 @@ __STATIC_INLINE void LL_PWR_DisableWakeupSource(uint32_t wakeup_sources)
   * @retval State of bit (1 or 0).
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
   *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for
-  *         BlueNRG-LPS.
+  *         BlueNRG-LPS and BlueNRG-LPF.
   *         LL_PWR_EWS_INT2 is not valid for BlueNRG-LP device.
   */
 __STATIC_INLINE uint32_t LL_PWR_IsEnabledWakeupSource(uint32_t wakeup_sources)
@@ -836,7 +883,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledWakeupSource(uint32_t wakeup_sources)
   * @arg LL_PWR_WUP_FALLEDG 
   * @retval None
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
-  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS.
+  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_SetWakeupIOPolarity(uint32_t IO, uint32_t polarity)
 {
@@ -886,7 +933,7 @@ __STATIC_INLINE void LL_PWR_SetWakeupIOPolarity(uint32_t IO, uint32_t polarity)
   * @arg LL_PWR_WUP_RISIEDG 
   * @arg LL_PWR_WUP_FALLEDG 
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
-  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS.
+  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE uint32_t LL_PWR_GetWakeupIOPolarity(uint32_t IO)
 {
@@ -935,7 +982,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetWakeupIOPolarity(uint32_t IO)
   * @arg LL_PWR_EWS_EW1     
   * @arg LL_PWR_EWS_EW0
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
-  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS devices. 
+  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS and BlueNRG-LPF devices. 
   *         LL_PWR_EWS_INT2 is not valid for BlueNRG-LP device.
   */
 __STATIC_INLINE uint32_t LL_PWR_GetWakeupSource(void)
@@ -986,7 +1033,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetWakeupSource(void)
   * @arg LL_PWR_EWS_ALL
   * @retval None
   * @note   LL_PWR_EWS_EW20, LL_PWR_EWS_EW21, LL_PWR_EWS_EW22, LL_PWR_EWS_EW23, LL_PWR_EWS_EW24, 
-  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS devices. 
+  *         LL_PWR_EWS_EW25, LL_PWR_EWS_EW26 and LL_PWR_EWS_EW27 are not valid for BlueNRG-LPS and BlueNRG-LPF devices. 
   *         LL_PWR_EWS_INT2 is not valid for BlueNRG-LP device.
   */
 __STATIC_INLINE void LL_PWR_ClearWakeupSource(uint32_t source)
@@ -996,6 +1043,384 @@ __STATIC_INLINE void LL_PWR_ClearWakeupSource(uint32_t source)
 }
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief  Enable IO Wakeup Source to get out of DEEPSTOP mode.
+  * @rmtoll EWUA/EWUB        LL_PWR_EnableIOWakeupSource
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  wakeup_sources Enable the wakeup sources. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_EnableIOWakeupSource(uint32_t port, uint32_t wakeup_sources)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    SET_BIT(PWR->EWUA, (wakeup_sources & 0x0000FFFF));
+  } else {
+    SET_BIT(PWR->EWUB, (wakeup_sources & 0x0000FFFF));
+  }
+}
+
+/**
+  * @brief  Disable IO Wakeup Source to get out of DEEPSTOP mode.
+  * @rmtoll EWUA/EWUB        LL_PWR_DisableIOWakeupSource
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  wakeup_sources Disable the wakeup sources. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_DisableIOWakeupSource(uint32_t port, uint32_t wakeup_sources)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    CLEAR_BIT(PWR->EWUA, (wakeup_sources & 0x0000FFFF));
+  } else {
+    CLEAR_BIT(PWR->EWUB, (wakeup_sources & 0x0000FFFF));
+  }
+}
+
+/**
+  * @brief  Is IO Wakeup Source enabled.
+  * @rmtoll EWUA/EWUB        LL_PWR_IsEnabledIOWakeupSource
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  wakeup_sources Wakeup sources enabled. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_PWR_IsEnabledIOWakeupSource(uint32_t port, uint32_t wakeup_sources)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    return ((READ_BIT(PWR->EWUA, (wakeup_sources & 0x0000FFFF)) ==  (wakeup_sources & 0x0000FFFF)) ? 1UL : 0UL);
+  } else {
+    return ((READ_BIT(PWR->EWUB, (wakeup_sources & 0x0000FFFF)) ==  (wakeup_sources & 0x0000FFFF)) ? 1UL : 0UL);
+  }
+}
+
+/**
+  * @brief  Set the polarity for the I/Os wakeup sources.
+  * @rmtoll WUPA/WUPB              LL_PWR_SetWakeupIOPolarity
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  IO IO wakeup sources to configure. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  * @param  polarity IO polarity to configure. This parameter can be one of the following values:
+  * @arg LL_PWR_WUP_RISIEDG 
+  * @arg LL_PWR_WUP_FALLEDG 
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_SetWakeupIOPolarity(uint32_t port, uint32_t IO, uint32_t polarity)
+{
+  if (polarity == LL_PWR_WUP_FALLEDG)
+  {
+    if (port == LL_PWR_EWS_PORTA) {
+      SET_BIT(PWR->WUPA, (IO & 0x0000FFFF));
+    } else {
+      SET_BIT(PWR->WUPB, (IO & 0x0000FFFF));
+    }
+  } else {
+    if (port == LL_PWR_EWS_PORTA) {
+      CLEAR_BIT(PWR->WUPA, (IO & 0x0000FFFF));
+    } else {
+      CLEAR_BIT(PWR->WUPB, (IO & 0x0000FFFF));
+    }
+  }
+}
+
+/**
+  * @brief  Get the polarity for the I/Os wakeup sources.
+  * @rmtoll WUPA/WUPB              LL_PWR_GetWakeupIOPolarity
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  IO IO wakeup sources configured. This parameter can be a one of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  * @retval The IO polarity to configure. This parameter can be one of the following values:
+  * @arg LL_PWR_WUP_RISIEDG 
+  * @arg LL_PWR_WUP_FALLEDG 
+  */
+__STATIC_INLINE uint32_t  LL_PWR_GetWakeupIOPolarity(uint32_t port, uint32_t IO)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    return (uint32_t)((READ_BIT(PWR->WUPA, (IO & 0x0000FFFF))) ? 1UL : 0UL);
+  } else {
+    return (uint32_t)((READ_BIT(PWR->WUPB, (IO & 0x0000FFFF))) ? 1UL : 0UL);
+  }
+}
+
+/**
+  * @brief  Get which IO source woken up the device after a DEEPSTOP.
+  * @rmtoll WUFA/WUFB               LL_PWR_GetIOWakeupSource
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @retval Wakeup IO Source from DEEPSTOP. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  */
+__STATIC_INLINE uint32_t LL_PWR_GetIOWakeupSource(uint32_t port)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    return (uint32_t)(READ_REG(PWR->WUFA) & 0x0000FFFF);
+  } else {
+    return (uint32_t)(READ_REG(PWR->WUFB) & 0x0000FFFF);
+  }
+}
+
+/**
+  * @brief  Clear the source that woken up the device after a DEEPSTOP.
+  * @rmtoll WUFA/WUFB              LL_PWR_ClearIOWakeupSource
+  * @param  port IO port to get out of DEEPSTOP mode. This parameter can be one of the following values:
+  * @arg LL_PWR_EWS_PORTA
+  * @arg LL_PWR_EWS_PORTB
+  * @param  IO Wakeup IO Source from DEEPSTOP. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_IO0
+  * @arg LL_PWR_EWS_IO1
+  * @arg LL_PWR_EWS_IO2
+  * @arg LL_PWR_EWS_IO3
+  * @arg LL_PWR_EWS_IO4
+  * @arg LL_PWR_EWS_IO5
+  * @arg LL_PWR_EWS_IO6
+  * @arg LL_PWR_EWS_IO7
+  * @arg LL_PWR_EWS_IO8
+  * @arg LL_PWR_EWS_IO9
+  * @arg LL_PWR_EWS_IO10
+  * @arg LL_PWR_EWS_IO11
+  * @arg LL_PWR_EWS_IO12
+  * @arg LL_PWR_EWS_IO13
+  * @arg LL_PWR_EWS_IO14
+  * @arg LL_PWR_EWS_IO15
+  */
+__STATIC_INLINE void LL_PWR_ClearIOWakeupSource(uint32_t port, uint32_t IO)
+{
+  if (port == LL_PWR_EWS_PORTA) {
+    WRITE_REG(PWR->WUFA, (IO & 0x0000FFFF));
+  } else {
+    WRITE_REG(PWR->WUFB, (IO & 0x0000FFFF));
+  }
+}
+
+/**
+  * @brief  Enable Internal Wakeup Source to get out of DEEPSTOP mode.
+  * @rmtoll IEWU             LL_PWR_EnableInternalWakeupSource
+  * @param  wakeup_sources Enable the internal wakeup sources. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_LPAWUR
+  * @arg LL_PWR_EWS_SUBG
+  * @arg LL_PWR_EWS_SUBGHOST
+  * @arg LL_PWR_EWS_LCSC
+  * @arg LL_PWR_EWS_COMP
+  * @arg LL_PWR_EWS_LCD
+  * @arg LL_PWR_EWS_RTC
+  * @arg LL_PWR_EWS_LPUART
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_EnableInternalWakeupSource(uint32_t wakeup_sources)
+{
+  SET_BIT(PWR->IEWU, (wakeup_sources & 0x0000FFFF));
+}
+
+/**
+  * @brief  Disable Internal Wakeup Source to get out of DEEPSTOP mode.
+  * @rmtoll IEWU            LL_PWR_DisableInternalWakeupSource
+  * @param  wakeup_sources Disable the internal wakeup sources. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_LPAWUR
+  * @arg LL_PWR_EWS_SUBG
+  * @arg LL_PWR_EWS_SUBGHOST
+  * @arg LL_PWR_EWS_LCSC
+  * @arg LL_PWR_EWS_COMP
+  * @arg LL_PWR_EWS_LCD
+  * @arg LL_PWR_EWS_RTC
+  * @arg LL_PWR_EWS_LPUART
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_DisableInternalWakeupSource(uint32_t wakeup_sources)
+{
+  CLEAR_BIT(PWR->IEWU, (wakeup_sources & 0x0000FFFF));
+}
+
+/**
+  * @brief  Is Internal Wakeup Source enabled.
+  * @rmtoll IEWU         LL_PWR_IsEnabledInternalWakeupSource
+  * @param  wakeup_sources Wakeup sources enabled. This parameter can be a one the following values:
+  * @arg LL_PWR_EWS_LPAWUR
+  * @arg LL_PWR_EWS_SUBG
+  * @arg LL_PWR_EWS_SUBGHOST
+  * @arg LL_PWR_EWS_LCSC
+  * @arg LL_PWR_EWS_COMP
+  * @arg LL_PWR_EWS_LCD
+  * @arg LL_PWR_EWS_RTC
+  * @arg LL_PWR_EWS_LPUART
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_PWR_IsEnabledInternalWakeupSource(uint32_t wakeup_sources)
+{
+  return ((READ_BIT(PWR->IEWU, (wakeup_sources & 0x0000FFFF)) ==  (wakeup_sources & 0x0000FFFF)) ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Set the polarity for the Internal wakeup sources.
+  * @rmtoll IWUP               LL_PWR_SetWakeupInternalPolarity
+  * @param  wakeup_sources Internal wakeup sources to configure. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_COMP
+  * @param  polarity Internal polarity to configure. This parameter can be one of the following values:
+  * @arg LL_PWR_WUP_RISIEDG 
+  * @arg LL_PWR_WUP_FALLEDG 
+  * @retval None
+  */
+__STATIC_INLINE void LL_PWR_SetWakeupInternalPolarity(uint32_t wakeup_sources, uint32_t polarity)
+{
+  if (polarity == LL_PWR_WUP_FALLEDG)
+  {
+    SET_BIT(PWR->IWUP, (wakeup_sources & 0x0000FFFF));
+  } else {
+    CLEAR_BIT(PWR->IWUP, (wakeup_sources & 0x0000FFFF));
+  }
+}
+
+/**
+  * @brief  Get the polarity for the Internal wakeup sources.
+  * @rmtoll IWUP                 LL_PWR_GetWakeupInternalPolarity
+  * @param  wakeup_sources Internal wakeup sources configured. This parameter can be a one of the following values:
+  * @arg LL_PWR_EWS_COMP
+  * @retval The Internal polarity configured. This parameter can be one of the following values:
+  * @arg LL_PWR_WUP_RISIEDG 
+  * @arg LL_PWR_WUP_FALLEDG 
+  */
+__STATIC_INLINE uint32_t  LL_PWR_GetWakeupInternalPolarity(uint32_t wakeup_sources)
+{
+  return (uint32_t)((READ_BIT(PWR->IWUP, (wakeup_sources & 0x0000FFFF))) ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Get which Internal source woken up the device after a DEEPSTOP.
+  * @rmtoll IWUF                LL_PWR_GetInternalWakeupSource
+  * @retval Internal Wakeup Source from DEEPSTOP. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_LPAWUR
+  * @arg LL_PWR_EWS_SUBG
+  * @arg LL_PWR_EWS_SUBGHOST
+  * @arg LL_PWR_EWS_LCSC
+  * @arg LL_PWR_EWS_COMP
+  * @arg LL_PWR_EWS_LCD
+  * @arg LL_PWR_EWS_RTC
+  * @arg LL_PWR_EWS_LPUART
+  */
+__STATIC_INLINE uint32_t LL_PWR_GetInternalWakeupSource(void)
+{
+  return (uint32_t)(READ_REG(PWR->IWUF) & 0x0000FFFF);
+}
+
+/**
+  * @brief  Clear the Internal source that woken up the device after a DEEPSTOP.
+  * @rmtoll IWUF                 LL_PWR_ClearInternalWakeupSource
+  * @param  wakeup_sources Internal Wakeup Source from DEEPSTOP. This parameter can be a combination of the following values:
+  * @arg LL_PWR_EWS_LPAWUR
+  * @arg LL_PWR_EWS_SUBG
+  * @arg LL_PWR_EWS_SUBGHOST
+  * @arg LL_PWR_EWS_LCSC
+  * @arg LL_PWR_EWS_COMP
+  * @arg LL_PWR_EWS_LCD
+  * @arg LL_PWR_EWS_RTC
+  * @arg LL_PWR_EWS_LPUART
+  */
+__STATIC_INLINE void LL_PWR_ClearInternalWakeupSource(uint32_t wakeup_sources)
+{
+  WRITE_REG(PWR->IWUF, (wakeup_sources & 0x0000FFFF));
+}
+#endif
   
 /**
   * @brief  Get IO BOOT value.
@@ -1172,7 +1597,7 @@ __STATIC_INLINE uint32_t LL_PWR_GetSMPSBOM(void)
   * @brief  Set SMPS Output Level
   * @rmtoll CR5   PWR_CR5_SMPSLVL    LL_PWR_SetSMPSOutputLevel
   * @param  output_level Output Level. This parameter can be one of the following values:
-  *         Applicable values for BlueNRG-LP and BlueNRG-LPS:
+  *         Applicable values for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF:
   * @arg LL_PWR_SMPS_OUTLVL_1V2
   * @arg LL_PWR_SMPS_OUTLVL_1V25
   * @arg LL_PWR_SMPS_OUTLVL_1V3
@@ -1214,7 +1639,7 @@ __STATIC_INLINE void LL_PWR_SetSMPSOutputLevel(uint32_t output_level)
   * @brief  Get SMPS Output Level
   * @rmtoll CR5   PWR_CR5_SMPSLVL    LL_PWR_GetSMPSOutputLevel
   * @retval Output Level. This parameter can be one of the following values:
-  *         Applicable values for BlueNRG-LP and BlueNRG-LPS:
+  *         Applicable values for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF:
   * @arg LL_PWR_SMPS_OUTLVL_1V2
   * @arg LL_PWR_SMPS_OUTLVL_1V25
   * @arg LL_PWR_SMPS_OUTLVL_1V3
@@ -1303,7 +1728,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledPUPDCfg(void)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_EnablePUA(uint32_t IO)
 {
@@ -1333,7 +1758,7 @@ __STATIC_INLINE void LL_PWR_EnablePUA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_DisablePUA(uint32_t IO)
 {
@@ -1362,7 +1787,7 @@ __STATIC_INLINE void LL_PWR_DisablePUA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval State of bit (1 or 0).
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE uint32_t LL_PWR_IsEnabledPUA(uint32_t IO)
 {
@@ -1391,7 +1816,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledPUA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_EnablePDA(uint32_t IO)
 {
@@ -1421,7 +1846,7 @@ __STATIC_INLINE void LL_PWR_EnablePDA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_DisablePDA(uint32_t IO)
 {
@@ -1450,7 +1875,7 @@ __STATIC_INLINE void LL_PWR_DisablePDA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval State of bit (1 or 0).
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE uint32_t LL_PWR_IsEnabledPDA(uint32_t IO)
 {
@@ -1480,7 +1905,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledPDA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO4, LL_PWR_PUPD_IO5, LL_PWR_PUPD_IO6, LL_PWR_PUPD_IO7, LL_PWR_PUPD_IO12, LL_PWR_PUPD_IO13,
-  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS.
+  *         LL_PWR_PUPD_IO14, LL_PWR_PUPD_IO15 are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_SetNoPullA(uint32_t IO)
 {
@@ -1510,7 +1935,7 @@ __STATIC_INLINE void LL_PWR_SetNoPullA(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS. 
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF. 
   */
 __STATIC_INLINE void LL_PWR_EnablePUB(uint32_t IO)
 {
@@ -1540,7 +1965,7 @@ __STATIC_INLINE void LL_PWR_EnablePUB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_DisablePUB(uint32_t IO)
 {
@@ -1569,7 +1994,7 @@ __STATIC_INLINE void LL_PWR_DisablePUB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval State of bit (1 or 0).
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE uint32_t LL_PWR_IsEnabledPUB(uint32_t IO)
 {
@@ -1598,7 +2023,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledPUB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_EnablePDB(uint32_t IO)
 {
@@ -1628,7 +2053,7 @@ __STATIC_INLINE void LL_PWR_EnablePDB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_DisablePDB(uint32_t IO)
 {
@@ -1657,7 +2082,7 @@ __STATIC_INLINE void LL_PWR_DisablePDB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval State of bit (1 or 0).
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE uint32_t LL_PWR_IsEnabledPDB(uint32_t IO)
 {
@@ -1687,7 +2112,7 @@ __STATIC_INLINE uint32_t LL_PWR_IsEnabledPDB(uint32_t IO)
   * @arg LL_PWR_PUPD_IO15
   * @retval None
   * @note   LL_PWR_PUPD_IO8, LL_PWR_PUPD_IO9, LL_PWR_PUPD_IO10, LL_PWR_PUPD_IO11
-  *         devices are not valid for BlueNRG-LPS.
+  *         devices are not valid for BlueNRG-LPS and BlueNRG-LPF.
   */
 __STATIC_INLINE void LL_PWR_SetNoPullB(uint32_t IO)
 {

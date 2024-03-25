@@ -28,7 +28,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
 #endif
 #include "rf_driver_ll_radio_2g4.h"
@@ -76,7 +76,7 @@ typedef struct timer_calibration_s {
   * @{
   */
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
  * @brief  Allows a virtual timer to wake up the device in BlueNRG-LP cuts 1.0 and 2.0.
  */
@@ -142,6 +142,9 @@ typedef struct timer_calibration_s {
   #define TIMER_BLUE_SET_REQ_MODE(req_mode)   (MODIFY_REG(WAKEUP->BLUE_SLEEP_REQUEST_MODE,WAKEUP_BLUE_SLEEP_REQUEST_MODE_SLEEP_REQ_MODE,req_mode))
 #endif
 
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+  #define TIMER_BLUE_SET_REQ_MODE(req_mode)
+#endif
 
 
 /**

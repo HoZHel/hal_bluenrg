@@ -26,8 +26,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -647,7 +650,7 @@ typedef struct
                                  LL_ADC_IRQ_FLAG_EODS)
 #endif
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
 #define LL_ADC_IRQ_FLAGS_MASK      (LL_ADC_IRQ_FLAG_OVRDS | \
                                  LL_ADC_IRQ_FLAG_AWD   | \
                                  LL_ADC_IRQ_FLAG_EOS   | \
@@ -694,7 +697,12 @@ typedef struct
 #define ADC_CALIB_ADDRESS_VINDIFF_1V2    (0x10001E00)
 
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#ifdef CONFIG_DEVICE_SPIRIT3
+/* Calibration point for the temperature sensor for not trimmed SPIRIT3 devices (for preliminary cut 2.0 samples) */
+#define ESTIMATED_C30  (2800)
+#define ESTIMATED_TCK  (300)
+#endif
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /* Calibration point for the temperature sensor for not trimmed BlueNRG-LPS devices (for preliminary samples) */
 #define ESTIMATED_C30  (2524)
 #define ESTIMATED_TCK  (300)
@@ -4897,7 +4905,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINPX_3V6(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINPX_3V6) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -4942,7 +4950,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINPX_2V4(void)
 {
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINPX_2V4) >> 12);
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -4987,7 +4995,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINPX_1V2(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINPX_1V2) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -5034,7 +5042,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINMX_3V6(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINMX_3V6) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (1 - (int8_t)(calibration_offset | 0x100));
   }
@@ -5078,7 +5086,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINMX_2V4(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINMX_2V4) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (1 - (int8_t)(calibration_offset | 0x100));
   }
@@ -5123,7 +5131,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINMX_1V2(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINMX_1V2) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (1 - (int8_t)(calibration_offset | 0x100));
   }
@@ -5169,7 +5177,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINDIFF_3V6(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINDIFF_3V6) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -5213,7 +5221,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINDIFF_2V4(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINDIFF_2V4) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -5258,7 +5266,7 @@ __STATIC_INLINE int8_t LL_ADC_GET_CALIB_OFFSET_FOR_VINDIFF_1V2(void)
   int8_t calibration_offset = ( (*(uint32_t*)ADC_CALIB_ADDRESS_VINDIFF_1V2) >> 12);
 
   /* Negative number */
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
   if((calibration_offset & 0x80) == 0x80) {
     return (int8_t)(calibration_offset | 0x100);
   }
@@ -5438,7 +5446,7 @@ __STATIC_INLINE float LL_ADC_GetADCConvertedValueTemp(ADC_TypeDef *ADCx, uint16_
 #endif
 #endif
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
 __STATIC_INLINE int32_t LL_ADC_GetADCConvertedValueTemp(ADC_TypeDef *ADCx, uint16_t RawValue, uint32_t Width)
 {
   int32_t c30 = *(uint32_t*)0x10001E60;

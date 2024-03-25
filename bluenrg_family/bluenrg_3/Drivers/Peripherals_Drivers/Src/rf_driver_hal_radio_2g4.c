@@ -248,7 +248,7 @@ uint8_t HAL_RADIO_CarrierSense(uint8_t channel, int8_t *rssi)
   return 0;
 }
 
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) 
 
 static volatile int8_t _rssi;
 static volatile uint8_t _timeout;

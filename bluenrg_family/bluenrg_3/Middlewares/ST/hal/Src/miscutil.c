@@ -67,7 +67,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 uint32_t SYNTH0_ANA_ENG_bak, PWR_ENGTRIM_bak;
 #endif
 uint8_t pa_level = DEFAULT_TX_PA_LEVEL;
@@ -220,7 +220,7 @@ int8_t BLEPLAT_UpdateAvgRSSI(int8_t avg_rssi, int8_t rssi, uint8_t rssi_filter_c
 
 void BLEPLAT_InitCTE(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   SYNTH0_ANA_ENG_bak = SYNTH0_ANA_ENG;
   PWR_ENGTRIM_bak = PWR->ENGTRIM;
   
@@ -237,7 +237,7 @@ void BLEPLAT_InitCTE(uint8_t smNo)
 
 void BLEPLAT_DeinitCTE(void)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   PWR->ENGTRIM = PWR_ENGTRIM_bak;
   SYNTH0_ANA_ENG = SYNTH0_ANA_ENG_bak;
   SYNTHCAL3_ANA_TST = 0;
@@ -246,7 +246,7 @@ void BLEPLAT_DeinitCTE(void)
 
 void BLEPLAT_CalibrateCTE(uint8_t smNo)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   uint32_t dac_word = RRM->SYNTHCAL4_DIG_OUT & RRM_SYNTHCAL4_DIG_OUT_MOD_REF_DAC_WORD_OUT_Msk;
   dac_word += PLL_ADC_CALIB_CORR;
   dac_word &= RRM_SYNTHCAL4_DIG_OUT_MOD_REF_DAC_WORD_OUT_Msk;  
@@ -314,7 +314,7 @@ struct antenna_conf_s antenna_conf = {0, ANTENNA_ID_BIT_SHIFT, 0, 0};
 
 void HAL_AntIdxRemap(uint8_t AntPattLen, uint8_t *pAntRamTable, const uint8_t* pAntPatt)
 {
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     for (uint8_t i=0; i<AntPattLen; i++)
     {
         pAntRamTable[i] = (pAntPatt[i] << antenna_conf.Antenna_ID_Shift);
@@ -322,7 +322,7 @@ void HAL_AntIdxRemap(uint8_t AntPattLen, uint8_t *pAntRamTable, const uint8_t* p
 #endif
 }
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 tBleStatus aci_hal_set_antenna_switch_parameters(uint8_t Antenna_IDs,
                                                  uint8_t Antenna_ID_Shift,
                                                  uint8_t Default_Antenna_ID,
@@ -428,7 +428,7 @@ tBleStatus aci_hal_tone_start(uint8_t RF_Channel, uint8_t Offset)
       if (LL_busy() == FALSE)
       {
         
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
         /* Set GPIOs for antenna switch in output mode. */
         LL_GPIO_InitTypeDef GPIO_InitStruct = {
           .Pin = antenna_conf.Antenna_IDs,
@@ -482,7 +482,7 @@ tBleStatus aci_hal_tone_stop()
     HAL_ToneStop();
     tone_started = FALSE;
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)    
     aci_hal_set_antenna_switch_parameters(antenna_conf.Antenna_IDs,
                                           antenna_conf.Antenna_ID_Shift,
                                           antenna_conf.Default_Antenna_ID,

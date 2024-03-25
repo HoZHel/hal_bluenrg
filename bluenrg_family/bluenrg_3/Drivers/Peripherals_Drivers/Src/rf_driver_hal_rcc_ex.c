@@ -52,11 +52,17 @@
 #define LSCO2_GPIO_PORT        GPIOA
 #define LSCO2_PIN              GPIO_PIN_10
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define __LSCO3_CLK_ENABLE()   __HAL_RCC_GPIOB_CLK_ENABLE()
 #define LSCO3_GPIO_PORT        GPIOB
 #define LSCO3_PIN              GPIO_PIN_12
 #define LSCO3_GPIO_AF          GPIO_AF1_LCO
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define __LSCO3_CLK_ENABLE()   __HAL_RCC_GPIOB_CLK_ENABLE()
+#define LSCO3_GPIO_PORT        GPIOB
+#define LSCO3_PIN              GPIO_PIN_12
+#define LSCO3_GPIO_AF          GPIO_AF2_LCO
 #endif
 
 
@@ -209,7 +215,7 @@ uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
   
   if(PeriphClk == RCC_PERIPHCLK_RF)
   {
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     switch(__HAL_RCC_RF_RC64MPLL_GET_CONFIG())
     {
       case RCC_RF_RC64MPLL_DIV2:
@@ -219,6 +225,9 @@ uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
         frequency = 16000000;
         break;
     }
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+    frequency = 16000000;
 #endif
   }
   else if (PeriphClk == RCC_PERIPHCLK_SMPS)

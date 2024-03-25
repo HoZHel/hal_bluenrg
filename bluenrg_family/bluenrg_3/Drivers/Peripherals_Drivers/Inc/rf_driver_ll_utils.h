@@ -38,9 +38,13 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
 #include "system_BlueNRG_LP.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
+#include "system_spirit3.h"
 #endif
 
 
@@ -272,6 +276,10 @@ void        LL_mDelay(uint32_t Delay);
 
 uint32_t LL_SetSystemCoreClock(uint8_t SysClk);
 uint32_t LL_GetSystemCoreClock(void);
+#if defined(CONFIG_DEVICE_SPIRIT3)
+void LL_SetXTALFreq(uint32_t freq);
+uint32_t LL_GetXTALFreq(void);
+#endif
 
 /**
   * @}

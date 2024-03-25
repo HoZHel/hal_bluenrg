@@ -517,7 +517,7 @@ typedef  void (*pADC_CallbackTypeDef)(ADC_HandleTypeDef *hadc); /*!< pointer to 
                                  ADC_IRQ_FLAG_EODF  | \
                                  ADC_IRQ_FLAG_EODS)
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
 #define ADC_IRQ_FLAGS_MASK      (ADC_IRQ_FLAG_OVRDS | \
                                  ADC_IRQ_FLAG_AWD   | \
                                  ADC_IRQ_FLAG_EOS   | \
@@ -556,7 +556,7 @@ typedef  void (*pADC_CallbackTypeDef)(ADC_HandleTypeDef *hadc); /*!< pointer to 
                               ADC_IRQ_EN_EODF  | \
                               ADC_IRQ_EN_EODS)
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF) || defined(CONFIG_DEVICE_SPIRIT3)
 #define ADC_IRQ_EN_MASK      (ADC_IRQ_EN_OVRDS | \
                               ADC_IRQ_EN_AWD   | \
                               ADC_IRQ_EN_EOS   | \

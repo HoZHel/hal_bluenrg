@@ -54,15 +54,18 @@ extern "C" {
                ((((__SELECTION__) & RCC_PERIPHCLK_RF)   == RCC_PERIPHCLK_RF)       || \
                 (((__SELECTION__) & RCC_PERIPHCLK_SPI2_I2S) == RCC_PERIPHCLK_SPI2_I2S)     || \
                 (((__SELECTION__) & RCC_PERIPHCLK_SPI3_I2S) == RCC_PERIPHCLK_SPI3_I2S))
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) ||  defined(CONFIG_DEVICE_BLUENRG_LPF)            
 #define IS_RCC_PERIPHCLOCK(__SELECTION__)  \
                ((((__SELECTION__) & RCC_PERIPHCLK_RF)   == RCC_PERIPHCLK_RF)       || \
+                (((__SELECTION__) & RCC_PERIPHCLK_SPI3_I2S) == RCC_PERIPHCLK_SPI3_I2S))
+#elif defined(CONFIG_DEVICE_SPIRIT3)            
+#define IS_RCC_PERIPHCLOCK(__SELECTION__)  \
                 (((__SELECTION__) & RCC_PERIPHCLK_SPI3_I2S) == RCC_PERIPHCLK_SPI3_I2S))
 #else
 #error "Define device type."
 #endif 
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define IS_RCC_RF_BLE_CLOCK_SOURCE(__SOURCE__) \
                 ((((__SOURCE__) & RCC_RF_RC64MPLL_DIV2) == RCC_RF_RC64MPLL_DIV2) || \
                  (((__SOURCE__) & RCC_RF_RC64MPLL_DIV4) == RCC_RF_RC64MPLL_DIV4))

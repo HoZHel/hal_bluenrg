@@ -146,7 +146,7 @@ TIMEx_BreakInputConfigTypeDef;
 #define IS_TIM_REMAP(__INSTANCE__, __REMAP__)                                             \
           (((__INSTANCE__) == TIM1) && ((((__REMAP__) & 0xFFFE3FECU) == 0x00000000U)))
 
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define IS_TIM_REMAP(__INSTANCE__, __REMAP__)                                             \
           ((((__INSTANCE__) == TIM1)  && ((((__REMAP__) & 0xFFFE3FF0U) == 0x00000000U)))  \
         || (((__INSTANCE__) == TIM16) && ((((__REMAP__) & 0xFFFFFFFCU) == 0x00000000U)))  \

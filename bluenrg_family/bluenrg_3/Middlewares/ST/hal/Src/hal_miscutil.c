@@ -37,7 +37,11 @@ NO_INIT_SECTION(crash_info_t CrashInfoRam, ".crash_info_ram_vr");
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define TX_POWER_LEVELS                (32U)
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define HP_TX_POWER_LEVELS             (TX_POWER_LEVELS+1)
+#else
 #define HP_TX_POWER_LEVELS             (TX_POWER_LEVELS)
+#endif
 
 #define LOWEST_TX_POWER_LEVEL_INDEX     (1U)
 
@@ -56,6 +60,12 @@ NO_INIT_SECTION(crash_info_t CrashInfoRam, ".crash_info_ram_vr");
 /* Parameters of the RSSI calculation algorithm */
 #define RSSI_OFFSET  (118)
 
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+volatile uint32_t * const LDO_ANA_TST = &RRM->RXADC_ANA_USR + 0x02;
+#define LDO_ANA_TST                             (*(&RRM->RXADC_ANA_USR + 0x02))
+#define RRM_LDO_ANA_TST_RFD_LDO_TRANSFO_BYPASS_Msk                      0x08
+#define RRM_LDO_ANA_TST_LDO_ANA_TST_SEL_Msk                             0x01
+#endif
 //volatile uint32_t * const RRM_TEST = &RRM->RRM_CTRL + 0x01;
 #define RRM_TEST                                (*(&RRM->RRM_CTRL + 0x01))
 
@@ -71,6 +81,16 @@ static const int8_t normal_pa_level_table[TX_POWER_LEVELS] = {
       0,   0,   1,   2,   3,   4,   5,   6
 };
 
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define HIGH_POWER_LEVEL_INDEX  (HP_TX_POWER_LEVELS - 1)
+static const int8_t high_power_pa_level_table[HP_TX_POWER_LEVELS] = {
+    -54, -21, -20, -19, -17, -16, -15, -14,
+    -13, -12, -11, -10,  -9,  -8,  -7,  -6,
+     -6,  -4,  -3,  -3,  -2,  -2,  -1,  -1,
+      0,   0,   1,   2,   3,   4,   5,   6,
+      8
+};
+#else
 /* Expected TX output power (dBm) for each PA level when SMPS voltage is 1.9V
    (high power mode). */
 static const int8_t high_power_pa_level_table[HP_TX_POWER_LEVELS] = {
@@ -79,6 +99,7 @@ static const int8_t high_power_pa_level_table[HP_TX_POWER_LEVELS] = {
      -4,  -3,  -3,  -2,  -1,   0,   1,   2,
       3,   8,   8,   8,   8,   8,   8,   8
 };
+#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -387,6 +408,13 @@ void HAL_ToneStart(uint8_t RF_Channel, uint8_t Offset, uint8_t PA_Level)
   uint8_t A  = ((uint8_t)(MAK >> 20) & 0x07U);
   uint32_t K = (MAK & 0x000FFFFFUL) + 1UL;
   
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+  if(PA_Level == HIGH_POWER_LEVEL_INDEX)
+  {
+    internal_pa_level = HIGH_POWER_LEVEL_INDEX - 1;
+    LDO_ANA_TST = RRM_LDO_ANA_TST_RFD_LDO_TRANSFO_BYPASS_Msk|RRM_LDO_ANA_TST_LDO_ANA_TST_SEL_Msk;          
+  }
+#endif        
   RRM->RADIO_FSM_USR = ((uint32_t)internal_pa_level << 3) | RRM_RADIO_FSM_USR_EN_CALIB_SYNTH_Msk | RRM_RADIO_FSM_USR_EN_CALIB_CBP_Msk;
   RRM->MOD3_DIG_TST = ((uint32_t)M << 3) | ((uint32_t)A & 0x7UL);
   RRM->MOD2_DIG_TST = (K >> 12) & 0xFFU;          
@@ -408,6 +436,9 @@ void HAL_ToneStop(void)
   volatile uint32_t *rrm_udra_test = &RRM->RRM_CTRL + 0x01;
   *rrm_udra_test = 0x00;
   RRM->MOD0_DIG_TST = 0;
+#if defined(CONFIG_DEVICE_BLUENRG_LPF)
+  LDO_ANA_TST = 0;
+#endif  
 }
 
 /* ------------ End of section for tone generation functions ------------------------*/

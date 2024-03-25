@@ -43,8 +43,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -74,8 +77,11 @@ extern "C" {
 /** @defgroup BUS_LL_AHB_PERIPH  AHB PERIPH
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_AHB_PERIPH_ALL            (RCC_AHBENR_DMAEN|RCC_AHBENR_GPIOAEN|RCC_AHBENR_GPIOBEN|RCC_AHBENR_CRCEN|RCC_AHBENR_PKAEN|RCC_AHBENR_RNGEN)
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_AHB_PERIPH_ALL            (RCC_AHBENR_DMAEN|RCC_AHBENR_GPIOAEN|RCC_AHBENR_GPIOBEN|RCC_AHBENR_CRCEN|RCC_AHBENR_RNGEN|RCC_AHBENR_AESEN)
 #endif
 #define LL_AHB_PERIPH_DMA            RCC_AHBENR_DMAEN
 #define LL_AHB_PERIPH_GPIOA          RCC_AHBENR_GPIOAEN
@@ -101,8 +107,11 @@ extern "C" {
   */
 #if defined(CONFIG_DEVICE_BLUENRG_LP)
 #define LL_APB0_PERIPH_ALL            (RCC_APB0ENR_TIM1EN|RCC_APB0ENR_SYSCFGEN|RCC_APB0ENR_RTCEN|RCC_APB0ENR_WDGEN)
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_APB0_PERIPH_ALL            (RCC_APB0ENR_TIM2EN|RCC_APB0ENR_TIM16EN|RCC_APB0ENR_TIM17EN|RCC_APB0ENR_SYSCFGEN|RCC_APB0ENR_RTCEN|RCC_APB0ENR_WDGEN)
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_APB0_PERIPH_ALL            (RCC_APB0ENR_TIM2EN|RCC_APB0ENR_TIM16EN|RCC_APB0ENR_SYSCFGEN|RCC_APB0ENR_LCDEN|RCC_APB0ENR_COMPEN|RCC_APB0ENR_DACEN|RCC_APB0ENR_RTCEN|RCC_APB0ENR_LCSCEN|RCC_APB0ENR_WDGEN|RCC_APB0ENR_DBGMCUEN)
 #endif
 #if defined(TIM1)
 #define LL_APB0_PERIPH_TIM1           RCC_APB0ENR_TIM1EN
@@ -117,7 +126,19 @@ extern "C" {
 #define LL_APB0_PERIPH_TIM17          RCC_APB0ENR_TIM17EN
 #endif
 #define LL_APB0_PERIPH_SYSCFG         RCC_APB0ENR_SYSCFGEN
+#if defined(LCD)
+#define LL_APB0_PERIPH_LCDC           RCC_APB0ENR_LCDEN
+#endif
+#if defined(COMP1)
+#define LL_APB0_PERIPH_COMP           RCC_APB0ENR_COMPEN
+#endif
+#if defined(DAC)
+#define LL_APB0_PERIPH_DAC            RCC_APB0ENR_DACEN
+#endif
 #define LL_APB0_PERIPH_RTC            RCC_APB0ENR_RTCEN
+#if defined(LCSC)
+#define LL_APB0_PERIPH_LCSC           RCC_APB0ENR_LCSCEN
+#endif
 #define LL_APB0_PERIPH_WDG            RCC_APB0ENR_WDGEN
 #if defined(DBGMCU)
 #define LL_APB0_PERIPH_DBGMCU         RCC_APB0ENR_DBGMCUEN
@@ -132,8 +153,11 @@ extern "C" {
   */
 #if defined(CONFIG_DEVICE_BLUENRG_LP)
 #define LL_APB1_PERIPH_ALL            (RCC_APB1ENR_SPI1EN|RCC_APB1ENR_ADCDIGEN|RCC_APB1ENR_ADCANAEN|RCC_APB1ENR_LPUARTEN|RCC_APB1ENR_USARTEN|RCC_APB1ENR_SPI2EN|RCC_APB1ENR_SPI3EN|RCC_APB1ENR_I2C1EN|RCC_APB1ENR_I2C2EN)
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_APB1_PERIPH_ALL            (RCC_APB1ENR_ADCDIGEN|RCC_APB1ENR_ADCANAEN|RCC_APB1ENR_LPUARTEN|RCC_APB1ENR_USARTEN|RCC_APB1ENR_SPI3EN|RCC_APB1ENR_I2C1EN)
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_APB1_PERIPH_ALL            (RCC_APB1ENR_SPI1EN|RCC_APB1ENR_ADCDIGEN|RCC_APB1ENR_ADCANAEN|RCC_APB1ENR_LPUARTEN|RCC_APB1ENR_USARTEN|RCC_APB1ENR_SPI3EN|RCC_APB1ENR_I2C1EN|RCC_APB1ENR_I2C2EN)
 #endif
 #if defined(SPI1) 
 #define LL_APB1_PERIPH_SPI1           RCC_APB1ENR_SPI1EN
@@ -160,6 +184,11 @@ extern "C" {
 #if defined(BLUE)
 #define LL_APB2_PERIPH_ALL            (RCC_APB2ENR_MRBLEEN)
 #define LL_APB2_PERIPH_MRBLE          RCC_APB2ENR_MRBLEEN
+#endif
+#if defined(MR_SUBG_RADIO)
+#define LL_APB2_PERIPH_ALL      (RCC_APB2ENR_MRSUBGEN|RCC_APB2ENR_LPAWUREN)
+#define LL_APB2_PERIPH_MRSUBG   RCC_APB2ENR_MRSUBGEN
+#define LL_APB2_PERIPH_LPAWUR   RCC_APB2ENR_LPAWUREN
 #endif
 /**
   * @}
@@ -199,7 +228,8 @@ extern "C" {
   * @arg LL_AHB_PERIPH_RNG
   * @arg LL_AHB_PERIPH_AES
   * @retval None
-  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_AHB_PERIPH_AES is valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_AHB_EnableClock(uint32_t Periphs)
 {
@@ -228,7 +258,8 @@ __STATIC_INLINE void LL_AHB_EnableClock(uint32_t Periphs)
   * @arg LL_AHB_PERIPH_RNG
   * @arg LL_AHB_PERIPH_AES
   * @retval uint32_t
-  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_AHB_PERIPH_AES is valid only for SPIRIT3
 */
 __STATIC_INLINE uint32_t LL_AHB_IsEnabledClock(uint32_t Periphs)
 {
@@ -253,7 +284,8 @@ __STATIC_INLINE uint32_t LL_AHB_IsEnabledClock(uint32_t Periphs)
   * @arg LL_AHB_PERIPH_RNG
   * @arg LL_AHB_PERIPH_AES
   * @retval None
-  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_AHB_PERIPH_AES is valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_AHB_DisableClock(uint32_t Periphs)
 {
@@ -278,7 +310,8 @@ __STATIC_INLINE void LL_AHB_DisableClock(uint32_t Periphs)
   * @arg LL_AHB_PERIPH_RNG
   * @arg LL_AHB_PERIPH_AES
   * @retval None
-  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_AHB_PERIPH_AES is valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_AHB_ForceReset(uint32_t Periphs)
 {
@@ -303,7 +336,8 @@ __STATIC_INLINE void LL_AHB_ForceReset(uint32_t Periphs)
   * @arg LL_AHB_PERIPH_RNG
   * @arg LL_AHB_PERIPH_AES
   * @retval None
-  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_AHB_PERIPH_PKA is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_AHB_PERIPH_AES is valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_AHB_ReleaseReset(uint32_t Periphs)
 {
@@ -324,7 +358,11 @@ __STATIC_INLINE void LL_AHB_ReleaseReset(uint32_t Periphs)
   *         APB0ENR     TIM16EN    LL_APB0_EnableClock
   *         APB0ENR     TIM17EN    LL_APB0_EnableClock
   *         APB0ENR     SYSCFGEN   LL_APB0_EnableClock
+  *         APB0ENR     LCDCEN     LL_APB0_EnableClock
+  *         APB0ENR     COMPEN     LL_APB0_EnableClock
+  *         APB0ENR     DACEN      LL_APB0_EnableClock
   *         APB0ENR     RTCEN      LL_APB0_EnableClock
+  *         APB0ENR     SCIEN      LL_APB0_EnableClock
   *         APB0ENR     WDGEN      LL_APB0_EnableClock
   *         APB0ENR     DBGMCUEN   LL_APB0_EnableClock
   * @param  Periphs This parameter can be a combination of the following values:
@@ -333,12 +371,18 @@ __STATIC_INLINE void LL_AHB_ReleaseReset(uint32_t Periphs)
   * @arg LL_APB0_PERIPH_TIM16
   * @arg LL_APB0_PERIPH_TIM17
   * @arg LL_APB0_PERIPH_SYSCFG
+  * @arg LL_APB0_PERIPH_LCDC
+  * @arg LL_APB0_PERIPH_COMP
+  * @arg LL_APB0_PERIPH_DAC
   * @arg LL_APB0_PERIPH_RTC
+  * @arg LL_APB0_PERIPH_SCI
   * @arg LL_APB0_PERIPH_WDG
   * @arg LL_APB0_PERIPH_DBGMCU
   * @retval None
   * @note   LL_APB0_PERIPH_TIM1 is valid only for BlueNRG-LP
-  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16, LL_APB0_PERIPH_LCDC, LL_APB0_PERIPH_COMP, LL_APB0_PERIPH_DAC
+             LL_APB0_PERIPH_SCI and LL_APB0_PERIPH_DBGMCU are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB0_EnableClock(uint32_t Periphs)
 {
@@ -356,7 +400,11 @@ __STATIC_INLINE void LL_APB0_EnableClock(uint32_t Periphs)
   *         APB0ENR     TIM16EN      LL_APB0_IsEnabledClock
   *         APB0ENR     TIM17EN      LL_APB0_IsEnabledClock
   *         APB0ENR     SYSCFGEN     LL_APB0_IsEnabledClock
+  *         APB0ENR     LCDCEN       LL_APB0_IsEnabledClock
+  *         APB0ENR     COMPEN       LL_APB0_IsEnabledClock
+  *         APB0ENR     DACEN        LL_APB0_IsEnabledClock
   *         APB0ENR     RTCEN        LL_APB0_IsEnabledClock
+  *         APB0ENR     SCIEN        LL_APB0_IsEnabledClock
   *         APB0ENR     WDGEN        LL_APB0_IsEnabledClock
   *         APB0ENR     DBGMCUEN     LL_APB0_IsEnabledClock
   * @param  Periphs This parameter can be a combination of the following values:
@@ -365,12 +413,18 @@ __STATIC_INLINE void LL_APB0_EnableClock(uint32_t Periphs)
   * @arg LL_APB0_PERIPH_TIM16
   * @arg LL_APB0_PERIPH_TIM17
   * @arg LL_APB0_PERIPH_SYSCFG
+  * @arg LL_APB0_PERIPH_LCDC
+  * @arg LL_APB0_PERIPH_COMP
+  * @arg LL_APB0_PERIPH_DAC
   * @arg LL_APB0_PERIPH_RTC
+  * @arg LL_APB0_PERIPH_SCI
   * @arg LL_APB0_PERIPH_WDG
   * @arg LL_APB0_PERIPH_DBGMCU
   * @retval uint32_t
   * @note   LL_APB0_PERIPH_TIM1 is valid only for BlueNRG-LP
-  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16, LL_APB0_PERIPH_LCDC, LL_APB0_PERIPH_COMP, LL_APB0_PERIPH_DAC,
+            LL_APB0_PERIPH_SCI and LL_APB0_PERIPH_DBGMCU are valid for SPIRIT3
 */
 __STATIC_INLINE uint32_t LL_APB0_IsEnabledClock(uint32_t Periphs)
 {
@@ -384,7 +438,11 @@ __STATIC_INLINE uint32_t LL_APB0_IsEnabledClock(uint32_t Periphs)
   *         APB0ENR     TIM16EN      LL_APB0_DisableClock
   *         APB0ENR     TIM17EN      LL_APB0_DisableClock
   *         APB0ENR     SYSCFGEN     LL_APB0_DisableClock
+  *         APB0ENR     LCDCEN       LL_APB0_DisableClock
+  *         APB0ENR     COMPEN       LL_APB0_DisableClock
+  *         APB0ENR     DACEN        LL_APB0_DisableClock
   *         APB0ENR     RTCEN        LL_APB0_DisableClock
+  *         APB0ENR     SCIEN        LL_APB0_DisableClock
   *         APB0ENR     WDGEN        LL_APB0_DisableClock
   *         APB0ENR     DBGMCUEN     LL_APB0_DisableClock
   * @param  Periphs This parameter can be a combination of the following values:
@@ -393,12 +451,18 @@ __STATIC_INLINE uint32_t LL_APB0_IsEnabledClock(uint32_t Periphs)
   * @arg LL_APB0_PERIPH_TIM16
   * @arg LL_APB0_PERIPH_TIM17
   * @arg LL_APB0_PERIPH_SYSCFG
+  * @arg LL_APB0_PERIPH_LCDC
+  * @arg LL_APB0_PERIPH_COMP
+  * @arg LL_APB0_PERIPH_DAC
   * @arg LL_APB0_PERIPH_RTC
+  * @arg LL_APB0_PERIPH_SCI
   * @arg LL_APB0_PERIPH_WDG
   * @arg LL_APB0_PERIPH_DBGMCU
   * @retval None
   * @note   LL_APB0_PERIPH_TIM1 is valid only for BlueNRG-LP
-  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16, LL_APB0_PERIPH_LCDC, LL_APB0_PERIPH_COMP, LL_APB0_PERIPH_DAC,
+            LL_APB0_PERIPH_SCI and LL_APB0_PERIPH_DBGMCU are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB0_DisableClock(uint32_t Periphs)
 {
@@ -412,8 +476,11 @@ __STATIC_INLINE void LL_APB0_DisableClock(uint32_t Periphs)
   *         APB0RSTR    TIM16RST     LL_APB0_ForceReset
   *         APB0RSTR    TIM17RST     LL_APB0_ForceReset
   *         APB0RSTR    SYSCFGRST    LL_APB0_ForceReset
+  *         APB0RSTR    LCDCRST      LL_APB0_ForceReset
+  *         APB0RSTR    COMPRST      LL_APB0_ForceReset
   *         APB0RSTR    DACRST       LL_APB0_ForceReset
   *         APB0RSTR    RTCRST       LL_APB0_ForceReset
+  *         APB0RSTR    SCIRST       LL_APB0_ForceReset
   *         APB0RSTR    WDGRST       LL_APB0_ForceReset
   *         APB0RSTR    DBGMCURST    LL_APB0_ForceReset
   * @param  Periphs This parameter can be a combination of the following values:
@@ -422,12 +489,18 @@ __STATIC_INLINE void LL_APB0_DisableClock(uint32_t Periphs)
   * @arg LL_APB0_PERIPH_TIM16
   * @arg LL_APB0_PERIPH_TIM17
   * @arg LL_APB0_PERIPH_SYSCFG
+  * @arg LL_APB0_PERIPH_LCDC
+  * @arg LL_APB0_PERIPH_COMP
+  * @arg LL_APB0_PERIPH_DAC
   * @arg LL_APB0_PERIPH_RTC
+  * @arg LL_APB0_PERIPH_SCI
   * @arg LL_APB0_PERIPH_WDG
   * @arg LL_APB0_PERIPH_DBGMCU
   * @retval None
   * @note   LL_APB0_PERIPH_TIM1 is valid only for BlueNRG-LP
-  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16, LL_APB0_PERIPH_LCDC, LL_APB0_PERIPH_COMP, LL_APB0_PERIPH_DAC,
+            LL_APB0_PERIPH_SCI and LL_APB0_PERIPH_DBGMCU are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB0_ForceReset(uint32_t Periphs)
 {
@@ -441,8 +514,11 @@ __STATIC_INLINE void LL_APB0_ForceReset(uint32_t Periphs)
   *         APB0RSTR    TIM16RST     LL_APB0_ReleaseReset
   *         APB0RSTR    TIM17RST     LL_APB0_ReleaseReset
   *         APB0RSTR    SYSCFGRST    LL_APB0_ReleaseReset
+  *         APB0RSTR    LCDCRST      LL_APB0_ReleaseReset
+  *         APB0RSTR    COMPRST      LL_APB0_ReleaseReset
   *         APB0RSTR    DACRST       LL_APB0_ReleaseReset
   *         APB0RSTR    RTCRST       LL_APB0_ReleaseReset
+  *         APB0RSTR    SCIRST       LL_APB0_ReleaseReset
   *         APB0RSTR    WDGRST       LL_APB0_ReleaseReset
   *         APB0RSTR    DBGMCURST    LL_APB0_ReleaseReset
   * @param  Periphs This parameter can be a combination of the following values:
@@ -451,12 +527,18 @@ __STATIC_INLINE void LL_APB0_ForceReset(uint32_t Periphs)
   * @arg LL_APB0_PERIPH_TIM6
   * @arg LL_APB0_PERIPH_TIM7
   * @arg LL_APB0_PERIPH_SYSCFG
+  * @arg LL_APB0_PERIPH_LCDC
+  * @arg LL_APB0_PERIPH_COMP
+  * @arg LL_APB0_PERIPH_DAC
   * @arg LL_APB0_PERIPH_RTC
+  * @arg LL_APB0_PERIPH_SCI
   * @arg LL_APB0_PERIPH_WDG
   * @arg LL_APB0_PERIPH_DBGMCU
   * @retval None
   * @note   LL_APB0_PERIPH_TIM1 is valid only for BlueNRG-LP
-  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16 and LL_APB0_PERIPH_TIM17 are valid for BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB0_PERIPH_TIM2, LL_APB0_PERIPH_TIM16, LL_APB0_PERIPH_LCDC, LL_APB0_PERIPH_COMP, LL_APB0_PERIPH_DAC,
+            LL_APB0_PERIPH_SCI and LL_APB0_PERIPH_DBGMCU are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB0_ReleaseReset(uint32_t Periphs)
 {
@@ -493,6 +575,7 @@ __STATIC_INLINE void LL_APB0_ReleaseReset(uint32_t Periphs)
   * @arg LL_APB1_PERIPH_I2C2
   * @retval None
   * @note   LL_APB1_PERIPH_SPI1, LL_APB1_PERIPH_SPI2 and LL_APB1_PERIPH_I2C2 are valid for BlueNRG-LP
+  * @note   LL_APB1_PERIPH_SPI1 and LL_APB1_PERIPH_I2C2 are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB1_EnableClock(uint32_t Periphs)
 {
@@ -526,6 +609,7 @@ __STATIC_INLINE void LL_APB1_EnableClock(uint32_t Periphs)
   * @arg LL_APB1_PERIPH_I2C2
   * @retval uint32_t
   * @note   LL_APB1_PERIPH_SPI1, LL_APB1_PERIPH_SPI2 and LL_APB1_PERIPH_I2C2 are valid for BlueNRG-LP
+  * @note   LL_APB1_PERIPH_SPI1 and LL_APB1_PERIPH_I2C2 are valid for SPIRIT3
 */
 __STATIC_INLINE uint32_t LL_APB1_IsEnabledClock(uint32_t Periphs)
 {
@@ -555,6 +639,7 @@ __STATIC_INLINE uint32_t LL_APB1_IsEnabledClock(uint32_t Periphs)
   * @arg LL_APB1_PERIPH_I2C2
   * @retval None
   * @note   LL_APB1_PERIPH_SPI1, LL_APB1_PERIPH_SPI2 and LL_APB1_PERIPH_I2C2 are valid for BlueNRG-LP
+  * @note   LL_APB1_PERIPH_SPI1 and LL_APB1_PERIPH_I2C2 are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB1_DisableClock(uint32_t Periphs)
 {
@@ -583,6 +668,7 @@ __STATIC_INLINE void LL_APB1_DisableClock(uint32_t Periphs)
   * @arg LL_APB1_PERIPH_I2C2
   * @retval None
   * @note   LL_APB1_PERIPH_SPI1, LL_APB1_PERIPH_SPI2 and LL_APB1_PERIPH_I2C2 are valid for BlueNRG-LP
+  * @note   LL_APB1_PERIPH_SPI1 and LL_APB1_PERIPH_I2C2 are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB1_ForceReset(uint32_t Periphs)
 {
@@ -611,6 +697,7 @@ __STATIC_INLINE void LL_APB1_ForceReset(uint32_t Periphs)
   * @arg LL_APB1_PERIPH_I2C2
   * @retval None
   * @note   LL_APB1_PERIPH_SPI1, LL_APB1_PERIPH_SPI2 and LL_APB1_PERIPH_I2C2 are valid for BlueNRG-LP
+  * @note   LL_APB1_PERIPH_SPI1 and LL_APB1_PERIPH_I2C2 are valid for SPIRIT3
 */
 __STATIC_INLINE void LL_APB1_ReleaseReset(uint32_t Periphs)
 {
@@ -627,10 +714,15 @@ __STATIC_INLINE void LL_APB1_ReleaseReset(uint32_t Periphs)
 /**
   * @brief  Enable APB2 peripherals clock.
   * @rmtoll APB2ENR      MRBLEEN        LL_APB2_EnableClock
+  * @rmtoll APB2ENR      MRSUBGEN       LL_APB2_EnableClock
+  * @rmtoll APB2ENR      LPAWUREN       LL_APB2_EnableClock
   * @param  Periphs This parameter can be a combination of the following values:
   * @arg LL_APB2_PERIPH_MRBLE
+  * @arg LL_APB2_PERIPH_MRSUBG
+  * @arg LL_APB2_PERIPH_LPAWUR
   * @retval None
-  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB2_PERIPH_MRSUBG and LL_APB2_PERIPH_LPAWUR are valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_APB2_EnableClock(uint32_t Periphs)
 {
@@ -644,10 +736,15 @@ __STATIC_INLINE void LL_APB2_EnableClock(uint32_t Periphs)
 /**
   * @brief  Check if APB2 peripheral clock is enabled or not
   * @rmtoll APB2ENR      MRBLEEN        LL_APB2_IsEnabledClock
+  * @rmtoll APB2ENR      MRSUBGEN       LL_APB2_IsEnabledClock
+  * @rmtoll APB2ENR      LPAWUREN       LL_APB2_IsEnabledClock
   * @param  Periphs This parameter can be a combination of the following values:
   * @arg LL_APB2_PERIPH_MRBLE
+  * @arg LL_APB2_PERIPH_MRSUBG
+  * @arg LL_APB2_PERIPH_LPAWUR
   * @retval uint32_t
-  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB2_PERIPH_MRSUBG and LL_APB2_PERIPH_LPAWUR are valid only for SPIRIT3
 */
 __STATIC_INLINE uint32_t LL_APB2_IsEnabledClock(uint32_t Periphs)
 {
@@ -657,10 +754,15 @@ __STATIC_INLINE uint32_t LL_APB2_IsEnabledClock(uint32_t Periphs)
 /**
   * @brief  Disable APB2 peripherals clock.
   * @rmtoll APB2ENR      MRBLEEN        LL_APB2_DisableClock
+  * @rmtoll APB2ENR      MRSUBGEN       LL_APB2_DisableClock
+  * @rmtoll APB2ENR      LPAWUREN        LL_APB2_DisableClock
   * @param  Periphs This parameter can be a combination of the following values:
   * @arg LL_APB2_PERIPH_MRBLE
+  * @arg LL_APB2_PERIPH_MRSUBG
+  * @arg LL_APB2_PERIPH_LPAWUR
   * @retval None
-  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB2_PERIPH_MRSUBG and LL_APB2_PERIPH_LPAWUR are valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_APB2_DisableClock(uint32_t Periphs)
 {
@@ -670,10 +772,15 @@ __STATIC_INLINE void LL_APB2_DisableClock(uint32_t Periphs)
 /**
   * @brief  Force APB2 peripherals reset.
   * @rmtoll APB2RSTR     MRBLERST        LL_APB2_ForceReset
+  * @rmtoll APB2RSTR     MRSUBGRST       LL_APB2_ForceReset
+  * @rmtoll APB2RSTR     LPAWURRST        LL_APB2_ForceReset
   * @param  Periphs This parameter can be a combination of the following values:
   * @arg LL_APB2_PERIPH_MRBLE
+  * @arg LL_APB2_PERIPH_MRSUBG
+  * @arg LL_APB2_PERIPH_LPAWUR
   * @retval None
-  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB2_PERIPH_MRSUBG and LL_APB2_PERIPH_LPAWUR are valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_APB2_ForceReset(uint32_t Periphs)
 {
@@ -683,10 +790,15 @@ __STATIC_INLINE void LL_APB2_ForceReset(uint32_t Periphs)
 /**
   * @brief  Release APB2 peripherals reset.
   * @rmtoll APB2RSTR     MRBLERST        LL_APB2_ReleaseReset
+  * @rmtoll APB2RSTR     MRSUBGRST       LL_APB2_ReleaseReset
+  * @rmtoll APB2RSTR     LPAWURRST        LL_APB2_ReleaseReset
   * @param  Periphs This parameter can be a combination of the following values:
   * @arg LL_APB2_PERIPH_MRBLE
+  * @arg LL_APB2_PERIPH_MRSUBG
+  * @arg LL_APB2_PERIPH_LPAWUR
   * @retval None
-  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP and BlueNRG-LPS
+  * @note   LL_APB2_PERIPH_MRBLE is valid only for BlueNRG-LP, BlueNRG-LPS and BlueNRG-LPF
+  * @note   LL_APB2_PERIPH_MRSUBG and LL_APB2_PERIPH_LPAWUR are valid only for SPIRIT3
 */
 __STATIC_INLINE void LL_APB2_ReleaseReset(uint32_t Periphs)
 {

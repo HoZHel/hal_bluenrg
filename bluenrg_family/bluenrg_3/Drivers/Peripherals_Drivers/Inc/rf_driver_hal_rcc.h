@@ -216,7 +216,7 @@ typedef struct
 /** @defgroup RCC_RF_RC64MPLL_Clock_Divider  RF RC64MPLL Clock Divider
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define RCC_RF_RC64MPLL_DIV2       LL_RCC_RF_RC64MPLL_DIV2   /*!< RC64MPLL divided by 2 used as RF system clock */
 #define RCC_RF_RC64MPLL_DIV4       LL_RCC_RF_RC64MPLL_DIV4   /*!< RC64MPLL divided by 4 used as RF system clock */
 #endif
@@ -328,6 +328,9 @@ typedef struct
 #if defined(RCC_CIFR_LPURSTF)
 #define RCC_IT_LPURSTRELRDY            LL_RCC_CIFR_LPURSTRELF   /*!< LPU Reset Release Interrupt Flag */
 #endif
+#if defined(RCC_CIFR_LCDRSTF)
+#define RCC_IT_LCDRSTRELRDY            LL_RCC_CIFR_LCDRSTRELF   /*!< LCD Reset Release Interrupt Flag */
+#endif
 #if defined(RCC_CIFR_LCSCRSTF)
 #define RCC_IT_LCSCRSTRELRDY            LL_RCC_CIFR_LCSCRSTRELF   /*!< LCSC Reset Release Interrupt Flag */
 #endif
@@ -429,7 +432,19 @@ typedef struct
 #define __HAL_RCC_TIM2_CLK_ENABLE()            LL_APB0_EnableClock(LL_APB0_PERIPH_TIM2)
 #endif
 #define __HAL_RCC_SYSCFG_CLK_ENABLE()          LL_APB0_EnableClock(LL_APB0_PERIPH_SYSCFG)
+#if defined(LCD)
+#define __HAL_RCC_LCDC_CLK_ENABLE()            LL_APB0_EnableClock(LL_APB0_PERIPH_LCDC)
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_CLK_ENABLE()            LL_APB0_EnableClock(LL_APB0_PERIPH_COMP)
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_CLK_ENABLE()            LL_APB0_EnableClock(LL_APB0_PERIPH_DAC)
+#endif
 #define __HAL_RCC_RTC_CLK_ENABLE()             LL_APB0_EnableClock(LL_APB0_PERIPH_RTC)
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_CLK_ENABLE()            LL_APB0_EnableClock(LL_APB0_PERIPH_LCSC)
+#endif
 #define __HAL_RCC_WDG_CLK_ENABLE()             LL_APB0_EnableClock(LL_APB0_PERIPH_WDG)
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_CLK_ENABLE()           LL_APB0_EnableClock(LL_APB0_PERIPH_TIM16)
@@ -445,7 +460,19 @@ typedef struct
 #define __HAL_RCC_TIM2_CLK_DISABLE()           LL_APB0_DisableClock(LL_APB0_PERIPH_TIM2)
 #endif
 #define __HAL_RCC_SYSCFG_CLK_DISABLE()         LL_APB0_DisableClock(LL_APB0_PERIPH_SYSCFG)
+#if defined(LCD)
+#define __HAL_RCC_LCDC_CLK_DISABLE()           LL_APB0_DisableClock(LL_APB0_PERIPH_LCDC)
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_CLK_DISABLE()           LL_APB0_DisableClock(LL_APB0_PERIPH_COMP)
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_CLK_DISABLE()            LL_APB0_DisableClock(LL_APB0_PERIPH_DAC)
+#endif
 #define __HAL_RCC_RTC_CLK_DISABLE()            LL_APB0_DisableClock(LL_APB0_PERIPH_RTC)
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_CLK_DISABLE()            LL_APB0_DisableClock(LL_APB0_PERIPH_LCSC)
+#endif
 #define __HAL_RCC_WDG_CLK_DISABLE()            LL_APB0_DisableClock(LL_APB0_PERIPH_WDG)
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_CLK_DISABLE()          LL_APB0_DisableClock(LL_APB0_PERIPH_TIM16)
@@ -520,6 +547,13 @@ typedef struct
 
 #define __HAL_RCC_MRBLE_CLK_DISABLE()           LL_APB2_DisableClock(LL_APB2_PERIPH_MRBLE)
 #endif
+#if defined(MR_SUBG_RADIO)
+#define __HAL_RCC_MRSUBG_CLK_ENABLE()           LL_APB2_EnableClock(LL_APB2_PERIPH_MRSUBG)
+#define __HAL_RCC_LPAWUR_CLK_ENABLE()           LL_APB2_EnableClock(LL_APB2_PERIPH_LPAWUR)
+
+#define __HAL_RCC_MRSUBG_CLK_DISABLE()          LL_APB2_DisableClock(LL_APB2_PERIPH_MRSUBG)
+#define __HAL_RCC_LPAWUR_CLK_DISABLE()          LL_APB2_DisableClock(LL_APB2_PERIPH_LPAWUR)
+#endif
 /**
   * @}
   */
@@ -574,7 +608,19 @@ typedef struct
 #define __HAL_RCC_TIM2_IS_CLK_ENABLED()            LL_APB0_IsEnabledClock(LL_APB0_PERIPH_TIM2)
 #endif
 #define __HAL_RCC_SYSCFG_IS_CLK_ENABLED()          LL_APB0_IsEnabledClock(LL_APB0_PERIPH_SYSCFG)
+#if defined(LCD)
+#define __HAL_RCC_LCDC_IS_CLK_ENABLED()            LL_APB0_IsEnabledClock(LL_APB0_PERIPH_LCDC)
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_IS_CLK_ENABLED()            LL_APB0_IsEnabledClock(LL_APB0_PERIPH_COMP)
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_IS_CLK_ENABLED()             LL_APB0_IsEnabledClock(LL_APB0_PERIPH_DAC)
+#endif
 #define __HAL_RCC_RTC_IS_CLK_ENABLED()             LL_APB0_IsEnabledClock(LL_APB0_PERIPH_RTC)
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_IS_CLK_ENABLED()             LL_APB0_IsEnabledClock(LL_APB0_PERIPH_LCSC)
+#endif
 #define __HAL_RCC_WDG_IS_CLK_ENABLED()             LL_APB0_IsEnabledClock(LL_APB0_PERIPH_WDG)
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_IS_CLK_ENABLED()           LL_APB0_IsEnabledClock(LL_APB0_PERIPH_TIM16)
@@ -590,7 +636,19 @@ typedef struct
 #define __HAL_RCC_TIM2_IS_CLK_DISABLED()           !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_TIM2))
 #endif
 #define __HAL_RCC_SYSCFG_IS_CLK_DISABLED()         !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_SYSCFG))
+#if defined(LCD)
+#define __HAL_RCC_LCDC_IS_CLK_DISABLED()           !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_LCDC))
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_IS_CLK_DISABLED()           !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_COMP))
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_IS_CLK_DISABLED()            !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_DAC))
+#endif
 #define __HAL_RCC_RTC_IS_CLK_DISABLED()            !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_RTC))
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_IS_CLK_DISABLED()            !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_LCSC))
+#endif
 #define __HAL_RCC_WDG_IS_CLK_DISABLED()            !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_WDG))
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_IS_CLK_DISABLED()          !(LL_APB0_IsEnabledClock(LL_APB0_PERIPH_TIM16))
@@ -667,6 +725,13 @@ typedef struct
 
 #define __HAL_RCC_MRBLE_IS_CLK_DISABLED()           !(LL_APB2_IsEnabledClock(LL_APB2_PERIPH_MRBLE))
 #endif
+#if defined(MR_SUBG_RADIO)
+#define __HAL_RCC_MRSUBG_IS_CLK_ENABLED()            LL_APB2_IsEnabledClock(LL_APB2_PERIPH_MRSUBG)
+#define __HAL_RCC_LPAWUR_IS_CLK_ENABLED()            LL_APB2_IsEnabledClock(LL_APB2_PERIPH_LPAWUR)
+
+#define __HAL_RCC_MRSUBG_IS_CLK_DISABLED()           !(LL_APB2_IsEnabledClock(LL_APB2_PERIPH_MRSUBG))
+#define __HAL_RCC_LPAWUR_IS_CLK_DISABLED()           !(LL_APB2_IsEnabledClock(LL_APB2_PERIPH_LPAWUR))
+#endif
 
 /**
   * @}
@@ -721,7 +786,19 @@ typedef struct
 #define __HAL_RCC_TIM2_FORCE_RESET()            LL_APB0_ForceReset(LL_APB0_PERIPH_TIM2)
 #endif
 #define __HAL_RCC_SYSCFG_FORCE_RESET()          LL_APB0_ForceReset(LL_APB0_PERIPH_SYSCFG)
+#if defined(LCD)
+#define __HAL_RCC_LCDC_FORCE_RESET()            LL_APB0_ForceReset(LL_APB0_PERIPH_LCDC)
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_FORCE_RESET()            LL_APB0_ForceReset(LL_APB0_PERIPH_COMP)
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_FORCE_RESET()             LL_APB0_ForceReset(LL_APB0_PERIPH_DAC)
+#endif
 #define __HAL_RCC_RTC_FORCE_RESET()             LL_APB0_ForceReset(LL_APB0_PERIPH_RTC)
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_FORCE_RESET()             LL_APB0_ForceReset(LL_APB0_PERIPH_LCSC)
+#endif
 #define __HAL_RCC_WDG_FORCE_RESET()             LL_APB0_ForceReset(LL_APB0_PERIPH_WDG)
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_FORCE_RESET()           LL_APB0_ForceReset(LL_APB0_PERIPH_TIM16)
@@ -738,7 +815,19 @@ typedef struct
 #define __HAL_RCC_TIM2_RELEASE_RESET()          LL_APB0_ReleaseReset(LL_APB0_PERIPH_TIM2)
 #endif
 #define __HAL_RCC_SYSCFG_RELEASE_RESET()        LL_APB0_ReleaseReset(LL_APB0_PERIPH_SYSCFG)
+#if defined(LCD)
+#define __HAL_RCC_LCDC_RELEASE_RESET()          LL_APB0_ReleaseReset(LL_APB0_PERIPH_LCDC)
+#endif
+#if defined(COMP1)
+#define __HAL_RCC_COMP_RELEASE_RESET()          LL_APB0_ReleaseReset(LL_APB0_PERIPH_COMP)
+#endif
+#if defined(DAC)
+#define __HAL_RCC_DAC_RELEASE_RESET()           LL_APB0_ReleaseReset(LL_APB0_PERIPH_DAC)
+#endif
 #define __HAL_RCC_RTC_RELEASE_RESET()           LL_APB0_ReleaseReset(LL_APB0_PERIPH_RTC)
+#if defined(LCSC)
+#define __HAL_RCC_LCSC_RELEASE_RESET()           LL_APB0_ReleaseReset(LL_APB0_PERIPH_LCSC)
+#endif
 #define __HAL_RCC_WDG_RELEASE_RESET()           LL_APB0_ReleaseReset(LL_APB0_PERIPH_WDG)
 #if defined(TIM16) 
 #define __HAL_RCC_TIM16_RELEASE_RESET()         LL_APB0_ReleaseReset(LL_APB0_PERIPH_TIM16)
@@ -809,10 +898,18 @@ typedef struct
 #if defined(BLUE)
 #define __HAL_RCC_MRBLE_FORCE_RESET()            LL_APB2_ForceReset(LL_APB2_PERIPH_MRBLE)
 #endif
+#if defined(MR_SUBG_RADIO)
+#define __HAL_RCC_MRSUBG_FORCE_RESET()           LL_APB2_ForceReset(LL_APB2_PERIPH_MRSUBG)
+#define __HAL_RCC_LPAWUR_FORCE_RESET()           LL_APB2_ForceReset(LL_APB2_PERIPH_LPAWUR)
+#endif
 
 #define __HAL_RCC_APB2_RELEASE_RESET()           LL_APB2_ReleaseReset(LL_APB2_PERIPH_ALL)
 #if defined(BLUE)
 #define __HAL_RCC_MRBLE_RELEASE_RESET()          LL_APB2_ReleaseReset(LL_APB2_PERIPH_MRBLE)
+#endif
+#if defined(MR_SUBG_RADIO)
+#define __HAL_RCC_MRSUBG_RELEASE_RESET()         LL_APB2_ReleaseReset(LL_APB2_PERIPH_MRSUBG)
+#define __HAL_RCC_LPAWUR_RELEASE_RESET()         LL_APB2_ReleaseReset(LL_APB2_PERIPH_LPAWUR)
 #endif
 /**
   * @}
@@ -979,7 +1076,7 @@ typedef struct
   */
 #define __HAL_RCC_RC64MPLL_PRESC_CONFIG(__PLLM__) LL_RCC_SetRC64MPLLPrescaler(__PLLM__)
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /** @brief  Macro to configure the RF clock source.
   * @param  __SOURCE__  specifies the RF BLE clock source  
   *         This parameter must be a value of RCC_RF_RC64MPLL_Clock_Divider.
@@ -1050,6 +1147,7 @@ typedef struct
   *            @arg @ref RCC_MCODIV_16  MCO clock source is divided by 16
   *            @arg @ref RCC_MCODIV_32  MCO clock source is divided by 32
 
+  * @note   RCC_MCODIV_32 is valid only for SPIRIT3
   */
 #define __HAL_RCC_MCO_CONFIG(__MCOCLKSOURCE__, __MCODIV__)  LL_RCC_ConfigMCO((__MCOCLKSOURCE__), (__MCODIV__))
 

@@ -26,8 +26,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -62,7 +65,7 @@ extern "C" {
 /** @defgroup DMAMUX_LL_EC_REQUEST Transfer request
   * @{
   */
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LL_DMAMUX_REQ_MEM2MEM            0x00000000U  /*!< Memory to Memory transfer    */
 #ifdef SPI3 
 #define LL_DMAMUX_REQ_SPI3_RX            0x00000002U  /*!< DMAMUX SPI3 RX request       */
@@ -76,6 +79,52 @@ extern "C" {
 #define LL_DMAMUX_REQ_SPI2_RX            0x00000006U  /*!< DMAMUX SPI2 RX request       */
 #define LL_DMAMUX_REQ_SPI2_TX            0x00000007U  /*!< DMAMUX SPI2 TX request       */
 #endif /* SPI2 */ 
+#ifdef I2C1 
+#define LL_DMAMUX_REQ_I2C1_RX            0x00000008U  /*!< DMAMUX I2C1 RX request       */
+#define LL_DMAMUX_REQ_I2C1_TX            0x00000009U  /*!< DMAMUX I2C1 TX request       */
+#endif /* I2C1 */ 
+#ifdef I2C2 
+#define LL_DMAMUX_REQ_I2C2_RX            0x0000000AU  /*!< DMAMUX I2C2 RX request       */
+#define LL_DMAMUX_REQ_I2C2_TX            0x0000000BU  /*!< DMAMUX I2C2 TX request       */
+#endif /* I2C2 */
+#define LL_DMAMUX_REQ_USART1_RX          0x0000000CU  /*!< DMAMUX USART1 RX request     */
+#define LL_DMAMUX_REQ_USART1_TX          0x0000000DU  /*!< DMAMUX USART1 TX request     */
+#define LL_DMAMUX_REQ_LPUART1_RX         0x0000000EU  /*!< DMAMUX LPUART1 RX request    */
+#define LL_DMAMUX_REQ_LPUART1_TX         0x0000000FU  /*!< DMAMUX LPUART1 TX request    */
+#define LL_DMAMUX_REQ_ADC_DS             0x00000010U  /*!< DMAMUX ADC DS output request */
+#ifdef ADC_DF_DATAOUT_DF_DATA  
+#define LL_DMAMUX_REQ_ADC_DF             0x00000011U  /*!< DMAMUX ADC DF output request */
+#endif /* ADC_DF_DATAOUT_DF_DATA */
+#ifdef TIM2
+#define LL_DMAMUX_REQ_TIM2_CH1           0x00000012U  /*!< DMAMUX TIM2 CH1 request */     
+#define LL_DMAMUX_REQ_TIM2_CH2           0x00000013U  /*!< DMAMUX TIM2 CH3 request */     
+#define LL_DMAMUX_REQ_TIM2_CH3           0x00000014U  /*!< DMAMUX TIM2 CH3 request */     
+#define LL_DMAMUX_REQ_TIM2_CH4           0x00000015U  /*!< DMAMUX TIM2 CH4 request */     
+#define LL_DMAMUX_REQ_TIM2_UP            0x00000016U  /*!< DMAMUX TIM2 UP request */     
+#endif /* TIM2 */  
+#ifdef TIM16  
+#define LL_DMAMUX_REQ_TIM16_CH1          0x00000017U  /*!< DMAMUX TIM16 CH1 request */     
+#define LL_DMAMUX_REQ_TIM16_UP           0x00000018U  /*!< DMAMUX TIM16 UP request */     
+#endif /* TIM16 */    
+#ifdef TIM17
+#define LL_DMAMUX_REQ_TIM17_CH1          0x00000019U  /*!< DMAMUX TIM17 CH1 request */     
+#define LL_DMAMUX_REQ_TIM17_UP           0x0000001AU  /*!< DMAMUX TIM17 UP request */                    
+#endif /* TIM17 */
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#define LL_DMAMUX_REQ_MEM2MEM            0x00000000U  /*!< Memory to Memory transfer    */
+#ifdef SPI3 
+#define LL_DMAMUX_REQ_SPI3_RX            0x00000002U  /*!< DMAMUX SPI3 RX request       */
+#define LL_DMAMUX_REQ_SPI3_TX            0x00000003U  /*!< DMAMUX SPI3 TX request       */
+#endif /* SPI3 */
+#ifdef SPI1 
+#define LL_DMAMUX_REQ_SPI1_RX            0x00000004U  /*!< DMAMUX SPI1 RX request       */
+#define LL_DMAMUX_REQ_SPI1_TX            0x00000005U  /*!< DMAMUX SPI1 TX request       */
+#endif /* SPI1 */
+#ifdef AES1 
+#define LL_DMAMUX_REQ_AES1_RX            0x00000006U  /*!< DMAMUX AES1 RX request       */
+#define LL_DMAMUX_REQ_AES1_TX            0x00000007U  /*!< DMAMUX AES1 TX request       */
+#endif /* AES1 */ 
 #ifdef I2C1 
 #define LL_DMAMUX_REQ_I2C1_RX            0x00000008U  /*!< DMAMUX I2C1 RX request       */
 #define LL_DMAMUX_REQ_I2C1_TX            0x00000009U  /*!< DMAMUX I2C1 TX request       */

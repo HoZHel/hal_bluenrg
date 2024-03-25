@@ -26,8 +26,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 #include "rf_driver_ll_bus.h"
@@ -917,6 +920,9 @@ typedef struct
   * @{
   */
 #define LL_TIM_ETRSOURCE_LEGACY                0x00000000U                                       /*!< ETR legacy mode */
+#if defined(COMP1) && defined(TIM_AF1_ETRSEL)
+#define LL_TIM_ETRSOURCE_COMP1                 TIM_AF1_ETRSEL_0                                 /*!< ETR input is connected to COMP1_OUT */
+#endif /* COMP1 */
 /**
   * @}
   */
@@ -1020,6 +1026,9 @@ typedef struct
   * @{
   */
 #define LL_TIM_BKIN_SOURCE_BKIN                TIM_AF1_BKINE      /*!< BKIN input from AF controller */
+#if defined(COMP1)
+#define LL_TIM_BKIN_SOURCE_BKCOMP1             TIM_AF1_BKCMP1E    /*!< internal signal: COMP1 output */
+#endif /* COMP1 */
 #ifdef TIM_DCR_DBA
 /** @defgroup TIM_LL_EC_DMABURST_BASEADDR DMA Burst Base Address
   * @{

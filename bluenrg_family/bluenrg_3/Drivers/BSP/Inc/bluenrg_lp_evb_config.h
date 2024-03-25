@@ -89,6 +89,17 @@
 #include "lsm6dsox_reg.h"
 #include "lps22hh_reg.h"
 
+#elif defined(STEVAL_IDB012V2)
+/* BlueNRG-LPF QFN32 eval kit */
+#include "steval_idb012V2_config.h"
+#include "bluenrg_lp_evb_led.h" 
+#include "bluenrg_lp_evb_button.h"
+#include "bluenrg_lp_evb_spi.h"
+#include "bluenrg_lp_evb_i2c.h"
+
+#include "lsm6dsox_reg.h"
+#include "lps22hh_reg.h"
+
 #elif defined(STEVAL_IDB011V1)
 /* Default configuration is STEVAL_IDB011V1 */
 #include "steval_idb011V1_config.h"

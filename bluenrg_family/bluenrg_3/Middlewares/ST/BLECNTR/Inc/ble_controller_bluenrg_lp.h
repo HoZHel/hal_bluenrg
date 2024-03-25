@@ -87,7 +87,7 @@ extern "C" {
         BLUE_STATUSREG_ACTIVE2ERROR_Msk       | \
         BLUE_STATUSREG_CONFIGERROR_Msk          \
         )
-#elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define ANY_HW_ERROR_INTERRUPT_Msk ( \
         BLUE_STATUSREG_ADDPOINTERROR_Msk      |  \
         BLUE_STATUSREG_RXOVERFLOWERROR_Msk    |  \

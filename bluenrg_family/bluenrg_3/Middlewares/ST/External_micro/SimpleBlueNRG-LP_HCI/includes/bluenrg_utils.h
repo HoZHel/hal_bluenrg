@@ -51,6 +51,10 @@ typedef  PACKED(struct) devConfigS  {
 #warning "BlueNRG-LPS selected as target."
 #define FLASH_END       (0x1006FFFF) // 192 KB
 #define FW_OFFSET       (4*1024)     // 4 KB
+#elif defined CONFIG_DEVICE_BLUENRG_LPF
+#warning "BlueNRG-LPF selected as target."
+#define FLASH_END       (0x100BFFFF) // 512 KB
+#define FW_OFFSET       (4*1024)     // 4 KB
 #else
 #error "No device selected"
 #endif

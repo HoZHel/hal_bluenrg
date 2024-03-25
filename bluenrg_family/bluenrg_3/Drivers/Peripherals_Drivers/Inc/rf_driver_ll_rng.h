@@ -29,6 +29,9 @@ extern "C" {
 #if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
 #include "bluenrg_lpx.h"
 #endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
+#endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
   * @{

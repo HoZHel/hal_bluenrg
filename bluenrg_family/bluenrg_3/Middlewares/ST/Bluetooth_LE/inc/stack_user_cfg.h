@@ -111,7 +111,9 @@
 #  error "No BLE_STACK_*_CONF has been defined."
 #endif
 
-#if !(defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) )
+#if !(defined(CONFIG_DEVICE_BLUENRG_LP)  ||\
+      defined(CONFIG_DEVICE_BLUENRG_LPS) ||\
+      defined(CONFIG_DEVICE_BLUENRG_LPF))
 #  error "No CONFIG_DEVICE_BLUENRG_* has been defined."
 #endif
 
@@ -130,7 +132,7 @@
 #  define CONTROLLER_PERIODIC_ADV_ENABLED           (1U) /* Periodic Advertising and Synchronizer:     ENABLED  */
 #if defined(CONFIG_DEVICE_BLUENRG_LP)
 #    define CONTROLLER_CTE_ENABLED                  (0U) /* Constant Tone Extension:                   DISABLED */
-# elif defined(CONFIG_DEVICE_BLUENRG_LPS)
+#  elif defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #    define CONTROLLER_CTE_ENABLED                  (1U) /* Constant Tone Extension:                   ENABLED  */
 #endif
 #  define CONTROLLER_POWER_CONTROL_ENABLED          (1U) /* Power Control & Path Loss Monitoring:      ENABLED  */

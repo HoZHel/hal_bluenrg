@@ -27,8 +27,11 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "rf_driver_ll_rcc.h"
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -75,7 +78,7 @@ static const uint16_t LPUART_PRESCALER_TAB[] =
 #define LPUART_BRR_MASK               0x000FFFFFU
 #define LPUART_BRR_MIN_VALUE          0x00000300U
 
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_SPIRIT3) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define LPUART_PERIPHCLK               ( LL_RCC_GetLPUARTClockSource() == LL_RCC_LPUCLKSEL_16M ? 16000000U : 32768U )
 #endif
 #if defined(CONFIG_DEVICE_BLUENRG_LP)

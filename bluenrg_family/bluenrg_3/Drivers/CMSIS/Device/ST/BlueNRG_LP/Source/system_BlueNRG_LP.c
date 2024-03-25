@@ -107,7 +107,7 @@ NO_INIT_SECTION(REQUIRED(RAM_VR_TypeDef RAM_VR), ".ram_vr");
 
 /* BLUE RAM, reserved for radio communication. Not usable from the application */
 SECTION(".bss.__blue_RAM")
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 REQUIRED(uint8_t __blue_RAM[CONFIG_NUM_MAX_LINKS*92+28]) = {0,};
 #else /* BlueNRG_LP */
 REQUIRED(uint8_t __blue_RAM[CONFIG_NUM_MAX_LINKS*80+28]) = {0,};
@@ -248,7 +248,7 @@ static uint8_t SmpsTrimConfig(void)
     hsi_calib         = 0x1E;
     eng_lsi_bw_flag   = FALSE;
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     main_regulator    = 0x0A;
     hsi_calib         = 0x1F;
     lsi_bw            = 8;
@@ -376,7 +376,7 @@ void MrBleBiasTrimConfig(uint8_t coldStart)
     mr_ble_iptat = 0x07;
     mr_ble_vbg   = 0x08;
     mr_ble_rxadc_delay_flag = FALSE;
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
     mr_ble_rxadc_delay_i    = 3;
     mr_ble_rxadc_delay_q    = 3;
     mr_ble_rxadc_delay_flag = TRUE;
@@ -410,7 +410,7 @@ void MrBleBiasTrimConfig(uint8_t coldStart)
   /* Enable Viterbi */
   SET_BIT(RRM->VIT_CONF_DIG_ENG, RRM_VIT_CONF_DIG_ENG_VIT_CONF_0);
   
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
   MODIFY_REG_FIELD(RRM->ANTSW_DIG0_USR, RRM_ANTSW0_DIG_USR_RX_TIME_TO_SAMPLE, RX_TIME_TO_SAMPLE);
   MODIFY_REG_FIELD(RRM->ANTSW_DIG1_USR, RRM_ANTSW1_DIG_USR_RX_TIME_TO_SWITCH, RX_TIME_TO_SWITCH);
 #endif  

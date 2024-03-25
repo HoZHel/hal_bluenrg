@@ -48,8 +48,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "rf_driver_hal.h"
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "system_BlueNRG_LP.h"
+#endif
+#if  defined(CONFIG_DEVICE_SPIRIT3)
+#include "system_spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_HAL_Driver
@@ -100,7 +103,11 @@
 #define MCO3_GPIO_PORT        GPIOB
 #define MCO3_PIN              GPIO_PIN_15
 #endif
-#if defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
+#define MCO3_GPIO_PORT        GPIOB
+#define MCO3_PIN              GPIO_PIN_14
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
 #define MCO3_GPIO_PORT        GPIOB
 #define MCO3_PIN              GPIO_PIN_14
 #endif
@@ -683,6 +690,9 @@ void HAL_RCC_MCOConfig(uint32_t RCC_MCOx, uint32_t RCC_MCOSource, uint32_t RCC_M
     GPIO_InitStruct.Pin       = MCO3_PIN;
 #if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
     GPIO_InitStruct.Alternate = GPIO_AF2_MCO;
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+    GPIO_InitStruct.Alternate = GPIO_AF3_MCO;
 #endif
     HAL_GPIO_Init(MCO3_GPIO_PORT, &GPIO_InitStruct);
   }

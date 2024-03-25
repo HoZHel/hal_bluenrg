@@ -26,8 +26,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "bluenrg_lpx.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "spirit3.h"
 #endif
 
 /** @addtogroup RF_DRIVER_LL_Driver
@@ -100,8 +103,11 @@ typedef struct
   * @{
   */
 #if !defined  (HSE_VALUE)
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define HSE_VALUE    32000000U  /*!< Value of the HSE oscillator in Hz */
+#endif
+#if  defined(CONFIG_DEVICE_SPIRIT3)
+#define HSE_VALUE    48000000U  /*!< Value of the HSE oscillator in Hz */
 #endif
 #endif /* HSE_VALUE */
 
@@ -139,6 +145,9 @@ typedef struct
 #define LL_RCC_CIFR_WDGRSTRELF            RCC_CIFR_WDGRSTF  /*!< WDG Reset Release Interrupt Flag/Clear */
 #if defined(RCC_CIFR_LPURSTF)
 #define LL_RCC_CIFR_LPURSTRELF            RCC_CIFR_LPURSTF  /*!< LPUART Reset Release Interrupt Flag/Clear */
+#endif
+#if defined(RCC_CIFR_LCDRSTF)
+#define LL_RCC_CIFR_LCDRSTRELF            RCC_CIFR_LCDRSTF           /*!< LCD Reset Release Interrupt Flag/Clear   */
 #endif
 #if defined(RCC_CIFR_LCSCRSTF)
 #define LL_RCC_CIFR_LCSCRSTRELF            RCC_CIFR_LCSCRSTF           /*!< LCSC Reset Release Interrupt Flag/Clear   */
@@ -184,7 +193,7 @@ typedef struct
   * @}
   */
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /** @defgroup RCC_LL_EC_HSE_CURRENT_CONTROL  HSE current control max limits
   * @{
   */
@@ -285,7 +294,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RCC_LL_EC_SYSCLK_SWITCH_DIV  RC64MPLL divider factor to switch the System clock with MR_BLE   enabled
+/** @defgroup RCC_LL_EC_SYSCLK_SWITCH_DIV  RC64MPLL divider factor to switch the System clock with MR_BLE  or MR_SUBG enabled
   * @{
   */
 #define LL_RCC_RC64MPLL_SWITCH_DIV_1                0x00000000U                              /*!< RC64MPLL not divided as SYSCLK   */
@@ -492,7 +501,7 @@ __STATIC_INLINE uint32_t LL_RCC_HSE_GetCapacitorTuning(void)
   return (uint32_t)(READ_BIT(RCC->RFSWHSECR, RCC_RFSWHSECR_SWXOTUNE) >> RCC_RFSWHSECR_SWXOTUNE_Pos);
 }
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 /**
   * @brief  Set HSE current control
   * @rmtoll RFSWHSECR        GMC       LL_RCC_HSE_SetCurrentControl
@@ -530,6 +539,32 @@ __STATIC_INLINE uint32_t LL_RCC_HSE_GetCurrentControl(void)
 }
 #endif
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief  Set HSE current control. The Current is calculated with the following
+  *         formula: Iref * GMC[4:0].
+  *         Iref(GMC[6:5])--> 00= 10uA
+  *         Iref(GMC[6:5])--> 01= 20uA
+  *         Iref(GMC[6:5])--> 1x= 40uA
+  *         Example GMC[6:0]=0b1111001=25*40uA
+  * @rmtoll RFSWHSECR        GMC       LL_RCC_HSE_SetCurrentControl
+  * @param  CurrentMax HSE current calculated with the previous formula
+  */
+__STATIC_INLINE void LL_RCC_HSE_SetCurrentControl(uint32_t CurrentMax)
+{
+  MODIFY_REG_FIELD(RCC->RFSWHSECR, RCC_RFSWHSECR_GMC, CurrentMax);
+}
+
+/**
+  * @brief  Get HSE current control
+  * @rmtoll RFSWHSECR       GMC       LL_RCC_HSE_GetCurrentControl
+  * @retval Returned HSE current control
+  */
+__STATIC_INLINE uint32_t LL_RCC_HSE_GetCurrentControl(void)
+{
+  return (uint32_t)(READ_REG_FIELD(RCC->RFSWHSECR, RCC_RFSWHSECR_GMC));
+}
+#endif
 
 #if defined(RCC_RFSWHSECR_SATRG)
 /**
@@ -1120,6 +1155,7 @@ __STATIC_INLINE uint32_t LL_RCC_GetLPUARTClockSource(void)
   * @arg LL_RCC_MCO_DIV_16
   * @arg LL_RCC_MCO_DIV_32
   * @retval None
+  * @note  LL_RCC_MCO_DIV_32 is valid only for SPIRIT3
   */
 __STATIC_INLINE void LL_RCC_ConfigMCO(uint32_t MCOSource, uint32_t MCOPrescaler)
 {
@@ -1203,7 +1239,8 @@ __STATIC_INLINE void LL_RCC_SetSPI2I2SClockSource(uint32_t Source)
   * @arg LL_RCC_SPI3_I2S_CLK32M
   * @arg LL_RCC_SPI3_I2S_CLK64M
   * @retval None
-  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for BlueNRG-LPS family
+  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for BlueNRG-LPS and BlueNRG-LPF family
+  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for SPIRIT3 family
   */
 __STATIC_INLINE void LL_RCC_SetSPI3I2SClockSource(uint32_t Source)
 {
@@ -1231,7 +1268,8 @@ __STATIC_INLINE void LL_RCC_SetSPI3I2SClockSource(uint32_t Source)
   * @arg LL_RCC_SPI3_I2S_CLK16M
   * @arg LL_RCC_SPI3_I2S_CLK32M
   * @arg LL_RCC_SPI3_I2S_CLK64M
-  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for BlueNRG-LPS family
+  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for BlueNRG-LPS and BlueNRG-LPF family
+  * @note The LL_RCC_SPI3_I2S_CLK64M is valid for SPIRIT3 family
   */
   __STATIC_INLINE uint32_t LL_RCC_GetSPI3I2SClockSource(void)
 {
@@ -1428,6 +1466,17 @@ __STATIC_INLINE void LL_RCC_ClearFlag_LPURSTREL(void)
 }
 #endif
 
+#if defined(RCC_CIFR_LCDRSTF)
+/**
+  * @brief  Clear LCD Reset Release interrupt flag
+  * @rmtoll CIFR         LCDRSTF       LL_RCC_ClearFlag_LCDRSTREL
+  * @retval None
+  */
+__STATIC_INLINE void LL_RCC_ClearFlag_LCDRSTREL(void)
+{
+  SET_BIT(RCC->CIFR, RCC_CIFR_LCDRSTF);
+}
+#endif
 
 #if defined(RCC_CIFR_LCSCRSTF)
 /**
@@ -1533,6 +1582,17 @@ __STATIC_INLINE uint32_t LL_RCC_IsActiveFlag_LPURSTREL(void)
 }
 #endif
 
+#if defined(RCC_CIFR_LCDRSTF)
+/**
+  * @brief  Check if LCD Reset Release flag interrupt occurred or not
+  * @rmtoll CIFR         LCDRSTF       LL_RCC_IsActiveFlag_LCDRSTREL
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_RCC_IsActiveFlag_LCDRSTREL(void)
+{
+  return ((READ_BIT(RCC->CIFR, RCC_CIFR_LCDRSTF) == (RCC_CIFR_LCDRSTF)) ? 1UL : 0UL);
+}
+#endif
 
 #if defined(RCC_CIFR_LCSCRSTF)
 /**
@@ -1615,7 +1675,7 @@ __STATIC_INLINE void LL_RCC_ClearResetFlags(void)
   */
   
 /**
-  * @brief  Set RC64MPLL prescaler to switch the clock when the MR_BLE   is enabled
+  * @brief  Set RC64MPLL prescaler to switch the clock when the MR_BLE or MR_SUBG or LPAWUR is enabled
   * @rmtoll CSCMDR       CLKSYSDIV_REQ          LL_RCC_SwitchRC64MPLLPrescaler
   * @param  Prescaler This parameter can be one of the following values:
   * @arg LL_RCC_RC64MPLL_SWITCH_DIV_1
@@ -1800,6 +1860,17 @@ __STATIC_INLINE void LL_RCC_EnableIT_LPURSTREL(void)
 }
 #endif
 
+#if defined(RCC_CIER_LCDRSTIE)
+/**
+  * @brief  Enable LCD Reset Release interrupt
+  * @rmtoll CIER         RCC_CIER_LCDRSTIE      LL_RCC_EnableIT_LCDRSTREL
+  * @retval None
+  */
+__STATIC_INLINE void LL_RCC_EnableIT_LCDRSTREL(void)
+{
+  SET_BIT(RCC->CIER, RCC_CIER_LCDRSTIE);
+}
+#endif
 
 #if defined(RCC_CIER_LCSCRSTIE)
 /**
@@ -1905,6 +1976,17 @@ __STATIC_INLINE void LL_RCC_DisableIT_LPURSTREL(void)
 }
 #endif
 
+#if defined(RCC_CIER_LCDRSTIE)
+/**
+  * @brief  Disable LCD Reset Release interrupt
+  * @rmtoll CIER         RCC_CIER_LCDRSTIE      LL_RCC_DisableIT_LCDRSTREL
+  * @retval None
+  */
+__STATIC_INLINE void LL_RCC_DisableIT_LCDRSTREL(void)
+{
+  CLEAR_BIT(RCC->CIER, RCC_CIER_LCDRSTIE);
+}
+#endif
 
 #if defined(RCC_CIER_LCSCRSTIE)
 /**
@@ -2010,6 +2092,17 @@ __STATIC_INLINE uint32_t LL_RCC_IsEnabledIT_LPURSTREL(void)
 }
 #endif
 
+#if defined(RCC_CIER_LCDRSTIE)
+/**
+  * @brief  Checks if LCD Reset Release interrupt source is enabled or disabled.
+  * @rmtoll CIER         RCC_CIER_LCDRSTIE      LL_RCC_IsEnabledIT_LCDRSTREL
+  * @retval None
+  */
+__STATIC_INLINE uint32_t LL_RCC_IsEnabledIT_LCDRSTREL(void)
+{
+  return ((READ_BIT(RCC->CIER, RCC_CIER_LCDRSTIE) == (RCC_CIER_LCDRSTIE)) ? 1UL : 0UL);
+}
+#endif
 
 #if defined(RCC_CIER_LCSCRSTIE)
 /**

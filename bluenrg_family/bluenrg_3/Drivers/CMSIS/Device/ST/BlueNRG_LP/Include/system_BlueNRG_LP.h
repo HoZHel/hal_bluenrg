@@ -64,7 +64,9 @@
    
 #if !defined CONFIG_DEVICE_BLUENRG_LP 
   #if !defined CONFIG_DEVICE_BLUENRG_LPS
+   #if !defined CONFIG_DEVICE_BLUENRG_LPF
     #error "Define device type."
+   #endif
   #endif
 #endif
 
@@ -139,6 +141,29 @@
 #define _MEMORY_BYTES_PER_PAGE_  (2048)
 
 
+#elif defined(CONFIG_DEVICE_BLUENRG_LPF)
+
+/**
+ * @brief RAM base address
+ */   
+#define _MEMORY_RAM_BEGIN_       0x20000000
+#ifdef CONFIG_DEVICE_BLUENRG_362
+#define _MEMORY_RAM_SIZE_        0x8000            /* 32KB  */
+#define _MEMORY_RAM_END_         0x20007FFF
+#else
+#define _MEMORY_RAM_SIZE_        0x10000           /* 64KB  */
+#define _MEMORY_RAM_END_         0x2000FFFF
+#endif
+
+   
+/**
+ * @brief User FLASH base address
+ */
+#define _MEMORY_FLASH_BEGIN_     0x10040000
+#define _MEMORY_FLASH_SIZE_      0x80000          /* 512KB */
+#define _MEMORY_FLASH_END_       0x100BFFFF
+#define _MEMORY_BYTES_PER_PAGE_  (2048)
+
 #endif
 
 /**
@@ -156,7 +181,7 @@
   * @{
   */
 
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #define CORE_CM0PLUS
 #else
 #error "Define device type."

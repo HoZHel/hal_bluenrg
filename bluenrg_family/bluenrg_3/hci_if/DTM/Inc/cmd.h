@@ -46,7 +46,7 @@
 /* BlueNRG-LP/BlueNRG-LPS SDK 1.5.0  (Bluetooth LE stack v3.2a) */               
 #define DTM_FW_VERSION_MAJOR    1 
 #define DTM_FW_VERSION_MINOR    5
-#define DTM_FW_VERSION_PATCH    0
+#define DTM_FW_VERSION_PATCH    1 /* Update for STM32WB05N project */
 
 #ifdef UART_INTERFACE                  
 #define DTM_VARIANT             1

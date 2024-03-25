@@ -184,6 +184,19 @@ typedef enum
 #define BSP_UART_RX_GPIO_CLK_DISABLE()            LL_AHB_DisableClock(LL_AHB_PERIPH_GPIOB)
 #define BSP_USART_RX_WAKEUP                       WAKEUP_PB0
 
+#define BSP_UART_RTS_PIN                          LL_GPIO_PIN_2
+#define BSP_UART_RTS_GPIO_PORT                    GPIOB
+#define BSP_UART_RTS_GPIO_AF_N                    LL_GPIO_AF_0
+#define BSP_UART_RTS_GPIO_AF()                    LL_GPIO_SetAFPin_0_7(BSP_UART_RTS_GPIO_PORT, BSP_UART_RTS_PIN, BSP_UART_RTS_GPIO_AF_N)
+#define BSP_UART_RTS_GPIO_CLK_ENABLE()            LL_AHB_EnableClock(LL_AHB_PERIPH_GPIOB)
+#define BSP_UART_RTS_GPIO_CLK_DISABLE()           LL_AHB_DisableClock(LL_AHB_PERIPH_GPIOB)
+
+#define BSP_UART_CTS_PIN                          LL_GPIO_PIN_7
+#define BSP_UART_CTS_GPIO_PORT                    GPIOB
+#define BSP_UART_CTS_GPIO_AF_N                    LL_GPIO_AF_2
+#define BSP_UART_CTS_GPIO_AF()                    LL_GPIO_SetAFPin_0_7(BSP_UART_CTS_GPIO_PORT, BSP_UART_CTS_PIN, BSP_UART_CTS_GPIO_AF_N)
+#define BSP_UART_CTS_GPIO_CLK_ENABLE()            LL_AHB_EnableClock(LL_AHB_PERIPH_GPIOB)
+#define BSP_UART_CTS_GPIO_CLK_DISABLE()           LL_AHB_DisableClock(LL_AHB_PERIPH_GPIOB)
 
 #define BSP_SPI                                   SPI3
 #define BSP_SPI_CLK_ENABLE()                      LL_APB1_EnableClock(LL_APB1_PERIPH_SPI3)

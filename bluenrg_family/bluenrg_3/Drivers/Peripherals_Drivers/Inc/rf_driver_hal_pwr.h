@@ -81,7 +81,7 @@ typedef struct
 #define PWR_PVDLEVEL_4                  LL_PWR_PVDLEVEL_4   /*!< PVD threshold around 2.64 V */
 #define PWR_PVDLEVEL_5                  LL_PWR_PVDLEVEL_5   /*!< PVD threshold around 2.81 V */
 #define PWR_PVDLEVEL_6                  LL_PWR_PVDLEVEL_6   /*!< PVD threshold around 2.91 V */
-#define PWR_PVDLEVEL_7                  LL_PWR_PVDLEVEL_7   /*!< External input analog voltage (compared internally to VREFINT for BlueNRG-LP and LPS.  ) */
+#define PWR_PVDLEVEL_7                  LL_PWR_PVDLEVEL_7   /*!< External input analog voltage (compared internally to VREFINT for BlueNRG-LP and LPS.  Compared internally to VBGP for SPIRIT3) */
 /**
   * @}
   */

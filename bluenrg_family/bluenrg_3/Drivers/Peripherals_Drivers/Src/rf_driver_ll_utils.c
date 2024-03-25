@@ -21,8 +21,11 @@
 #include "rf_driver_ll_rcc.h"
 #include "rf_driver_ll_system.h"
 #include "rf_driver_ll_pwr.h"
-#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS)
+#if defined(CONFIG_DEVICE_BLUENRG_LP) || defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
 #include "system_BlueNRG_LP.h"
+#endif
+#if defined(CONFIG_DEVICE_SPIRIT3)
+#include "system_spirit3.h"
 #endif
 
 
@@ -127,6 +130,7 @@ void LL_mDelay(uint32_t Delay)
   *         SYSCLK_DIRECT_HSE
   *         SYSCLK_DIRECT_HSE_DIV2
   * @retval SUCCESS or error code
+  * @note The SYSCLK_DIRECT_HSE_DIV2 is valid only for SPIRIT3
   */
 uint32_t LL_SetSystemCoreClock(uint8_t SysClk)
 {
@@ -143,6 +147,56 @@ uint32_t LL_GetSystemCoreClock(void)
 }
 
 
+#if defined(CONFIG_DEVICE_SPIRIT3)
+/**
+  * @brief This function set the XTAL frequency expressed in Hz.
+  * @param freq XTAL frequency expressed in Hz.
+  */
+void LL_SetXTALFreq(uint32_t freq)
+{
+  HSE_xtalFrequency = freq;
+
+  switch(LL_RCC_GetRC64MPLLPrescaler())
+  {
+  case LL_RCC_RC64MPLL_DIV_1:
+    if (LL_RCC_DIRECT_HSE_IsEnabled())
+      SystemCoreClock = HSE_xtalFrequency;
+    else
+      SystemCoreClock = (HSE_xtalFrequency/3)*4;
+    break;
+  case LL_RCC_RC64MPLL_DIV_2:
+    if (LL_RCC_DIRECT_HSE_IsEnabled())
+      SystemCoreClock = HSE_xtalFrequency/2;
+    else
+      SystemCoreClock = (HSE_xtalFrequency/3)*2;
+    break;
+  case LL_RCC_RC64MPLL_DIV_4:
+    SystemCoreClock = HSE_xtalFrequency/3;
+    break;
+  case LL_RCC_RC64MPLL_DIV_8:
+    SystemCoreClock = HSE_xtalFrequency/6;
+    break;
+  case LL_RCC_RC64MPLL_DIV_16:
+    SystemCoreClock = HSE_xtalFrequency/12;
+    break;
+  case LL_RCC_RC64MPLL_DIV_32:
+    SystemCoreClock = HSE_xtalFrequency/24;
+    break;
+   case LL_RCC_RC64MPLL_DIV_64:
+     SystemCoreClock = HSE_xtalFrequency/48;
+     break;
+  }
+}
+
+/**
+  * @brief  This function return the System Core Clock expressed in Hz.
+  * @retval System Core Clock frequency.
+  */
+uint32_t LL_GetXTALFreq(void)
+{
+  return HSE_xtalFrequency;
+}
+#endif
 
 /**
   * @}
