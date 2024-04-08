@@ -64,7 +64,8 @@
 /* --------------------- BLE stack configuration options --------------------------------------------------- */
 /* This specific set of modular configuration options is used for configuring the Bluetooth Low Energy stack 
    ONLY when BLE_STACK_CUSTOM_CONF is defined on user application preprocessor options */
-
+/* It is done in CMakeLists */
+#if 0
 #ifdef CONFIG_DEVICE_BLUENRG_LP
 
 #define CONTROLLER_MASTER_ENABLED                 (1U) 
@@ -123,5 +124,5 @@
 #endif 
 
 #endif
-
+#endif
 #endif // _CUSTOM_BLE_STACK_CONF_H_
