@@ -98,11 +98,18 @@ uint32_t SystemCoreClock  = 64000000U; /*CPU: HSI clock after startup (64MHz)*/
 /* Private macros ------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 static uint8_t SmpsTrimConfig(void);
+#ifdef __ZEPHYR__
+uint8_t LSConfig(void);
+extern void * _vector_table;
+#define __vector_table _vector_table
+#else
 static uint8_t LSConfig(void);
+#endif /* __ZEPHYR__ */
 
 /* Exported function prototypes -----------------------------------------------*/
 
 /* Exported variables ---------------------------------------------------------*/
+#ifndef __ZEPHYR__
 NO_INIT_SECTION(REQUIRED(RAM_VR_TypeDef RAM_VR), ".ram_vr");
 
 /* BLUE RAM, reserved for radio communication. Not usable from the application */
@@ -112,7 +119,7 @@ REQUIRED(uint8_t __blue_RAM[CONFIG_NUM_MAX_LINKS*92+28]) = {0,};
 #else /* BlueNRG_LP */
 REQUIRED(uint8_t __blue_RAM[CONFIG_NUM_MAX_LINKS*80+28]) = {0,};
 #endif
-
+#endif /* __ZEPHYR__ */
 
 /*************************************************************************************
  **
@@ -121,7 +128,7 @@ REQUIRED(uint8_t __blue_RAM[CONFIG_NUM_MAX_LINKS*80+28]) = {0,};
  **************************************************************************************/
 /* Exported function prototypes ---------------------------------------------*/
 
-
+#ifndef __ZEPHYR__
 /**
   * @brief System Timer timeout configuration
   * @param system_clock System Clock Frequency
@@ -187,7 +194,7 @@ uint8_t SystemReadyWait(uint32_t timeout_ms, uint32_t (*ready_func)(void), uint3
   
   return ret_val;
 }
-
+#endif /* __ZEPHYR__ */
 /**
   * @brief  SMPS and Trimming value Configuration 
   */
@@ -289,7 +296,11 @@ static uint8_t SmpsTrimConfig(void)
 /**
   * @brief  Low Speed Configuration
   */
+#ifndef __ZEPHYR__
 static uint8_t LSConfig(void)
+#else
+uint8_t LSConfig(void)
+#endif /* __ZEPHYR__ */
 {
   uint8_t ret_val=SUCCESS;
   
@@ -348,12 +359,13 @@ void MrBleBiasTrimConfig(uint8_t coldStart)
   uint8_t mr_ble_rxadc_delay_flag;
   
   if (coldStart) {
+#ifndef __ZEPHYR__
     /* Change system's clock frequency from 16MHz to 32MHz */
     LL_RCC_SetRC64MPLLPrescaler(LL_RCC_RC64MPLL_DIV_2);
     
     /* Set MR_BLE frequency to 32MHz (HSI/2) */
     LL_RCC_SetRFClockSource(LL_RCC_RF_RC64MPLL_DIV2);
-
+#endif /* __ZEPHYR__ */
     /* Peripheral reset */
     LL_APB2_ForceReset(LL_APB2_PERIPH_MRBLE);
     LL_APB2_ReleaseReset(LL_APB2_PERIPH_MRBLE);
@@ -641,9 +653,10 @@ uint8_t SystemInit(uint8_t SysClk, uint8_t BleSysClk)
 {
   uint8_t ret_val;
   
+#ifndef __ZEPHYR__
   /* Vector Table Offset Register */
   SCB->VTOR = (uint32_t) (__vector_table);
-
+#endif /* __ZEPHYR__ */
   /* Store in RAM the AppBase information */
   RAM_VR.AppBase = (uint32_t) (__vector_table);
 	
@@ -665,7 +678,7 @@ uint8_t SystemInit(uint8_t SysClk, uint8_t BleSysClk)
   ret_val = SmpsTrimConfig();
   if (ret_val!= SUCCESS)
     return ret_val;
-
+#ifndef __ZEPHYR__
   /* Low Speed Crystal Configuration */
   ret_val = LSConfig();
   if (ret_val!= SUCCESS)
@@ -700,7 +713,7 @@ uint8_t SystemInit(uint8_t SysClk, uint8_t BleSysClk)
   setInterruptPriority();
 
   __enable_irq();
-  
+#endif /* __ZEPHYR__ */
   return SUCCESS;
 }
 

@@ -30,7 +30,7 @@
 #include "cmd.h"
 #include "transport_layer.h"
 #include "osal.h"
-#include "dtm_cmd_en.h"
+#include "DTM_cmd_en.h"
 
 
 /* Private macro -------------------------------------------------------------*/

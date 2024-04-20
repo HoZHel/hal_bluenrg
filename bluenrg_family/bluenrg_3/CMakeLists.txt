@@ -24,6 +24,8 @@ endif()
 
 zephyr_compile_definitions(
   -DUSE_FULL_LL_DRIVER
+  -DCONFIG_HW_LS_XTAL
+  -DCONFIG_HW_SMPS_10uH
   )
 zephyr_include_directories(Drivers/CMSIS/Device/ST/BlueNRG_LP/Include)
 zephyr_include_directories(Drivers/Peripherals_Drivers/Inc)
@@ -45,6 +47,7 @@ zephyr_include_directories(hci_if/DTM/Inc)
 target_link_directories(app PUBLIC Middlewares/ST/Bluetooth_LE/library)
 target_link_libraries(app PUBLIC bluenrg_lp_stack_controller_only.a)
 
+zephyr_library_sources(Drivers/CMSIS/Device/ST/BlueNRG_LP/Source/system_BlueNRG_LP.c)
 zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_assert.c)
 zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_rcc.c)
 zephyr_library_sources_ifdef(CONFIG_UART_BLUENRG Drivers/Peripherals_Drivers/Src/rf_driver_ll_usart.c)
