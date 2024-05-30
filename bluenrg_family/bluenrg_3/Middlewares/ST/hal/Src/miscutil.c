@@ -60,11 +60,6 @@
   of pins with aci_hal_set_antenna_switch_parameters().  */
 #define RESERVED_GPIOS  0x00
 
-// TODO: to be removed
-#ifndef CONFIG_NUM_MAX_LINKS
-#define CONFIG_NUM_MAX_LINKS 8
-#endif
-
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 #if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
@@ -389,7 +384,7 @@ tBleStatus aci_hal_set_tx_power_level_preprocess(uint8_t En_High_Power,
 
 static BOOL LL_busy(void)
 {
-  uint8_t n_banks = ((CONFIG_NUM_MAX_LINKS-1)/8+1);
+  uint8_t n_banks = ((CFG_BLE_NUM_RADIO_TASKS-1)/8+1);
   uint8_t link_status[8];
   uint16_t link_connection_handles[8];  
   

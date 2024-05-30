@@ -871,6 +871,7 @@ tBleStatus hci_le_set_advertising_parameters(uint16_t Advertising_Interval_Min,
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_read_advertising_channel_tx_power(int8_t *Transmit_Power_Level);
+tBleStatus hci_le_read_advertising_physical_channel_tx_power(int8_t *Transmit_Power_Level);
 /**
  * @brief The LE_Set_Advertise_Enable command is used to request the Controller
  *        to start or stop advertising. The Controller manages the timing of
@@ -1101,6 +1102,7 @@ tBleStatus hci_le_create_connection_cancel(void);
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_read_white_list_size(uint8_t *White_List_Size);
+tBleStatus hci_le_read_filter_accept_list_size(uint8_t *White_List_Size);
 /**
  * @brief The LE_Clear_White_List command is used to clear the white list stored
  *        in the Controller. This command can be used at any time except when: -
@@ -1112,6 +1114,7 @@ tBleStatus hci_le_read_white_list_size(uint8_t *White_List_Size);
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_clear_white_list(void);
+tBleStatus hci_le_clear_filter_accept_list(void);
 /**
  * @brief The LE_Add_Device_To_White_List command is used to add a single device
  *        to the white list stored in the Controller. This command can be used
@@ -1131,6 +1134,8 @@ tBleStatus hci_le_clear_white_list(void);
  */
 tBleStatus hci_le_add_device_to_white_list(uint8_t Address_Type,
                                            uint8_t Address[6]);
+tBleStatus hci_le_add_device_to_filter_accept_list(uint8_t Address_Type,
+                                           uint8_t Address[6]);
 /**
  * @brief The LE_Remove_Device_From_White_List command is used to remove a
  *        single device from the white list stored in the Controller. This
@@ -1149,6 +1154,8 @@ tBleStatus hci_le_add_device_to_white_list(uint8_t Address_Type,
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_remove_device_from_white_list(uint8_t Address_Type,
+                                                uint8_t Address[6]);
+tBleStatus hci_le_remove_device_from_filter_accept_list(uint8_t Address_Type,
                                                 uint8_t Address[6]);
 /**
  * @brief The LE_Connection_Update command is used to change the Link Layer
@@ -1256,6 +1263,7 @@ tBleStatus hci_le_read_channel_map(uint16_t Connection_Handle,
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_read_remote_used_features(uint16_t Connection_Handle);
+tBleStatus hci_le_read_remote_features(uint16_t Connection_Handle);
 /**
  * @brief The LE_Encrypt command is used to request the Controller to encrypt
  *        the Plaintext_Data in the command using the Key given in the command
@@ -1332,6 +1340,7 @@ tBleStatus hci_le_long_term_key_request_reply(uint16_t Connection_Handle,
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_long_term_key_requested_negative_reply(uint16_t Connection_Handle);
+tBleStatus hci_le_long_term_key_request_negative_reply(uint16_t Connection_Handle);
 /**
  * @brief The LE_Read_Supported_States command reads the states and state
  *        combinations that the link layer supports. See [Vol 6] Part B, Section
@@ -4650,6 +4659,9 @@ tBleStatus hci_le_test_end(uint16_t *Number_Of_Packets);
 tBleStatus hci_le_enhanced_receiver_test(uint8_t RX_Channel,
                                          uint8_t PHY,
                                          uint8_t Modulation_index);
+tBleStatus hci_le_receiver_test_v2(uint8_t RX_Channel,
+                                         uint8_t PHY,
+                                         uint8_t Modulation_index);
 /**
  * @brief This command is used to start a test where the DUT generates test
  *        reference packets at a fixed interval. The Controller shall transmit
@@ -4692,6 +4704,10 @@ tBleStatus hci_le_enhanced_receiver_test(uint8_t RX_Channel,
  * @retval Value indicating success or error code.
  */
 tBleStatus hci_le_enhanced_transmitter_test(uint8_t TX_Channel,
+                                            uint8_t Length_Of_Test_Data,
+                                            uint8_t Packet_Payload,
+                                            uint8_t PHY);
+tBleStatus hci_le_transmitter_test_v2(uint8_t TX_Channel,
                                             uint8_t Length_Of_Test_Data,
                                             uint8_t Packet_Payload,
                                             uint8_t PHY);

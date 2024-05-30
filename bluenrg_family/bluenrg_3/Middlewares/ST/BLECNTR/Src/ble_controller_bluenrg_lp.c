@@ -247,7 +247,11 @@ void BLECNTR_InitGlobal(void)
 /* Calculate the Timeout to be programmed on Timer2 to obtain a give T_IFS
  * when the next packet is a transmit one
 */
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
 uint32_t BLECNTR_GeTimer2TimeoutForIfs(uint32_t T_Ifs, BLECNTR_Transaction Transaction, BOOL Cal_Enabled)
+#else
+uint32_t BLEPLAT_CNTR_GetTimer2TimeoutForIfs(uint32_t T_Ifs, BLECNTR_Transaction Transaction, BOOL Cal_Enabled)
+#endif
 {
     uint32_t Timeout = T_Ifs;
     uint32_t Tx_Delay_Comp;

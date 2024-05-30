@@ -45,7 +45,11 @@ zephyr_include_directories(Middlewares/ST/cryptolib/inc)
 zephyr_include_directories(hci_if/DTM/Inc)
 
 target_link_directories(app PUBLIC Middlewares/ST/Bluetooth_LE/library)
+if(CONFIG_BLE_STACK_VERSION_3_2a)
 target_link_libraries(app PUBLIC bluenrg_lp_stack_controller_only.a)
+elseif(CONFIG_BLE_STACK_VERSION_4)
+target_link_libraries(app PUBLIC stm32wb0x_ble_stack_controller_only.a)
+endif()
 
 zephyr_library_sources(Drivers/CMSIS/Device/ST/BlueNRG_LP/Source/system_BlueNRG_LP.c)
 zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_assert.c)
@@ -53,39 +57,38 @@ zephyr_library_sources(Drivers/Peripherals_Drivers/Src/rf_driver_ll_rcc.c)
 zephyr_library_sources_ifdef(CONFIG_UART_BLUENRG Drivers/Peripherals_Drivers/Src/rf_driver_ll_usart.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_BLUENRG Drivers/Peripherals_Drivers/Src/rf_driver_ll_gpio.c)
 
+########### Begining of modularity selection ###########
+
 if(CONFIG_BT)
 # Parameters hard coded to BlueNRG-LP, controller only
 zephyr_compile_definitions(
-  #-DBLE_STACK_FULL_CONF
-  #-DBLE_STACK_BASIC_CONF
-  -DBLE_STACK_CUSTOM_CONF
   -DBLESTACK_CONTROLLER_ONLY=1
   -DACI_HAL_GET_FIRMWARE_DETAILS_ENABLED=0
   -DACI_HAL_GET_FIRMWARE_DETAILS_V2_ENABLED=0
   -DACI_HAL_UPDATER_START_ENABLED=0
   -DACI_HAL_TRANSMITTER_TEST_PACKETS_ENABLED=0
-  -DCONTROLLER_DATA_LENGTH_EXTENSION_ENABLED=1
+  -DACI_HAL_WRITE_RADIO_REG_ENABLED=0
+  -DACI_HAL_READ_RADIO_REG_ENABLED=0
   -DCONTROLLER_2M_CODED_PHY_ENABLED=1
   -DCONTROLLER_CHAN_CLASS_ENABLED=0
   -DCONNECTION_SUBRATING_ENABLED=0
-  )
-if(CONFIG_BT_CENTRAL OR CONFIG_BT_OBSERVER)
+)
+if(CONFIG_BLE_STACK_VERSION_3_2a)
 zephyr_compile_definitions(
+  -DBLE_STACK_CUSTOM_CONF
+)
+endif()
+
+if(CONFIG_BT_OBSERVER)
+zephyr_compile_definitions(
+#the first ones belong to stack v3.2a
   -DCONTROLLER_MASTER_ENABLED=1
+  -DCONTROLLER_SCAN_ENABLED=1
 )
 else()
 zephyr_compile_definitions(
   -DCONTROLLER_MASTER_ENABLED=0
-)
-endif()
-# This should be OK, but possibly there could be issue if we do simultaneous advertising and connection
-if(CONFIG_BT_MAX_CONN)
-zephyr_compile_definitions(
-  -DCONFIG_NUM_MAX_LINKS=CONFIG_BT_MAX_CONN
-)
-else()
-zephyr_compile_definitions(
-  -DCONFIG_NUM_MAX_LINKS=1
+  -DCONTROLLER_SCAN_ENABLED=0
 )
 endif()
 
@@ -106,6 +109,16 @@ zephyr_compile_definitions(
 else()
 zephyr_compile_definitions(
   -DSECURE_CONNECTIONS_ENABLED=0
+)
+endif()
+
+if(CONFIG_BT_CTLR_DATA_LENGTH GREATER 27)
+zephyr_compile_definitions(
+  -DCONTROLLER_DATA_LENGTH_EXTENSION_ENABLED=1
+)
+else()
+zephyr_compile_definitions(
+  -DCONTROLLER_DATA_LENGTH_EXTENSION_ENABLED=0
 )
 endif()
 
@@ -199,15 +212,87 @@ zephyr_compile_definitions(
 )
 endif()
 
+if(CONFIG_BT_PER_ADV_RSP AND CONFIG_BLE_STACK_VERSION_3_2a)
+	message(SEND_ERROR "PAwR Not supported on stack version 3.2a")
+elseif(CONFIG_BT_PER_ADV_RSP)
+zephyr_compile_definitions(
+  -DCONTROLLER_PERIODIC_ADV_WR_ENABLED=1
+)
+else()
+zephyr_compile_definitions(
+  -DCONTROLLER_PERIODIC_ADV_WR_ENABLED=0
+)
+endif()
+
+if(CONFIG_BT_PER_ADV_SYNC_MAX)
+zephyr_compile_definitions(
+  -DCFG_BLE_NUM_SYNC_SLOTS=1
+)
+else()
+zephyr_compile_definitions(
+  -DCFG_BLE_NUM_SYNC_SLOTS=0
+)
+endif()
+
+########### End of modularity selection ###########
+
 if(CONFIG_BT_EXT_ADV_MAX_ADV_SET)
 zephyr_compile_definitions(
   -DNUM_ADV_SETS_CONF=CONFIG_BT_EXT_ADV_MAX_ADV_SET
+  -DCFG_BLE_NUM_ADV_SETS=CONFIG_BT_EXT_ADV_MAX_ADV_SET
 )
 else()
 zephyr_compile_definitions(
   -DNUM_ADV_SETS_CONF=1
+  -DCFG_BLE_NUM_ADV_SETS=1 #TO BE checked
 )
 endif()
+
+if (CONFIG_BT_MAX_CONN)
+	set (bt_max_conn "${CONFIG_BT_MAX_CONN}")
+else()
+	set (bt_max_conn "0")
+endif()
+if(CONFIG_BT_EXT_ADV_MAX_ADV_SET)
+	set (adv_set "${CONFIG_BT_EXT_ADV_MAX_ADV_SET}")
+else()
+	set (adv_set "1")
+endif()
+
+if(CONFIG_BT_EXT_ADV)
+set(one_adv_tasks "2")
+else()
+set(one_adv_tasks "1")
+endif()
+
+set(tasks "0")
+
+MATH(EXPR tasks "${tasks} + (${one_adv_tasks} * ${adv_set})")
+MATH(EXPR sub_opr "${bt_max_conn} - ${one_adv_tasks}")
+MATH(EXPR mul_opr "${one_adv_tasks} * (${adv_set} - 1)")
+if(${sub_opr} GREATER ${mul_opr})
+MATH(EXPR tasks "${tasks} + ${sub_opr}")
+else()
+MATH(EXPR tasks "${tasks} + ${mul_opr}")
+endif()
+
+if(CONFIG_BT_ISO_BROADCAST)
+MATH(EXPR tasks "${tasks} + 1")
+endif()
+
+if(CONFIG_BT_ISO_UNICAST)
+MATH(EXPR tasks "${tasks} + 1")
+endif()
+
+if(CONFIG_BT_PER_ADV_RSP)
+MATH(EXPR tasks "${tasks} + 1")
+endif()
+
+message(STATUS "Tasks: ${tasks} sub: ${sub_opr} mul: ${mul_opr}")
+
+zephyr_compile_definitions(
+  -DCFG_BLE_NUM_RADIO_TASKS=${tasks}
+)
 
 set_source_files_properties(hci_if/DTM/Src/DTM_cmd_db.c PROPERTIES COMPILE_FLAGS -Wno-array-bounds)
 zephyr_library_sources(Middlewares/ST/BLECNTR/Src/ble_controller_bluenrg_lp.c)
@@ -234,11 +319,14 @@ zephyr_library_sources_ifdef(CONFIG_SOC_BLUENRG_LPF Drivers/Peripherals_Drivers/
 zephyr_library_sources_ifdef(CONFIG_SOC_BLUENRG_LPF Middlewares/ST/RNGMGR/Src/rng_manager_bluenrg_lpf.c)
 
 zephyr_library_sources(Middlewares/ST/AESMGR/Src/aes_manager_bluenrg_lp.c)
-zephyr_library_sources(Middlewares/ST/Bluetooth_LE/src/stack_user_cfg.c)
+zephyr_library_sources_ifdef(CONFIG_BLE_STACK_VERSION_4 Middlewares/ST/Bluetooth_LE/src/stack_user_cfg.c)
+zephyr_library_sources_ifdef(CONFIG_BLE_STACK_VERSION_3_2a Middlewares/ST/Bluetooth_LE/src/stack_user_cfg_3_2a.c)
 zephyr_library_sources(Middlewares/ST/RNGMGR/Src/rng_manager.c)
 zephyr_library_sources(hci_if/DTM/Src/DTM_cmd_db.c)
 zephyr_library_sources(hci_if/DTM/Src/aci_adv_nwk.c)
+# With legacy advertising only, alloc_tiny API will be used
 zephyr_library_sources(hci_if/DTM/Src/adv_buff_alloc_tiny.c)
+# With extended advertising, alloc API will be used
 zephyr_library_sources(hci_if/DTM/Src/adv_buff_alloc.c)
 zephyr_library_sources(hci_if/DTM/Src/aci_l2cap_nwk.c)
 zephyr_library_sources(hci_if/DTM/Src/aci_gatt_nwk.c)
