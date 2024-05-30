@@ -180,7 +180,7 @@ uint32_t LL_RCC_GetSMPSClockFreq(void)
 uint32_t RCC_GetSystemClockFreq(void)
 {
   uint32_t frequency;
-  uint32_t smps_prescaler;
+  uint32_t smps_prescaler = 4;
 
   if (LL_RCC_DIRECT_HSE_IsEnabled()) {
     return HSE_VALUE;

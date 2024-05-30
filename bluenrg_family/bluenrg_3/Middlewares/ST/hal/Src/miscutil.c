@@ -60,11 +60,6 @@
   of pins with aci_hal_set_antenna_switch_parameters().  */
 #define RESERVED_GPIOS  0x00
 
-// TODO: to be removed
-#ifndef CONFIG_NUM_MAX_LINKS
-#define CONFIG_NUM_MAX_LINKS 8
-#endif
-
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 #if defined(CONFIG_DEVICE_BLUENRG_LPS) || defined(CONFIG_DEVICE_BLUENRG_LPF)
@@ -308,6 +303,16 @@ uint8_t BLEPLAT_SetRadioTimerRelativeUsValue(uint32_t RelTimeoutUs, uint8_t Tx, 
   return TIMER_SetRadioTimerRelativeUsValue(RelTimeoutUs, Tx, PLLCal);
 }
 
+uint8_t BLEPLAT_GetDemodCI(void)
+{
+    /* Read the CI from the demodulator register */
+    uint8_t demod_ci = (RRM->DEMOD_DIG_OUT) & 0x03U;
+
+    /* Remap to the standard compliant values */
+    uint8_t std_ci = (demod_ci == 0x02U ? 0x01U : 0x00U);
+
+    return std_ci;
+}
 /* ---------- Utility functions for antenna switching ------------------------*/
 
 struct antenna_conf_s antenna_conf = {0, ANTENNA_ID_BIT_SHIFT, 0, 0};
@@ -389,7 +394,7 @@ tBleStatus aci_hal_set_tx_power_level_preprocess(uint8_t En_High_Power,
 
 static BOOL LL_busy(void)
 {
-  uint8_t n_banks = ((CONFIG_NUM_MAX_LINKS-1)/8+1);
+  uint8_t n_banks = ((CFG_BLE_NUM_RADIO_TASKS-1)/8+1);
   uint8_t link_status[8];
   uint16_t link_connection_handles[8];  
   

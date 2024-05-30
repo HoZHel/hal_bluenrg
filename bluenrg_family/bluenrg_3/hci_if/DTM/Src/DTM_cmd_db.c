@@ -6475,7 +6475,11 @@ uint16_t hci_le_read_advertising_channel_tx_power_process(uint8_t *buffer_in, ui
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   rp0->Status = hci_le_read_advertising_channel_tx_power(&Transmit_Power_Level);
+#else
+  rp0->Status = hci_le_read_advertising_physical_channel_tx_power(&Transmit_Power_Level);
+#endif
 fail:
   rp0->Transmit_Power_Level = Transmit_Power_Level;
   buffer_out[0] = 0x04;
@@ -6773,7 +6777,11 @@ uint16_t hci_le_read_white_list_size_process(uint8_t *buffer_in, uint16_t buffer
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   rp0->Status = hci_le_read_white_list_size(&White_List_Size);
+#else
+  rp0->Status = hci_le_read_filter_accept_list_size(&White_List_Size);
+#endif
 fail:
   rp0->White_List_Size = White_List_Size;
   buffer_out[0] = 0x04;
@@ -6805,7 +6813,11 @@ uint16_t hci_le_clear_white_list_process(uint8_t *buffer_in, uint16_t buffer_in_
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_clear_white_list();
+#else
+  *status = hci_le_clear_filter_accept_list();
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -6839,8 +6851,13 @@ uint16_t hci_le_add_device_to_white_list_process(uint8_t *buffer_in, uint16_t bu
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_add_device_to_white_list(cp0->Address_Type /* 1 */,
                                             cp0->Address /* 6 */);
+#else
+  *status = hci_le_add_device_to_filter_accept_list(cp0->Address_Type /* 1 */,
+                                            cp0->Address /* 6 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -6874,8 +6891,13 @@ uint16_t hci_le_remove_device_from_white_list_process(uint8_t *buffer_in, uint16
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_remove_device_from_white_list(cp0->Address_Type /* 1 */,
                                                  cp0->Address /* 6 */);
+#else
+  *status = hci_le_remove_device_from_filter_accept_list(cp0->Address_Type /* 1 */,
+                                                 cp0->Address /* 6 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -7024,7 +7046,11 @@ uint16_t hci_le_read_remote_used_features_process(uint8_t *buffer_in, uint16_t b
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_read_remote_used_features(cp0->Connection_Handle /* 2 */);
+#else
+  *status = hci_le_read_remote_features(cp0->Connection_Handle /* 2 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0F;
@@ -7132,10 +7158,17 @@ uint16_t hci_le_start_encryption_process(uint8_t *buffer_in, uint16_t buffer_in_
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_start_encryption(cp0->Connection_Handle /* 2 */,
                                     cp0->Random_Number /* 8 */,
                                     cp0->Encrypted_Diversifier /* 2 */,
                                     cp0->Long_Term_Key /* 16 */);
+#else
+  *status = hci_le_enable_encryption(cp0->Connection_Handle /* 2 */,
+                                     cp0->Random_Number /* 8 */,
+                                     cp0->Encrypted_Diversifier /* 2 */,
+                                     cp0->Long_Term_Key /* 16 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0F;
@@ -7204,7 +7237,11 @@ uint16_t hci_le_long_term_key_requested_negative_reply_process(uint8_t *buffer_i
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   rp0->Status = hci_le_long_term_key_requested_negative_reply(cp0->Connection_Handle /* 2 */);
+#else
+  rp0->Status = hci_le_long_term_key_request_negative_reply(cp0->Connection_Handle /* 2 */);
+#endif
 fail:
   rp0->Connection_Handle = cp0->Connection_Handle;
   buffer_out[0] = 0x04;
@@ -7997,9 +8034,15 @@ uint16_t hci_le_enhanced_receiver_test_process(uint8_t *buffer_in, uint16_t buff
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_enhanced_receiver_test(cp0->RX_Channel /* 1 */,
                                           cp0->PHY /* 1 */,
                                           cp0->Modulation_index /* 1 */);
+#else
+  *status = hci_le_receiver_test_v2(cp0->RX_Channel /* 1 */,
+                                          cp0->PHY /* 1 */,
+                                          cp0->Modulation_index /* 1 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -8035,10 +8078,17 @@ uint16_t hci_le_enhanced_transmitter_test_process(uint8_t *buffer_in, uint16_t b
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_enhanced_transmitter_test(cp0->TX_Channel /* 1 */,
                                              cp0->Length_Of_Test_Data /* 1 */,
                                              cp0->Packet_Payload /* 1 */,
                                              cp0->PHY /* 1 */);
+#else
+  *status = hci_le_transmitter_test_v2(cp0->TX_Channel /* 1 */,
+                                             cp0->Length_Of_Test_Data /* 1 */,
+                                             cp0->Packet_Payload /* 1 */,
+                                             cp0->PHY /* 1 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -8893,9 +8943,15 @@ uint16_t hci_le_remove_device_from_periodic_advertising_list_process(uint8_t *bu
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_remove_device_from_periodic_advertising_list(cp0->Advertiser_Address_Type /* 1 */,
                                                                 cp0->Advertiser_Address /* 6 */,
                                                                 cp0->Advertising_SID /* 1 */);
+#else
+  *status = hci_le_remove_device_from_periodic_advertiser_list(cp0->Advertiser_Address_Type /* 1 */,
+                                                               cp0->Advertiser_Address /* 6 */,
+                                                               cp0->Advertising_SID /* 1 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;
@@ -9877,7 +9933,7 @@ uint16_t hci_le_set_cig_parameters_process(uint8_t *buffer_in, uint16_t buffer_i
   {
     goto fail;
   }
-
+// TO BE REVIEWED regarding sys_cpu_to_le16()
   rp0->Status = hci_le_set_cig_parameters(cp0->CIG_ID /* 1 */,
                                           cp0->SDU_Interval_C_To_P /* 3 */,
                                           cp0->SDU_Interval_P_To_C /* 3 */,
@@ -9888,7 +9944,11 @@ uint16_t hci_le_set_cig_parameters_process(uint8_t *buffer_in, uint16_t buffer_i
                                           cp0->Max_Transport_Latency_P_To_C /* 2 */,
                                           cp0->CIS_Count /* 1 */,
                                           CIS_Param /* struct_length */,
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
                                           CIS_Conn_Handles);
+#else
+                                          (uint16_t *)CIS_Conn_Handles);
+#endif
 fail:
   output_size += 1;
   if (buffer_out_max_length < (output_size + (1) + 6)) { return 0; }
@@ -9990,7 +10050,12 @@ uint16_t hci_le_set_cig_parameters_test_process(uint8_t *buffer_in, uint16_t buf
                                                cp0->Framing /* 1 */,
                                                cp0->CIS_Count /* 1 */,
                                                CIS_Param_Test /* struct_length */,
+// TO BE REVIEWED regarding sys_cpu_to_le16()
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
                                                CIS_Conn_Handles);
+#else
+                                               (uint16_t *)CIS_Conn_Handles);
+#endif
 fail:
   output_size += 1;
   if (buffer_out_max_length < (output_size + (1) + 6)) { return 0; }
@@ -10367,7 +10432,11 @@ uint16_t hci_le_big_create_sync_process(uint8_t *buffer_in, uint16_t buffer_in_l
                                    cp0->MSE /* 1 */,
                                    cp0->BIG_Sync_Timeout /* 2 */,
                                    cp0->Num_BIS /* 1 */,
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
                                    BIS /* struct_length */);
+#else
+                                   (uint8_t *)BIS /* struct_length */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0F;
