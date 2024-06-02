@@ -1315,6 +1315,10 @@ tBleStatus hci_le_start_encryption(uint16_t Connection_Handle,
                                    uint8_t Random_Number[8],
                                    uint16_t Encrypted_Diversifier,
                                    uint8_t Long_Term_Key[16]);
+tBleStatus hci_le_enable_encryption(uint16_t Connection_Handle,
+                                   uint8_t Random_Number[8],
+                                   uint16_t Encrypted_Diversifier,
+                                   uint8_t Long_Term_Key[16]);
 /**
  * @brief The LE_Long_Term_Key_Request_Reply command is used to reply to an LE
  *        Long Term Key Request event from the Controller, and specifies the

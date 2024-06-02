@@ -4647,7 +4647,7 @@ tBleStatus hci_le_big_create_sync(uint8_t BIG_Handle,
                                   uint8_t MSE,
                                   uint16_t BIG_Sync_Timeout,
                                   uint8_t Num_BIS,
-                                  uint8_t* BIS)
+                                  BIS_t * BIS)
 {
     return hci_le_big_create_sync_api(BIG_Handle,
                                       Sync_Handle,
@@ -4796,7 +4796,7 @@ tBleStatus hci_le_set_cig_parameters(uint8_t CIG_ID,
                                      uint16_t Max_Transport_Latency_P_To_C,
                                      uint8_t CIS_Count,
                                      CIS_Param_t* CIS_params,
-                                     uint16_t* CIS_Conn_Handles)
+                                     CIS_Conn_Handles_t* CIS_Conn_Handles)
 {
     return hci_le_set_cig_parameters_api(CIG_ID,
                                          SDU_Interval_C_To_P,
@@ -4843,7 +4843,7 @@ tBleStatus hci_le_set_cig_parameters_test(uint8_t CIG_ID,
                                           uint8_t Framing,
                                           uint8_t CIS_Count,
                                           CIS_Param_Test_t* CIS_Param_test,
-                                          uint16_t* CIS_Conn_Handles)
+                                          CIS_Conn_Handles_t* CIS_Conn_Handles)
 {
     return hci_le_set_cig_parameters_test_api(CIG_ID,
                                               SDU_Interval_C_To_P,

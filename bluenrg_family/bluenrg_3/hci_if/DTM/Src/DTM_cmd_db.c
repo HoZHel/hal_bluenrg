@@ -7158,10 +7158,17 @@ uint16_t hci_le_start_encryption_process(uint8_t *buffer_in, uint16_t buffer_in_
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_start_encryption(cp0->Connection_Handle /* 2 */,
                                     cp0->Random_Number /* 8 */,
                                     cp0->Encrypted_Diversifier /* 2 */,
                                     cp0->Long_Term_Key /* 16 */);
+#else
+  *status = hci_le_enable_encryption(cp0->Connection_Handle /* 2 */,
+                                     cp0->Random_Number /* 8 */,
+                                     cp0->Encrypted_Diversifier /* 2 */,
+                                     cp0->Long_Term_Key /* 16 */);
+#endif
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0F;
@@ -8936,9 +8943,16 @@ uint16_t hci_le_remove_device_from_periodic_advertising_list_process(uint8_t *bu
     goto fail;
   }
 
+#if defined(CONFIG_BLE_STACK_VERSION_3_2a)
   *status = hci_le_remove_device_from_periodic_advertising_list(cp0->Advertiser_Address_Type /* 1 */,
                                                                 cp0->Advertiser_Address /* 6 */,
                                                                 cp0->Advertising_SID /* 1 */);
+#else
+  *status = hci_le_remove_device_from_periodic_advertiser_list(cp0->Advertiser_Address_Type /* 1 */,
+                                                               cp0->Advertiser_Address /* 6 */,
+                                                               cp0->Advertising_SID /* 1 */);
+#endif
+
 fail:
   buffer_out[0] = 0x04;
   buffer_out[1] = 0x0E;

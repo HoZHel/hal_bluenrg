@@ -332,4 +332,8 @@ zephyr_library_sources(hci_if/DTM/Src/aci_l2cap_nwk.c)
 zephyr_library_sources(hci_if/DTM/Src/aci_gatt_nwk.c)
 zephyr_library_sources(hci_if/DTM/Src/dm_alloc.c)
 zephyr_library_sources(hci_if/DTM/Src/hci_parser.c)
+else()
+zephyr_compile_definitions(
+  -DCFG_BLE_NUM_RADIO_TASKS=0
+)
 endif()
